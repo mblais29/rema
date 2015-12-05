@@ -22,7 +22,7 @@
 	<body>
 	  <body>
 	  	<div id="wrapper">
-		  	<!-- Sidebar -->
+		  	<!-- Navigation -->
 	        <div id="sidebar-wrapper">
 	            <ul class="sidebar-nav">
 	                <li class="sidebar-brand">
