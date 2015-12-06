@@ -9,9 +9,12 @@
     
 	<!-- Google -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcVieGnFnEqNe_YE8HSQeFn9cEMWBVif4&sensor=false&libraries=drawing" type="text/javascript"></script>
+	<link href='https://fonts.googleapis.com/css?family=Signika:600,400' rel='stylesheet' type='text/css'>
+	<!-- Bootstrap -->
+    <link href="components/bootstrap/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
 	<link href="components/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
-
+	
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -26,30 +29,16 @@
 	        <div id="sidebar-wrapper">
 	            <ul class="sidebar-nav">
 	                <li class="sidebar-brand">
-	                    <a href="#">
-	                        Start Bootstrap
-	                    </a>
+	                    <h1>Property Information</h1>
 	                </li>
 	                <li>
-	                    <a href="#">Dashboard</a>
+	                	<div class="form-group">
+						  <input type="text" class="form-control" id="firstName" placeholder="Enter First Name...">
+						  <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name...">
+						</div>
 	                </li>
 	                <li>
-	                    <a href="#">Shortcuts</a>
-	                </li>
-	                <li>
-	                    <a href="#">Overview</a>
-	                </li>
-	                <li>
-	                    <a href="#">Events</a>
-	                </li>
-	                <li>
-	                    <a href="#">About</a>
-	                </li>
-	                <li>
-	                    <a href="#">Services</a>
-	                </li>
-	                <li>
-	                    <a href="#">Contact</a>
+	                	<button type="button" class="btn btn-secondary" onclick="hideForm()">Close</button>
 	                </li>
 	            </ul>
 	        </div>
@@ -66,6 +55,7 @@
     <script src="components/bootstrap/bootstrap-3.3.5/js/bootstrap.min.js"></script>
     <!-- Include custom jquery -->
     <script src="js/main.js"></script>
+    <script src="js/functions/functions.js"></script>
 
   </body>
 </html>

@@ -3,34 +3,13 @@
 /* Includes Dynamic Functions */
 @import '_functions';
 
+/* Variables */
+$header_font: 'Signika', sans-serif;
+
 /* Toggle Styles */
 
 div#wrapper {
-  padding-left: 0;
-  @include transition(all, 0.5s, ease);
-  &.toggled{
-    padding-left: 250px;
-    > #sidebar-wrapper {
-        width: 250px;
-    }
-    > #page-content-wrapper {
-        position: relative;
-        margin-right: -250px;
-    }
-  }
-  @media(min-width:768px) {
-    padding-left: 250px;
-    &.toggled {
-        padding-left: 0;
-        > #sidebar-wrapper {
-            width: 0;
-        }
-        > #page-content-wrapper {
-            position: relative;
-            margin-right: 0;
-        }
-    }
-  }
+  width: 100%;
 }
 
 /* Navigation */
@@ -38,20 +17,17 @@ div#wrapper {
 div#sidebar-wrapper {
     z-index: 1000;
     position: fixed;
-    left: 250px;
-    width: 0;
+    left: 0;
+    width: 25%;
     height: 100%;
-    margin-left: -250px;
+    margin-left: 0;
     overflow-y: auto;
-    background: #000;
-    @include transition(all, 0.5s, ease);
-    @media(min-width:768px) {
-      width: 250px;
-    }
+    background: rgba(0,0,0,0.7);
+    
     > .sidebar-nav {
         position: absolute;
         top: 0;
-        width: 250px;
+        width: 100%;
         margin: 0;
         padding: 0;
         list-style: none;
@@ -79,15 +55,20 @@ div#sidebar-wrapper {
             height: 65px;
             font-size: 18px;
             line-height: 60px;
-            > a {
-                color: #999999;
-                &:hover {
-                  color: #fff;
-                  background: none;
-              }
+            > h1{
+                 color: #FFF;
+                 font-family: $header_font;
             }
         }
     }
+}
+
+/* Input Form */
+
+.form-control{
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 8%;
 }
 
 /* Page Content: Map */
@@ -107,5 +88,13 @@ div#page-content-wrapper{
       padding: 0;
       z-index: 1;
     }
+    #toggleControl{
+      top: 5px !important;
+      right: 5px !important;
+    }
   }
 }
+
+/* Form */
+
+

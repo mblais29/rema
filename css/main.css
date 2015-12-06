@@ -48,52 +48,25 @@ table {
 
 /* Includes Dynamic Functions */
 /* Transition Function */
+/* Variables */
 /* Toggle Styles */
 div#wrapper {
-  padding-left: 0;
-  -webkit-transition: all 0.5s ease 0;
-  -moz-transition: all 0.5s ease 0;
-  -o-transition: all 0.5s ease 0;
-  transition: all 0.5s ease 0; }
-  div#wrapper.toggled {
-    padding-left: 250px; }
-    div#wrapper.toggled > #sidebar-wrapper {
-      width: 250px; }
-    div#wrapper.toggled > #page-content-wrapper {
-      position: relative;
-      margin-right: -250px; }
-  @media (min-width: 768px) {
-    div#wrapper {
-      padding-left: 250px; }
-      div#wrapper.toggled {
-        padding-left: 0; }
-        div#wrapper.toggled > #sidebar-wrapper {
-          width: 0; }
-        div#wrapper.toggled > #page-content-wrapper {
-          position: relative;
-          margin-right: 0; } }
+  width: 100%; }
 
 /* Navigation */
 div#sidebar-wrapper {
   z-index: 1000;
   position: fixed;
-  left: 250px;
-  width: 0;
+  left: 0;
+  width: 25%;
   height: 100%;
-  margin-left: -250px;
+  margin-left: 0;
   overflow-y: auto;
-  background: #000;
-  -webkit-transition: all 0.5s ease 0;
-  -moz-transition: all 0.5s ease 0;
-  -o-transition: all 0.5s ease 0;
-  transition: all 0.5s ease 0; }
-  @media (min-width: 768px) {
-    div#sidebar-wrapper {
-      width: 250px; } }
+  background: rgba(0, 0, 0, 0.7); }
   div#sidebar-wrapper > .sidebar-nav {
     position: absolute;
     top: 0;
-    width: 250px;
+    width: 100%;
     margin: 0;
     padding: 0;
     list-style: none; }
@@ -116,11 +89,15 @@ div#sidebar-wrapper {
       height: 65px;
       font-size: 18px;
       line-height: 60px; }
-      div#sidebar-wrapper > .sidebar-nav > .sidebar-brand > a {
-        color: #999999; }
-        div#sidebar-wrapper > .sidebar-nav > .sidebar-brand > a:hover {
-          color: #fff;
-          background: none; }
+      div#sidebar-wrapper > .sidebar-nav > .sidebar-brand > h1 {
+        color: #FFF;
+        font-family: "Signika", sans-serif; }
+
+/* Input Form */
+.form-control {
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 8%; }
 
 /* Page Content: Map */
 div#page-content-wrapper {
@@ -137,5 +114,10 @@ div#page-content-wrapper {
       margin: 0;
       padding: 0;
       z-index: 1; }
+    div#page-content-wrapper > .container-fluid #toggleControl {
+      top: 5px !important;
+      right: 5px !important; }
+
+/* Form */
 
 /*# sourceMappingURL=main.css.map */
