@@ -34,6 +34,9 @@ div#sidebar-wrapper {
         > li {
           text-indent: 20px;
           line-height: 40px;
+          #property_form #close{
+            margin: 0 5px 0 20px;
+          }
           > a {
             display: block;
             text-decoration: none;

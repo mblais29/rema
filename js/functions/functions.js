@@ -24,9 +24,18 @@ function CenterControl(controlDiv, map) {
   // Setup the click event listeners: simply set the map to Chicago.
   controlUI.addEventListener('click', function() {
   	alert("Button has been clicked");
+  	getData();
     //map.setCenter(chicago);
   });
 
+}
+
+
+function getData() {
+    $.get( "../rema/php/data.php", function( data ) {
+	  console.log( data );
+	  
+	});
 }
 
 function hideForm(){
@@ -36,6 +45,12 @@ function hideForm(){
 function getMarkerCoords(event){
 	console.log(event.overlay.position.lat());
 	console.log(event.overlay.position.lng());
+	var latitude = event.overlay.position.lat();
+	var longitude = event.overlay.position.lng();
+	var inputLat = document.getElementById("lat");
+	inputLat.value = latitude;
+	var inputLon = document.getElementById("lon");
+	inputLon.value = longitude;
 	//Opens the form when marker is placed
 	$("#sidebar-wrapper").show("slow");
 }

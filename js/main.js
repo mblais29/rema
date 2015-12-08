@@ -88,7 +88,8 @@ $( document ).ready(function() {
 		  	//Marker event listener
 		  	drawingObject.addListener('dragend', function(){
 		  		console.log(event.overlay.position.lat());
-				console.log(event.overlay.position.lng());	  		
+				console.log(event.overlay.position.lng());
+				getMarkerCoords(event);  		
 		  	});
 		  	//Circle event Listener
 		  	drawingObject.addListener('center_changed', function() {

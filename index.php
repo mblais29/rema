@@ -32,13 +32,22 @@
 	                    <h1>Property Information</h1>
 	                </li>
 	                <li>
-	                	<div class="form-group">
-						  <input type="text" class="form-control" id="firstName" placeholder="Enter First Name...">
-						  <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name...">
-						</div>
-	                </li>
-	                <li>
-	                	<button type="button" class="btn btn-secondary" onclick="hideForm()">Close</button>
+	                	<form id="property_form" action="php/property.php" method="post">
+		                	<div class="form-group">
+							  <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address...">
+							  <input type="text" class="form-control" id="city" name="city" placeholder="Enter City...">
+							  <input type="text" class="form-control" id="province" name="province" placeholder="Enter Province...">
+							  <input type="number" class="form-control" id="purchase_price" name="purchase_price" placeholder="Enter Purchase Price...">
+							  <input type="date" class="form-control" id="year_built" name="year_built" placeholder="Enter Year Built...">
+							  <input type="number" class="form-control" id="sqft"  name="sqft" placeholder="Enter Square Footage...">
+							  <input type="number" class="form-control" id="lat" name="lat" readonly>
+							  <input type="number" class="form-control" id="lon" name="lon" readonly>
+							  <input type="text" class="form-control" id="type" name="type" placeholder="Enter Dwelling Type 'Condo, detached house etc'...">
+							  <textarea class="form-control" rows="5" id="comment" name="comment" placeholder="Enter comment here..."></textarea>
+							  <button type="button" class="btn btn-secondary" id="close" onclick="hideForm()">Close</button>
+							  <button type="submit" name="send" class="btn btn-secondary">Submit</button>
+							</div>
+						</form>
 	                </li>
 	            </ul>
 	        </div>
@@ -56,6 +65,6 @@
     <!-- Include custom jquery -->
     <script src="js/main.js"></script>
     <script src="js/functions/functions.js"></script>
-
+	<? @include data.php ?>
   </body>
 </html>
