@@ -24,18 +24,9 @@ function CenterControl(controlDiv, map) {
   // Setup the click event listeners: simply set the map to Chicago.
   controlUI.addEventListener('click', function() {
   	alert("Button has been clicked");
-  	getData();
     //map.setCenter(chicago);
   });
 
-}
-
-
-function getData() {
-    $.get( "../rema/php/data.php", function( data ) {
-	  console.log( data );
-	  
-	});
 }
 
 function hideForm(){

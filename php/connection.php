@@ -9,7 +9,7 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=rema user=postgres passwor
 
 // Check connection
 if ($dbconn) {
-    echo "Connection established.";
+    //echo "Connection established.";
 } else{
     die("Connection could not be established.<br><br>");
 }

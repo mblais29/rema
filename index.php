@@ -55,6 +55,7 @@
 	        <div id="page-content-wrapper">
 	            <div class="container-fluid">
 				  	<div id="map"></div>
+				  	<div class="iw-bottom-gradient"></div>
 	            </div>
 	        </div>
  		</div>	

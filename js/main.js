@@ -156,6 +156,59 @@ $( document ).ready(function() {
 	  
 	  // Hides the Form on load
 	  $("#sidebar-wrapper").hide();
-	
+	  
+	  $.ajax("../rema/php/data.php",
+		{
+		    type: 'GET',
+		    dataType: 'json',
+		    success: function (data) {
+		        console.log(data);
+		        console.log("lat: " + data[0][9]);
+		        console.log("lon: " + data[0][10]);
+		        var address = data[0][1];
+		        var city = data[0][2];
+		        var province = data[0][3];
+		        var purchasePrice = data[0][4];
+		        var buildingAge = data[0][5];
+		        var sqft = data[0][6];
+		        var type = data[0][7];
+		        var comments = data[0][8];
+		        var lat = data[0][9];
+		        var lon = data[0][10];
+		        
+		        for (i = 0; i < data.length; i++) {
+			       var myLatLong = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
+				   //MARKERS
+				   var contentString = '<div class="panel panel-info">'+
+				   						  '<div class="panel-heading">'+
+										    '<h3 class="panel-title">Property Info</h3>'+
+										  '</div>'+
+										  '<div class="panel-body">'+
+										  	'<ul class="list-group">'+
+											  '<li class="list-group-item">' + 'Building: ' + address + ', ' + city+  ', ' + province + '</li>'+
+											  '<br><li class="list-group-item">' + 'Purchase Price: ' + purchasePrice + '</li>'+
+											  '<br><li class="list-group-item">' + 'Built: ' + buildingAge + '</li>'+
+											  '<br><li class="list-group-item">' + 'Area: ' + sqft + ' sqft' + '</li>'+
+											  '<br><li class="list-group-item">' + 'Type: ' + type + '</li>'+
+											  '<br><li class="list-group-item">' + 'Comments: ' + comments + '</li>'+
+										   '</ul>'+
+										  '</div>';
+									   
+				   var infowindow = new google.maps.InfoWindow({
+				   	content: contentString
+				   });
+				   var marker = new google.maps.Marker({
+				       position: myLatLong,
+				       map: map,
+				       title: "Property",
+				       icon: image
+				   });
+				   marker.addListener('click', function() {
+				    infowindow.open(map, marker);
+				  });
+				   marker.setMap(map);
+			  }
+			}
+		});
 });
 
