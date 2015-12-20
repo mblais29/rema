@@ -51,6 +51,12 @@
 	                </li>
 	            </ul>
 	        </div>
+	        <div id="sidebar-layers">
+	        	<div class="checkbox">
+				  <label><input type="checkbox" value="" id="markerCheckbox" onclick="getMarkers()">Property Markers</label>
+				</div>
+				<button type="button" class="btn btn-secondary" id="close-nav" onclick="hideForm()">Close</button>
+	        </div>
 	        <!-- Page Content -->
 	        <div id="page-content-wrapper">
 	            <div class="container-fluid">

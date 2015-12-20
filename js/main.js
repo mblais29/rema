@@ -1,13 +1,15 @@
+var map;
+var markers = [];
 $( document ).ready(function() {
 	//Global Variables
-	var marker = google.maps.drawing.OverlayType.MARKER;
+	var drawMarker = google.maps.drawing.OverlayType.MARKER;
 	var circle = google.maps.drawing.OverlayType.CIRCLE;
 	var polygon = google.maps.drawing.OverlayType.POLYGON;
 	var polyline = google.maps.drawing.OverlayType.POLYLINE;
 	var rectangle = google.maps.drawing.OverlayType.RECTANGLE;
 
 	//Create the Map
-   	var map = new google.maps.Map(document.getElementById('map'), {
+   	map = new google.maps.Map(document.getElementById('map'), {
     	center: {lat: 0.1313, lng: 50.8429},
     	mapTypeControl: true,
     	mapTypeControlOptions: {
@@ -38,7 +40,7 @@ $( document ).ready(function() {
 	    drawingControlOptions: {
 	      position: google.maps.ControlPosition.TOP_CENTER,
 	      drawingModes: [
-	        marker,
+	        drawMarker,
 			circle
 			/*polygon,
 			polyline,
@@ -150,12 +152,13 @@ $( document ).ready(function() {
 	  var centerControlDiv = document.createElement('div');
 	  centerControlDiv.id = 'toggleControl';
 	  var centerControl = new CenterControl(centerControlDiv, map);
-	
+		
 	  centerControlDiv.index = 1;
 	  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(centerControlDiv);
 	  
 	  // Hides the Form on load
 	  $("#sidebar-wrapper").hide();
+	  $("#sidebar-layers").hide();
 	  
 	  $.ajax("../rema/php/data.php",
 		{
@@ -165,21 +168,22 @@ $( document ).ready(function() {
 		        console.log(data);
 		        console.log("lat: " + data[0][9]);
 		        console.log("lon: " + data[0][10]);
-		        var address = data[0][1];
-		        var city = data[0][2];
-		        var province = data[0][3];
-		        var purchasePrice = data[0][4];
-		        var buildingAge = data[0][5];
-		        var sqft = data[0][6];
-		        var type = data[0][7];
-		        var comments = data[0][8];
-		        var lat = data[0][9];
-		        var lon = data[0][10];
+		        
 		        
 		        for (i = 0; i < data.length; i++) {
-			       var myLatLong = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
-				   //MARKERS
-				   var contentString = '<div class="panel panel-info">'+
+		        	var address = data[i][1];
+			        var city = data[i][2];
+			        var province = data[i][3];
+			        var purchasePrice = data[i][4];
+			        var buildingAge = data[i][5];
+			        var sqft = data[i][6];
+			        var type = data[i][7];
+			        var comments = data[i][8];
+			        var lat = data[i][9];
+			        var lon = data[i][10];
+			       	var myLatLong = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
+				   	//MARKERS
+				   	var contentString = '<div class="panel panel-info">'+
 				   						  '<div class="panel-heading">'+
 										    '<h3 class="panel-title">Property Info</h3>'+
 										  '</div>'+
@@ -193,22 +197,26 @@ $( document ).ready(function() {
 											  '<br><li class="list-group-item">' + 'Comments: ' + comments + '</li>'+
 										   '</ul>'+
 										  '</div>';
-									   
-				   var infowindow = new google.maps.InfoWindow({
-				   	content: contentString
-				   });
-				   var marker = new google.maps.Marker({
+				  var infowindow = new google.maps.InfoWindow();	
+				   			   
+				  var marker = new google.maps.Marker({
 				       position: myLatLong,
 				       map: map,
 				       title: "Property",
 				       icon: image
 				   });
-				   marker.addListener('click', function() {
-				    infowindow.open(map, marker);
-				  });
-				   marker.setMap(map);
-				   google.maps.event.addListener(infowindow, 'domready', function() {
 
+				   google.maps.event.addListener(marker,'click', (function(marker,contentString,infowindow){ 
+				        return function() {
+				           infowindow.setContent(contentString);
+				           infowindow.open(map,marker);
+				        };
+				   })(marker,contentString,infowindow));
+				   //Hides the markers when map first loads
+				   marker.setVisible(false);
+		
+				   google.maps.event.addListener(infowindow, 'domready', function() {
+			
 				   // Reference to the DIV which receives the contents of the infowindow using jQuery
 				   var iwOuter = $('.gm-style-iw');
 				
@@ -256,9 +264,17 @@ $( document ).ready(function() {
 					  $(this).css({opacity: '1'});
 					});
 				});
+				// Stores the marker information in an array
+				markers.push(marker);
 			  }
+			  
 			}
 		});
+		
+		 
+		
+		
+		
 		
 });
 

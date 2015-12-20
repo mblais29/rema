@@ -18,19 +18,44 @@ function CenterControl(controlDiv, map) {
   controlText.style.fontSize = '16px';
   controlText.style.paddingLeft = '5px';
   controlText.style.paddingRight = '5px';
-  controlText.innerHTML = '<i class="fa fa-bars fa-3x"></i>';
+  controlText.innerHTML = '<i class="fa fa-bars fa-2x"></i>';
   controlUI.appendChild(controlText);
 
   // Setup the click event listeners: simply set the map to Chicago.
   controlUI.addEventListener('click', function() {
   	alert("Button has been clicked");
+  	$("#sidebar-layers").show('slow');
     //map.setCenter(chicago);
   });
 
 }
 
+// Creates an event listener for the Property marker checkbox
+function getMarkers(){
+	$("#markerCheckbox").unbind('change');
+   	$('#markerCheckbox').change(
+    function(){
+        if (this.checked) {
+            //alert('checked');
+            //console.log(markers);
+            // Loops through markers and sets invisibility to true shows the markers
+            for(var i=0; i<markers.length; i++){
+		        markers[i].setVisible(true);
+		    }
+        }else{
+        	//alert('not checked');
+        	// Loops through markers and sets invisibility to false hides the markers
+        	for(var i=0; i<markers.length; i++){
+		        markers[i].setVisible(false);
+		    }
+        }
+    });
+}
+
+					    
 function hideForm(){
 	$("#sidebar-wrapper").hide("slow");
+	$("#sidebar-layers").hide("slow");
 }
 
 function getMarkerCoords(event){

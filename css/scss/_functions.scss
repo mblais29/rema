@@ -6,3 +6,15 @@
     -o-transition: $property $duration $timing $delay;
     transition: $property $duration $timing $delay;
 }
+
+@mixin margin($top, $right, $bottom, $left){
+  margin: $top $right $bottom $left;
+}
+
+@mixin border-radius($top, $right, $bottom, $left) {
+  -webkit-border-radius: $top $right $bottom $left;
+     -moz-border-radius: $top $right $bottom $left;
+      -ms-border-radius: $top $right $bottom $left;
+          border-radius: $top $right $bottom $left;
+}
+

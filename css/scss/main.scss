@@ -6,6 +6,14 @@
 /* Variables */
 $header_font: 'Signika', sans-serif;
 
+/* Global Styles */
+
+  /* Nav Button */
+  .nav-btn{
+    margin: 0 5px 0 20px;
+  }
+  
+  
 /* Toggle Styles */
 
 div#wrapper {
@@ -35,7 +43,7 @@ div#sidebar-wrapper {
           text-indent: 20px;
           line-height: 40px;
           #property_form #close{
-            margin: 0 5px 0 20px;
+            @extend .nav-btn;
           }
           > a {
             display: block;
@@ -63,6 +71,26 @@ div#sidebar-wrapper {
                  font-family: $header_font;
             }
         }
+    }
+}
+
+/* Layer Navigation */
+
+div#sidebar-layers {
+  z-index: 1000;
+  position: fixed;
+  left: 0;
+  width: 25%;
+  height: 100%;
+  margin-left: 0;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.7);
+    > .checkbox{
+      color: #fff;
+      @extend .nav-btn;
+    }
+    > #close-nav{
+      @extend .nav-btn;
     }
 }
 
@@ -99,6 +127,7 @@ div#page-content-wrapper{
 }
 
 /* Marker Info */
+
 .gm-style-iw {
    width: 350px !important;
    top: 37px !important;
@@ -106,6 +135,6 @@ div#page-content-wrapper{
    //background-color: #fff;
    //box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
    //border: 1px solid rgba(72, 181, 233, 0.6);
-   border-radius: 2px 2px 10px 10px; // apply 10px to the bottom corners of the infowindow
+   @include border-radius(2px, 2px, 10px, 10px); // apply 10px to the bottom corners of the infowindow
 }
 
