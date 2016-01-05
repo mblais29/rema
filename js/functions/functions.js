@@ -23,7 +23,7 @@ function CenterControl(controlDiv, map) {
 
   // Setup the click event listeners: simply set the map to Chicago.
   controlUI.addEventListener('click', function() {
-  	alert("Button has been clicked");
+  	//alert("Button has been clicked");
   	$("#sidebar-layers").show('slow');
     //map.setCenter(chicago);
   });

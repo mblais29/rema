@@ -109,7 +109,15 @@ div#sidebar-layers {
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.7); }
   div#sidebar-layers > .checkbox {
-    color: #fff; }
+    color: #fff;
+    margin-top: 20%; }
+    div#sidebar-layers > .checkbox .sidebar-layers-label {
+      display: inline-block;
+      position: absolute;
+      padding: 5px; }
+  div#sidebar-layers > #close-nav {
+    bottom: 5%;
+    position: absolute; }
 
 /* Input Form */
 .form-control {
@@ -145,5 +153,15 @@ div#page-content-wrapper {
   -moz-border-radius: 2px 2px 10px 10px;
   -ms-border-radius: 2px 2px 10px 10px;
   border-radius: 2px 2px 10px 10px; }
+
+/* Includes wvga size screen 480 x 800 */
+@media only screen and (max-width: 480px) {
+  div#sidebar-layers > .checkbox {
+    margin: 20% 5px 0 10px; }
+    div#sidebar-layers > .checkbox > label > img {
+      width: 15px;
+      height: 20px; }
+    div#sidebar-layers > .checkbox > label .sidebar-layers-label {
+      font-size: 0.7em; } }
 
 /*# sourceMappingURL=main.css.map */

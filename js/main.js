@@ -35,7 +35,7 @@ $( document ).ready(function() {
 	  
 	  //Creates the Drawing Manager, uncomment to add polygon, polyline, or rectangle  
 	  var drawingManager = new google.maps.drawing.DrawingManager({
-	    drawingMode: google.maps.drawing.OverlayType.MARKER,
+	    drawingMode: null,
 	    drawingControl: true,
 	    drawingControlOptions: {
 	      position: google.maps.ControlPosition.TOP_CENTER,
@@ -45,7 +45,7 @@ $( document ).ready(function() {
 			/*polygon,
 			polyline,
 			rectangle*/
-	      ]
+	      ],
 	    },
 	    
 	    markerOptions: {
