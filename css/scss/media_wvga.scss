@@ -1,8 +1,11 @@
 // For Phones at 480w x 800h
 
 @media only screen and (max-width: 480px){
-   
+  div#sidebar-wrapper{
+    width: 50%;
+  }
   div#sidebar-layers {
+    width: 35%;
     > .checkbox {
       margin: 20% 5px 0 10px;
       > label {
@@ -11,7 +14,7 @@
           height: 20px; 
         }
         .sidebar-layers-label {
-          font-size: 0.7em;
+          font-size: 0.9em;
         }
       }
     }

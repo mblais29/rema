@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="store" lang="en">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,6 +57,11 @@
 				  	<input type="checkbox" value="" id="markerCheckbox" onclick="getMarkers()"><img src="img/icons/location.png" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">Properties</h3>
 				  </label>
 				</div>
+				<div class="checkbox">
+					<label>
+				  		<input type="checkbox" value="" id="test"><img src="img/icons/location.png" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">Test</h3>
+				  	</label>
+				</div>
 				<button type="button" class="btn btn-secondary" id="close-nav" onclick="hideForm()">Close</button>
 	        </div>
 	        <!-- Page Content -->
@@ -66,7 +71,8 @@
 				  	<div class="iw-bottom-gradient"></div>
 	            </div>
 	        </div>
- 		</div>	
+ 		</div>
+	
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="components/jquery/jquery-2.1.4.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

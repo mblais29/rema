@@ -1,0 +1,11 @@
+// For Phones at 640w x 960h
+
+@media only screen and (min-width: 481px) and (max-width: 640px){
+  div#sidebar-wrapper{
+    width: 50%;
+  }
+  div#sidebar-layers {
+    width: 35%;
+   }
+       
+}

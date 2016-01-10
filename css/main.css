@@ -110,7 +110,8 @@ div#sidebar-layers {
   background: rgba(0, 0, 0, 0.7); }
   div#sidebar-layers > .checkbox {
     color: #fff;
-    margin-top: 20%; }
+    margin-top: 5%;
+    display: block; }
     div#sidebar-layers > .checkbox .sidebar-layers-label {
       display: inline-block;
       position: absolute;
@@ -156,12 +157,24 @@ div#page-content-wrapper {
 
 /* Includes wvga size screen 480 x 800 */
 @media only screen and (max-width: 480px) {
-  div#sidebar-layers > .checkbox {
-    margin: 20% 5px 0 10px; }
-    div#sidebar-layers > .checkbox > label > img {
-      width: 15px;
-      height: 20px; }
-    div#sidebar-layers > .checkbox > label .sidebar-layers-label {
-      font-size: 0.7em; } }
+  div#sidebar-wrapper {
+    width: 50%; }
+
+  div#sidebar-layers {
+    width: 35%; }
+    div#sidebar-layers > .checkbox {
+      margin: 20% 5px 0 10px; }
+      div#sidebar-layers > .checkbox > label > img {
+        width: 15px;
+        height: 20px; }
+      div#sidebar-layers > .checkbox > label .sidebar-layers-label {
+        font-size: 0.9em; } }
+/* Includes dvga size screen 640 x 960 */
+@media only screen and (min-width: 481px) and (max-width: 640px) {
+  div#sidebar-wrapper {
+    width: 50%; }
+
+  div#sidebar-layers {
+    width: 35%; } }
 
 /*# sourceMappingURL=main.css.map */

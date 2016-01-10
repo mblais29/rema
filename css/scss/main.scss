@@ -88,7 +88,8 @@ div#sidebar-layers {
   background: rgba(0,0,0,0.7);
     > .checkbox{
       color: #fff;
-      margin-top: 20%;
+      margin-top: 5%;
+      display: block;
       @extend .nav-btn;
       .sidebar-layers-label{  
           display: inline-block;
@@ -149,4 +150,7 @@ div#page-content-wrapper{
 
 /* Includes wvga size screen 480 x 800 */
 @import 'media_wvga';
+
+/* Includes dvga size screen 640 x 960 */
+@import 'media_dvga';
 

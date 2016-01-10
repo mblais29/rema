@@ -1,5 +1,6 @@
 var map;
 var markers = [];
+var schools = [];
 $( document ).ready(function() {
 	//Global Variables
 	var drawMarker = google.maps.drawing.OverlayType.MARKER;
@@ -270,8 +271,29 @@ $( document ).ready(function() {
 			  
 			}
 		});
+		$.ajax({
+            url: 'http://localhost:8081/geoserver/REMA/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=REMA:calgis_school_location&maxFeatures=5000&outputFormat=application%2Fjson',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+            	var features = [];
+            	google.maps.event.addDomListener(document.getElementById('test'), 'click', function () {
+            		if (this.checked) {
+			            //alert('Checked');
+			            features = map.data.addGeoJson(data); 
+			        }else{
+			        	//alert('not checked');
+			        	for (var i = 0; i < features.length; i++){
+			        		map.data.remove(features[i]);
+			        	}
+			        }
+		          });
+            }
+        });
 		
-		 
+		//Layers
+		//map.data.loadGeoJson('http://localhost:8081/geoserver/REMA/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=REMA:calgis_school_location&maxFeatures=5000&outputFormat=application%2Fjson');
+		//console.log();
 		
 		
 		
