@@ -57,11 +57,6 @@
 				  	<input type="checkbox" value="" id="markerCheckbox" onclick="getMarkers()"><img src="img/icons/location.png" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">Properties</h3>
 				  </label>
 				</div>
-				<div class="checkbox">
-					<label>
-				  		<input type="checkbox" value="" id="test"><img src="img/icons/location.png" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">Test</h3>
-				  	</label>
-				</div>
 				<button type="button" class="btn btn-secondary" id="close-nav" onclick="hideForm()">Close</button>
 	        </div>
 	        <!-- Page Content -->

@@ -271,31 +271,59 @@ $( document ).ready(function() {
 			  
 			}
 		});
+		//Get Layers
 		$.ajax({
-            url: 'http://localhost:8081/geoserver/REMA/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=REMA:calgis_school_location&maxFeatures=5000&outputFormat=application%2Fjson',
+            url: "../rema/php/layers.php",
             dataType: 'json',
             contentType: 'application/json',
             success: function (data) {
-            	var features = [];
-            	google.maps.event.addDomListener(document.getElementById('test'), 'click', function () {
+            	console.log(data);
+            	console.log(data[0][4]);
+            	for (i = 0; i < data.length; i++) {
+            		$('#sidebar-layers').append('<div id="layer'+ i +'" class="checkbox" />');
+            		$('#layer'+ i).append('<label id="label'+ i +'">');
+            		$('#label'+ i).append('<input type="checkbox" id="checkbox'+ i +'" /><img src="img/icons/' + data[i][3] + '" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">' + data[i][1] + '</h3>');
+            		
+            		var features = [];
+            		var layerGeoJSONURL = data[i][4];
+            		var icon = {
+            					url: 'img/icons/' + data[i][3],
+							    // This marker is 20 pixels wide by 32 pixels high.
+							    size: new google.maps.Size(20, 32)
+							  };
+            		google.maps.event.addDomListener(document.getElementById('checkbox'+ i), 'click', function () {
             		if (this.checked) {
-			            //alert('Checked');
-			            features = map.data.addGeoJson(data); 
+			            alert('Checked');
+			            console.log(icon);
+			            $.ajax({
+				            url: layerGeoJSONURL,
+				            dataType: 'json',
+				            contentType: 'application/json',
+				            success: function (data) {
+				            	console.log(data);			            
+			            		features = map.data.addGeoJson(data);
+			            		map.data.setStyle(function(feature) {
+								var name = feature.getProperty('name');
+								  return {
+								    icon: icon,
+								    visible: true,
+								    clickable: true,
+								    title: name
+								  };
+								});
+				            }
+				        });
+ 
 			        }else{
-			        	//alert('not checked');
+			        	alert('not checked');
 			        	for (var i = 0; i < features.length; i++){
 			        		map.data.remove(features[i]);
 			        	}
 			        }
 		          });
+		       }						
             }
-        });
-		
-		//Layers
-		//map.data.loadGeoJson('http://localhost:8081/geoserver/REMA/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=REMA:calgis_school_location&maxFeatures=5000&outputFormat=application%2Fjson');
-		//console.log();
-		
-		
+        });	
 		
 		
 });
