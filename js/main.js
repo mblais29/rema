@@ -166,9 +166,9 @@ $( document ).ready(function() {
 		    type: 'GET',
 		    dataType: 'json',
 		    success: function (data) {
-		        console.log(data);
-		        console.log("lat: " + data[0][9]);
-		        console.log("lon: " + data[0][10]);
+		        //console.log(data);
+		        //console.log("lat: " + data[0][9]);
+		        //console.log("lon: " + data[0][10]);
 		        
 		        
 		        for (i = 0; i < data.length; i++) {
@@ -272,59 +272,74 @@ $( document ).ready(function() {
 			}
 		});
 		//Get Layers
-		$.ajax({
-            url: "../rema/php/layers.php",
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (data) {
-            	console.log(data);
-            	console.log(data[0][4]);
-            	for (i = 0; i < data.length; i++) {
-            		$('#sidebar-layers').append('<div id="layer'+ i +'" class="checkbox" />');
-            		$('#layer'+ i).append('<label id="label'+ i +'">');
-            		$('#label'+ i).append('<input type="checkbox" id="checkbox'+ i +'" /><img src="img/icons/' + data[i][3] + '" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">' + data[i][1] + '</h3>');
-            		
-            		var features = [];
-            		var layerGeoJSONURL = data[i][4];
-            		var icon = {
-            					url: 'img/icons/' + data[i][3],
-							    // This marker is 20 pixels wide by 32 pixels high.
-							    size: new google.maps.Size(20, 32)
-							  };
-            		google.maps.event.addDomListener(document.getElementById('checkbox'+ i), 'click', function () {
-            		if (this.checked) {
-			            alert('Checked');
-			            console.log(icon);
-			            $.ajax({
-				            url: layerGeoJSONURL,
-				            dataType: 'json',
-				            contentType: 'application/json',
-				            success: function (data) {
-				            	console.log(data);			            
-			            		features = map.data.addGeoJson(data);
-			            		map.data.setStyle(function(feature) {
-								var name = feature.getProperty('name');
-								  return {
-								    icon: icon,
-								    visible: true,
-								    clickable: true,
-								    title: name
-								  };
-								});
-				            }
-				        });
- 
-			        }else{
-			        	alert('not checked');
+		function getLayers(){
+			$.ajax({
+	            url: "../rema/php/layers.php",
+	            dataType: 'json',
+	            contentType: 'application/json',
+	            success: function (data) {
+	            	console.log(data);
+	            	//console.log(data[0][4]);
+	            	for (i = 0; i < data.length; i++) {
+	            		$('#sidebar-layers').append('<div id="layer'+ i +'" class="checkbox" />');
+	            		$('#layer'+ i).append('<label id="label'+ i +'">');
+	            		$('#label'+ i).append('<input type="checkbox" id="checkbox'+ i +'" /><img src="img/icons/' + data[i][3] + '" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">' + data[i][1] + '</h3>');
+	     				
+	            		var icon = 'img/icons/' + data[i][3];
+	            		var layerGeoJSONURL = data[i][4];
+	            		//console.log(icon);
+	            		var recordNum = i;
+	            		layerEventListener(icon, layerGeoJSONURL, recordNum);
+	            	
+			       }					
+	            }
+	        });	
+		}
+		// Creates the event listener for each layer
+		function layerEventListener(icon, layerGeoJSONURL, recordNum){
+			
+			$( "#checkbox"+recordNum ).click(function() {
+			  	if (this.checked) {
+			        //console.log(icon);
+			        /*console.log(layerGeoJSONURL);
+			        console.log("#checkbox"+recordNum);*/
+	 				getGeoJsonLayers(icon, layerGeoJSONURL, recordNum);
+				        }else{
+				        	//alert('not checked');
 			        	for (var i = 0; i < features.length; i++){
 			        		map.data.remove(features[i]);
 			        	}
 			        }
-		          });
-		       }						
-            }
-        });	
+				});
+				return false;
+		}
 		
+		//get layers
+		function getGeoJsonLayers(icon, layerGeoJSONURL, recordNum){
+			$.ajax({
+            	url: layerGeoJSONURL,
+            	dataType: 'json',
+            	contentType: 'application/json',
+            	success: function (data) {
+            	//console.log(data);		            
+        			map.data.setStyle(function(features) {
+						var name = features.getProperty('name');
+						  return {
+						    icon: icon,
+						    visible: true,
+						    clickable: true,
+						    title: name
+						  };
+						  
+					});
+					console.log(icon);
+					features = map.data.addGeoJson(data);
+			    }
+			    
+			});
+		}
+				
+	getLayers();
 		
 });
 
