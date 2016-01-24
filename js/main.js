@@ -1,6 +1,7 @@
 var map;
 var markers = [];
-var schools = [];
+var jsonArr = [];
+var layers = [];
 $( document ).ready(function() {
 	//Global Variables
 	var drawMarker = google.maps.drawing.OverlayType.MARKER;
@@ -278,67 +279,64 @@ $( document ).ready(function() {
 	            dataType: 'json',
 	            contentType: 'application/json',
 	            success: function (data) {
-	            	console.log(data);
-	            	//console.log(data[0][4]);
 	            	for (i = 0; i < data.length; i++) {
 	            		$('#sidebar-layers').append('<div id="layer'+ i +'" class="checkbox" />');
 	            		$('#layer'+ i).append('<label id="label'+ i +'">');
 	            		$('#label'+ i).append('<input type="checkbox" id="checkbox'+ i +'" /><img src="img/icons/' + data[i][3] + '" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">' + data[i][1] + '</h3>');
-	     				
-	            		var icon = 'img/icons/' + data[i][3];
-	            		var layerGeoJSONURL = data[i][4];
-	            		//console.log(icon);
-	            		var recordNum = i;
-	            		layerEventListener(icon, layerGeoJSONURL, recordNum);
-	            	
-			       }					
+
+						// Adds id, url and icon to a json array
+					    jsonArr.push({
+					        id: i,
+					        url: data[i][4],
+					        icon: 'img/icons/' + data[i][3],
+					        layer: 'layer'+ i,
+					        hidden: true
+					    });
+					    var thisCheckbox = document.getElementById("checkbox"+ i);
+					    attachChangeListener(thisCheckbox,i);
+
+			       	}		
 	            }
 	        });	
 		}
-		// Creates the event listener for each layer
-		function layerEventListener(icon, layerGeoJSONURL, recordNum){
-			
-			$( "#checkbox"+recordNum ).click(function() {
-			  	if (this.checked) {
-			        //console.log(icon);
-			        /*console.log(layerGeoJSONURL);
-			        console.log("#checkbox"+recordNum);*/
-	 				getGeoJsonLayers(icon, layerGeoJSONURL, recordNum);
-				        }else{
-				        	//alert('not checked');
-			        	for (var i = 0; i < features.length; i++){
-			        		map.data.remove(features[i]);
-			        	}
-			        }
-				});
-				return false;
-		}
 		
-		//get layers
-		function getGeoJsonLayers(icon, layerGeoJSONURL, recordNum){
-			$.ajax({
-            	url: layerGeoJSONURL,
-            	dataType: 'json',
-            	contentType: 'application/json',
-            	success: function (data) {
-            	//console.log(data);		            
-        			map.data.setStyle(function(features) {
-						var name = features.getProperty('name');
-						  return {
-						    icon: icon,
-						    visible: true,
-						    clickable: true,
-						    title: name
-						  };
-						  
+		//Add the event listener to the newly created checkbox
+		function attachChangeListener(thisCheckbox,i) {
+            $(thisCheckbox).change(function () {
+            	var checked = $(this).is(':checked');
+            	layers = jsonArr[i];
+            	if (checked) {
+            		console.log(thisCheckbox);
+            		console.log(jsonArr[i].layer);
+            		console.log(layers.icon);
+					
+					map.data.setStyle(function() {
+					  return {icon:layers.icon};
 					});
-					console.log(icon);
-					features = map.data.addGeoJson(data);
-			    }
-			    
-			});
-		}
-				
+					
+            		map.data.loadGeoJson(layers.url);
+            		
+            		
+            	}
+                /*if (checked) {
+                    var data = jsonArr[i];
+                    map.data.setStyle(function() {
+					  return {icon:data.icon};
+					});
+                    layers = map.data.loadGeoJson(data.url);
+                    console.log(data.icon);
+   
+                }else{
+                	console.log("unchecked");
+                	map.data.forEach(function(layers) {
+                		console.log(layers.length);
+				        //If you want, check here for some constraints.
+				        map.data.remove(layers);
+				    });
+                }*/
+        });
+       }
+			
 	getLayers();
 		
 });
