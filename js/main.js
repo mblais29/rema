@@ -1,9 +1,10 @@
+//Global Variables
 var map;
 var markers = [];
 var jsonArr = [];
 var layers = [];
 $( document ).ready(function() {
-	//Global Variables
+	
 	var drawMarker = google.maps.drawing.OverlayType.MARKER;
 	var circle = google.maps.drawing.OverlayType.CIRCLE;
 	var polygon = google.maps.drawing.OverlayType.POLYGON;
@@ -26,15 +27,6 @@ $( document ).ready(function() {
 	    zoom: 14
 	  });
   	  
-  	  //Use Custom Icon for Marker
-	  var image = {
-		  url: 'img/icons/location.png',
-		  size: new google.maps.Size(71, 71),
-		  origin: new google.maps.Point(0, 0),
-		  anchor: new google.maps.Point(17, 34),
-		  scaledSize: new google.maps.Size(50, 50)
-		};
-	  
 	  //Creates the Drawing Manager, uncomment to add polygon, polyline, or rectangle  
 	  var drawingManager = new google.maps.drawing.DrawingManager({
 	    drawingMode: null,
@@ -282,19 +274,19 @@ $( document ).ready(function() {
 	            	for (i = 0; i < data.length; i++) {
 	            		$('#sidebar-layers').append('<div id="layer'+ i +'" class="checkbox" />');
 	            		$('#layer'+ i).append('<label id="label'+ i +'">');
-	            		$('#label'+ i).append('<input type="checkbox" id="checkbox'+ i +'" /><img src="img/icons/' + data[i][3] + '" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">' + data[i][1] + '</h3>');
-
+	            		$('#label'+ i).append('<input type="checkbox" id="checkbox'+ i +'" /><img src="img/icons/' + data[i][3] + '.png' + '" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">' + data[i][1] + '</h3>');
+	            		
 						// Adds id, url and icon to a json array
 					    jsonArr.push({
 					        id: i,
 					        url: data[i][4],
-					        icon: 'img/icons/' + data[i][3],
+					        icon: 'img/icons/' + data[i][3] + '.png',
 					        layer: 'layer'+ i,
+					        name: data[i][3],
 					        hidden: true
 					    });
 					    var thisCheckbox = document.getElementById("checkbox"+ i);
 					    attachChangeListener(thisCheckbox,i);
-
 			       	}		
 	            }
 	        });	
@@ -306,34 +298,43 @@ $( document ).ready(function() {
             	var checked = $(this).is(':checked');
             	layers = jsonArr[i];
             	if (checked) {
-            		console.log(thisCheckbox);
-            		console.log(jsonArr[i].layer);
-            		console.log(layers.icon);
-					
-					map.data.setStyle(function() {
-					  return {icon:layers.icon};
+            		
+            		//console.log(thisCheckbox);
+            		//console.log(jsonArr[i].layer);
+            		//console.log(layers);
+
+					$.ajax({
+		             	url: layers.url,
+		             	dataType: 'json',
+		             	contentType: 'application/json',
+		             	success: function(data) {
+	            			map.data.setStyle(function(feature) {
+							    if (feature.getProperty('category')) {
+							      var icon = 'img/icons/' + feature.getProperty('category') + '.png';
+							      var name = feature.getProperty('name');
+							      return {
+							      	icon: icon,
+							      	clickable: true,
+							      	title: name
+							      };
+							    }
+							     
+						    });
+		 					map.data.addGeoJson(data);
+		 			    }
+		 			});	
+		 			
+            	}else{
+            		
+            		var selectedLayer = layers.name;
+            		map.data.forEach(function(feature) {
+				       //filter removes selected layer
+				       if (feature.getProperty('category') == selectedLayer) {
+			                map.data.remove(feature);
+			            }
 					});
 					
-            		map.data.loadGeoJson(layers.url);
-            		
-            		
             	}
-                /*if (checked) {
-                    var data = jsonArr[i];
-                    map.data.setStyle(function() {
-					  return {icon:data.icon};
-					});
-                    layers = map.data.loadGeoJson(data.url);
-                    console.log(data.icon);
-   
-                }else{
-                	console.log("unchecked");
-                	map.data.forEach(function(layers) {
-                		console.log(layers.length);
-				        //If you want, check here for some constraints.
-				        map.data.remove(layers);
-				    });
-                }*/
         });
        }
 			
