@@ -52,6 +52,29 @@ function getMarkers(){
     });
 }
 
+function styleLayer(data){
+	map.data.setStyle(function(feature) {
+		switch(feature.getGeometry().getType()) {
+		    case 'Point':
+		          var icon = 'img/icons/' + feature.getProperty('category') + '.png';
+			      var name = feature.getProperty('name');
+			      return {
+			      	icon: icon,
+			      	clickable: true,
+			      	title: name
+			      };
+		        break;
+		    case 'MultiPolygon':
+		        var color = feature.getProperty('fillcolor');
+		      	return ({
+				      fillColor: color,
+				      strokeColor: color,
+				      strokeWeight: 2
+				    });
+		        break;
+		}
+	});
+}
 					    
 function hideForm(){
 	$("#sidebar-wrapper").hide("slow");

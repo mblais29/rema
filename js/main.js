@@ -3,6 +3,7 @@ var map;
 var markers = [];
 var jsonArr = [];
 var layers = [];
+
 $( document ).ready(function() {
 	
 	var drawMarker = google.maps.drawing.OverlayType.MARKER;
@@ -280,12 +281,12 @@ $( document ).ready(function() {
 	            dataType: 'json',
 	            contentType: 'application/json',
 	            success: function (data) {
-	            	
+	            	console.log(data);
 	            	for (i = 0; i < data.length; i++) {
 	            		$('#sidebar-layers').append('<div id="layer'+ i +'" class="checkbox" />');
 	            		$('#layer'+ i).append('<label id="label'+ i +'">');
 	            		$('#label'+ i).append('<input type="checkbox" id="checkbox'+ i +'" /><img src="img/icons/' + data[i][3] + '.png' + '" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">' + data[i][1] + '</h3>');
-	            		
+	            		var thisCheckbox = document.getElementById("checkbox"+ i);
 						// Adds id, url and icon to a json array
 					    jsonArr.push({
 					        id: i,
@@ -294,9 +295,8 @@ $( document ).ready(function() {
 					        layer: 'layer'+ i,
 					        name: data[i][3],
 					        color: data[i][5],
-					        hidden: true
 					    });
-					    var thisCheckbox = document.getElementById("checkbox"+ i);
+					    
 					    attachChangeListener(thisCheckbox,i);
 			       	}		
 	            }
@@ -307,48 +307,20 @@ $( document ).ready(function() {
 		function attachChangeListener(thisCheckbox,i) {
             $(thisCheckbox).change(function () {
             	var checked = $(this).is(':checked');
-            	var notChecked = $("input:checkbox").not((':checked'));
             	layers = jsonArr[i];
+            	
             	if (checked) {
-    	
-            		//console.log(thisCheckbox);
-            		//console.log(jsonArr[i].layer);
-            		//console.log(layers);
 
 					$.ajax({
 		             	url: layers.url,
 		             	dataType: 'json',
 		             	contentType: 'application/json',
 		             	success: function(data) {
-		             		console.log(notChecked.length);
-	             			map.data.setStyle(function(feature) {
-	            				console.log(feature.getGeometry().getType());
-	            				switch(feature.getGeometry().getType()) {
-								    case 'Point':
-								          var icon = 'img/icons/' + feature.getProperty('category') + '.png';
-									      var name = feature.getProperty('name');
-									      return {
-									      	icon: icon,
-									      	clickable: true,
-									      	title: name
-									      };
-								        break;
-								        
-								    case 'MultiPolygon':
-								        var color = layers.color;
-								      	//var name = feature.getProperty('name');
-								      	return {
-								      		fillColor: color,
-								      		clickable: true
-								      	};
-								        break;
-								}
-						    });
-
-		 					map.data.addGeoJson(data);
+		             		console.log(data);
+	             			styleLayer(data);
+		 					map.data.addGeoJson(data);	
 		 			    }
 		 			});
-		 			layers.hidden = false;
 	
             	}else{
             		
@@ -359,7 +331,6 @@ $( document ).ready(function() {
 			                map.data.remove(feature);
 			            }
 					});
-					layers.hidden = true;
 					
             	}
         });
