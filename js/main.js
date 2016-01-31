@@ -27,6 +27,15 @@ $( document ).ready(function() {
 	    zoom: 14
 	  });
   	  
+  	  //Use Custom Icon for Marker
+	  var image = {
+		  url: 'img/icons/location.png',
+		  size: new google.maps.Size(71, 71),
+		  origin: new google.maps.Point(0, 0),
+		  anchor: new google.maps.Point(17, 34),
+		  scaledSize: new google.maps.Size(50, 50)
+		};
+	  
 	  //Creates the Drawing Manager, uncomment to add polygon, polyline, or rectangle  
 	  var drawingManager = new google.maps.drawing.DrawingManager({
 	    drawingMode: null,
@@ -271,6 +280,7 @@ $( document ).ready(function() {
 	            dataType: 'json',
 	            contentType: 'application/json',
 	            success: function (data) {
+	            	
 	            	for (i = 0; i < data.length; i++) {
 	            		$('#sidebar-layers').append('<div id="layer'+ i +'" class="checkbox" />');
 	            		$('#layer'+ i).append('<label id="label'+ i +'">');
@@ -283,6 +293,7 @@ $( document ).ready(function() {
 					        icon: 'img/icons/' + data[i][3] + '.png',
 					        layer: 'layer'+ i,
 					        name: data[i][3],
+					        color: data[i][5],
 					        hidden: true
 					    });
 					    var thisCheckbox = document.getElementById("checkbox"+ i);
@@ -296,9 +307,10 @@ $( document ).ready(function() {
 		function attachChangeListener(thisCheckbox,i) {
             $(thisCheckbox).change(function () {
             	var checked = $(this).is(':checked');
+            	var notChecked = $("input:checkbox").not((':checked'));
             	layers = jsonArr[i];
             	if (checked) {
-            		
+    	
             		//console.log(thisCheckbox);
             		//console.log(jsonArr[i].layer);
             		//console.log(layers);
@@ -308,22 +320,36 @@ $( document ).ready(function() {
 		             	dataType: 'json',
 		             	contentType: 'application/json',
 		             	success: function(data) {
-	            			map.data.setStyle(function(feature) {
-							    if (feature.getProperty('category')) {
-							      var icon = 'img/icons/' + feature.getProperty('category') + '.png';
-							      var name = feature.getProperty('name');
-							      return {
-							      	icon: icon,
-							      	clickable: true,
-							      	title: name
-							      };
-							    }
-							     
+		             		console.log(notChecked.length);
+	             			map.data.setStyle(function(feature) {
+	            				console.log(feature.getGeometry().getType());
+	            				switch(feature.getGeometry().getType()) {
+								    case 'Point':
+								          var icon = 'img/icons/' + feature.getProperty('category') + '.png';
+									      var name = feature.getProperty('name');
+									      return {
+									      	icon: icon,
+									      	clickable: true,
+									      	title: name
+									      };
+								        break;
+								        
+								    case 'MultiPolygon':
+								        var color = layers.color;
+								      	//var name = feature.getProperty('name');
+								      	return {
+								      		fillColor: color,
+								      		clickable: true
+								      	};
+								        break;
+								}
 						    });
+
 		 					map.data.addGeoJson(data);
 		 			    }
-		 			});	
-		 			
+		 			});
+		 			layers.hidden = false;
+	
             	}else{
             		
             		var selectedLayer = layers.name;
@@ -333,6 +359,7 @@ $( document ).ready(function() {
 			                map.data.remove(feature);
 			            }
 					});
+					layers.hidden = true;
 					
             	}
         });
