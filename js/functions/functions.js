@@ -52,6 +52,20 @@ function getMarkers(){
     });
 }
 
+function addInfoWindow(data){
+	console.log(data);
+	map.data.addListener('mouseover', function(event) {
+		document.getElementById('info-box').style.display = "block";
+	    document.getElementById('info-box').textContent =
+	        event.feature.getProperty('name').toUpperCase();
+	  });
+	  map.data.addListener('mouseout', function(event) {
+	  	document.getElementById('info-box').style.display = "none";
+	    document.getElementById('info-box').textContent =
+	        "";
+	  });
+}
+
 function styleLayer(data){
 	map.data.setStyle(function(feature) {
 		switch(feature.getGeometry().getType()) {
@@ -66,9 +80,19 @@ function styleLayer(data){
 		        break;
 		    case 'MultiPolygon':
 		        var color = feature.getProperty('fillcolor');
+		        var name = feature.getProperty('name');
 		      	return ({
 				      fillColor: color,
 				      strokeColor: color,
+				      strokeWeight: 2
+				    });
+		        break;
+		    case 'MultiLineString':
+		        var color = feature.getProperty('color');
+		        var name = feature.getProperty('name');
+		      	return ({
+				      strokeColor: color,
+				      strokeOpacity: 0.6,
 				      strokeWeight: 2
 				    });
 		        break;

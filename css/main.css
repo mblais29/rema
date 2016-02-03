@@ -144,6 +144,20 @@ div#page-content-wrapper {
     div#page-content-wrapper > .container-fluid #toggleControl {
       top: 5px !important;
       right: 5px !important; }
+    div#page-content-wrapper > .container-fluid #info-box {
+      background-color: white;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      bottom: 30px;
+      height: 40px;
+      min-width: 40px;
+      padding: 10px;
+      position: absolute;
+      left: 50%;
+      /* position the left edge of the element at the middle of the parent */
+      transform: translate(-50%);
+      z-index: 100;
+      display: none; }
 
 /* Marker Info */
 .gm-style-iw {

@@ -64,6 +64,7 @@
 	            <div class="container-fluid">
 				  	<div id="map"></div>
 				  	<div class="iw-bottom-gradient"></div>
+				  	<div id="info-box"></div>
 	            </div>
 	        </div>
  		</div>

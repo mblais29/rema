@@ -133,6 +133,20 @@ div#page-content-wrapper{
       top: 5px !important;
       right: 5px !important;
     }
+    #info-box{
+      background-color: white;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      bottom: 30px;
+      height: 40px;
+      min-width: 40px;
+      padding: 10px;
+      position: absolute;
+      left: 50%; /* position the left edge of the element at the middle of the parent */
+      transform: translate(-50%);
+      z-index: 100;
+      display: none
+    }
   }
 }
 

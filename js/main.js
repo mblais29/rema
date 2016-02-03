@@ -285,7 +285,7 @@ $( document ).ready(function() {
 	            	for (i = 0; i < data.length; i++) {
 	            		$('#sidebar-layers').append('<div id="layer'+ i +'" class="checkbox" />');
 	            		$('#layer'+ i).append('<label id="label'+ i +'">');
-	            		$('#label'+ i).append('<input type="checkbox" id="checkbox'+ i +'" /><img src="img/icons/' + data[i][3] + '.png' + '" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">' + data[i][1] + '</h3>');
+	            		$('#label'+ i).append('<input type="checkbox" id="checkbox'+ i +'" /><img src="img/icons/' + data[i][3] + '.png' + '" style="width: 20px; height: auto" /><h3 class="sidebar-layers-label">' + data[i][1] + '</h3>');
 	            		var thisCheckbox = document.getElementById("checkbox"+ i);
 						// Adds id, url and icon to a json array
 					    jsonArr.push({
@@ -308,19 +308,25 @@ $( document ).ready(function() {
             $(thisCheckbox).change(function () {
             	var checked = $(this).is(':checked');
             	layers = jsonArr[i];
-            	
+            	//console.log(layers.name);
+            	//console.log(layers.url);
             	if (checked) {
-
 					$.ajax({
 		             	url: layers.url,
 		             	dataType: 'json',
 		             	contentType: 'application/json',
+		             	timeout: 15000,
 		             	success: function(data) {
-		             		console.log(data);
 	             			styleLayer(data);
+	             			addInfoWindow(data);
 		 					map.data.addGeoJson(data);	
 		 			    }
-		 			});
+		 			}).fail(function (jqXHR, textStatus, errorThrown) {
+		 				alert("Error processing your request");
+		 				console.log(jqXHR);
+		 				console.log(textStatus);
+					    console.log(errorThrown);
+					});
 	
             	}else{
             		
