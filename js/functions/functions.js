@@ -81,9 +81,11 @@ function styleLayer(data){
 		    case 'MultiPolygon':
 		        var color = feature.getProperty('fillcolor');
 		        var name = feature.getProperty('name');
+		        var opacity = feature.getProperty('fillopacit');
 		      	return ({
 				      fillColor: color,
 				      strokeColor: color,
+				      fillOpacity: opacity,
 				      strokeWeight: 2
 				    });
 		        break;
