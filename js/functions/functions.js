@@ -53,7 +53,7 @@ function getMarkers(){
 }
 
 function addInfoWindow(data){
-	console.log(data);
+	//console.log(data);
 	map.data.addListener('mouseover', function(event) {
 		document.getElementById('info-box').style.display = "block";
 	    document.getElementById('info-box').textContent =
@@ -64,6 +64,63 @@ function addInfoWindow(data){
 	    document.getElementById('info-box').textContent =
 	        "";
 	  });
+}
+
+function layerRefresh(feature, layer, url, thisCheckbox){
+	console.log(layer);
+	var selectedLayer = layer.name;
+	//console.log(selectedLayer);
+	map.data.forEach(function(feature) {
+		//filter removes selected layer
+   		if (feature.getProperty('category') == selectedLayer) {
+        	map.data.remove(feature);
+    	}
+	});
+	var sw = map.getBounds().getSouthWest().lng() + ',' + map.getBounds().getSouthWest().lat();
+	var ne = map.getBounds().getNorthEast().lng() + ',' + map.getBounds().getNorthEast().lat();
+	//console.log(jsonArr[i]);
+	features = [];
+	if($(thisCheckbox).is(':checked')){
+		$.ajax({
+	     	url: url + '&bbox=' + sw + ',' + ne,
+	     	dataType: 'json',
+	     	contentType: 'application/json',
+	     	timeout: 15000,
+	     	success: function(data) {
+	 			styleLayer(data);
+	 			addInfoWindow(data);
+	 			features = map.data.addGeoJson(data);
+				
+				
+		    }
+		}).fail(function (jqXHR, textStatus, errorThrown) {
+			alert("Error processing your request");
+			console.log(jqXHR);
+			console.log(textStatus);
+		    console.log(errorThrown);
+		});
+	}
+}
+
+function addGeoJsonLayers(layers, sw, ne){
+	$.ajax({
+     	url: layers.url + '&bbox=' + sw + ',' + ne,
+     	dataType: 'json',
+     	contentType: 'application/json',
+     	timeout: 15000,
+     	success: function(data) {
+ 			styleLayer(data);
+ 			addInfoWindow(data);
+			features = map.data.addGeoJson(data);
+			console.log(features.length);
+			
+	    }
+	}).fail(function (jqXHR, textStatus, errorThrown) {
+		alert("Error processing your request");
+		console.log(jqXHR);
+		console.log(textStatus);
+	    console.log(errorThrown);
+	});
 }
 
 function styleLayer(data){

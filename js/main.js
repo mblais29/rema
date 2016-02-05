@@ -3,6 +3,7 @@ var map;
 var markers = [];
 var jsonArr = [];
 var layers = [];
+var currentBounds = "";
 
 $( document ).ready(function() {
 	
@@ -11,7 +12,7 @@ $( document ).ready(function() {
 	var polygon = google.maps.drawing.OverlayType.POLYGON;
 	var polyline = google.maps.drawing.OverlayType.POLYLINE;
 	var rectangle = google.maps.drawing.OverlayType.RECTANGLE;
-
+		
 	//Create the Map
    	map = new google.maps.Map(document.getElementById('map'), {
     	center: {lat: 0.1313, lng: 50.8429},
@@ -27,6 +28,7 @@ $( document ).ready(function() {
 	    scrollwheel: true,
 	    zoom: 14
 	  });
+  	  
   	  
   	  //Use Custom Icon for Marker
 	  var image = {
@@ -298,6 +300,7 @@ $( document ).ready(function() {
 					    });
 					    
 					    attachChangeListener(thisCheckbox,i);
+					    
 			       	}		
 	            }
 	        });	
@@ -308,26 +311,22 @@ $( document ).ready(function() {
             $(thisCheckbox).change(function () {
             	var checked = $(this).is(':checked');
             	layers = jsonArr[i];
-            	//console.log(layers.name);
-            	//console.log(layers.url);
             	if (checked) {
-					$.ajax({
-		             	url: layers.url,
-		             	dataType: 'json',
-		             	contentType: 'application/json',
-		             	timeout: 15000,
-		             	success: function(data) {
-	             			styleLayer(data);
-	             			addInfoWindow(data);
-		 					map.data.addGeoJson(data);	
-		 			    }
-		 			}).fail(function (jqXHR, textStatus, errorThrown) {
-		 				alert("Error processing your request");
-		 				console.log(jqXHR);
-		 				console.log(textStatus);
-					    console.log(errorThrown);
-					});
+            		var sw = map.getBounds().getSouthWest().lng() + ',' + map.getBounds().getSouthWest().lat();
+            		var ne = map.getBounds().getNorthEast().lng() + ',' + map.getBounds().getNorthEast().lat();
+					addGeoJsonLayers(layers, sw, ne);
 	
+					google.maps.event.addListener(map, 'dragend', function(feature) {
+						var layer = layers;
+						var url = jsonArr[i].url;
+						layerRefresh(feature, layer, url, thisCheckbox);
+					});
+					google.maps.event.addListener(map, 'zoom_changed', function(feature) {
+						var layer = layers;
+						var url = jsonArr[i].url;
+						layerRefresh(feature, layer, url, thisCheckbox);
+					});
+
             	}else{
             		
             		var selectedLayer = layers.name;
@@ -343,6 +342,9 @@ $( document ).ready(function() {
        }
 			
 	getLayers();
+
 		
 });
+
+
 
