@@ -1,33 +1,66 @@
-function CenterControl(controlDiv, map) {
-
+function CenterControl(layerControlDiv, map) {
   // Set CSS for the control border.
-  var controlUI = document.createElement('div');
-  controlUI.style.backgroundColor = '#fff';
-  controlUI.style.border = '2px solid #fff';
-  controlUI.style.borderRadius = '3px';
-  controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-  controlUI.style.cursor = 'pointer';
-  controlUI.style.marginBottom = '22px';
-  controlUI.style.textAlign = 'center';
-  controlUI.title = 'Click for Layers';
-  controlDiv.appendChild(controlUI);
+  var layerControlUI = document.createElement('div');
+  layerControlUI.style.backgroundColor = '#fff';
+  layerControlUI.style.border = '2px solid #fff';
+  layerControlUI.style.borderRadius = '3px';
+  layerControlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+  layerControlUI.style.cursor = 'pointer';
+  layerControlUI.style.marginBottom = '22px';
+  layerControlUI.style.textAlign = 'center';
+  layerControlUI.title = 'Click for Layers';
+  layerControlDiv.appendChild(layerControlUI);
 
   // Set CSS for the control interior.
-  var controlText = document.createElement('div');
-  controlText.style.color = 'rgb(25,25,25)';
-  controlText.style.fontSize = '16px';
-  controlText.style.paddingLeft = '5px';
-  controlText.style.paddingRight = '5px';
-  controlText.innerHTML = '<i class="fa fa-bars fa-2x"></i>';
-  controlUI.appendChild(controlText);
+  var layerControlText = document.createElement('div');
+  layerControlText.style.color = 'rgb(25,25,25)';
+  layerControlText.style.fontSize = '16px';
+  layerControlText.style.paddingLeft = '5px';
+  layerControlText.style.paddingRight = '5px';
+  layerControlText.innerHTML = '<i class="fa fa-bars fa-2x"></i>';
+  layerControlUI.appendChild(layerControlText);
 
-  // Setup the click event listeners: simply set the map to Chicago.
-  controlUI.addEventListener('click', function() {
-  	//alert("Button has been clicked");
+  // Setup the click event listeners
+  layerControlUI.addEventListener('click', function() {
   	$("#sidebar-layers").show('slow');
-    //map.setCenter(chicago);
   });
+}
 
+function routing(routeControlDiv, map){ 
+  // Set CSS for the control border.
+  var routeControlUI = document.createElement('div');
+  routeControlUI.style.backgroundColor = '#fff';
+  routeControlUI.style.border = '2px solid #fff';
+  routeControlUI.style.borderRadius = '3px';
+  routeControlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+  routeControlUI.style.cursor = 'pointer';
+  routeControlUI.style.marginBottom = '22px';
+  routeControlUI.style.textAlign = 'center';
+  routeControlUI.title = 'Click for Route';
+  routeControlDiv.appendChild(routeControlUI);
+
+  // Set CSS for the control interior.
+  var routeControlText = document.createElement('div');
+  routeControlText.style.color = 'rgb(25,25,25)';
+  routeControlText.style.fontSize = '16px';
+  routeControlText.style.paddingLeft = '2px';
+  routeControlText.style.paddingRight = '2px';
+  routeControlText.innerHTML = '<i class="fa fa-road fa-2x"></i>';
+  routeControlUI.appendChild(routeControlText);
+  
+  routeControlUI.addEventListener('click', function() {
+  	$("#route").show('slow');
+  	
+  	var getOrigin = google.maps.event.addListener(map, 'click', function(event) {
+		//console.log(event.latLng.lat());
+		//console.log(event.latLng.lng());
+		//document.getElementById('route').innerHTML = "Lat: " + event.latLng.lat() + "Lng: " + event.latLng.lng();
+		originLatLng = event.latLng;
+		google.maps.event.removeListener(getOrigin);
+		originMarker = new google.maps.Marker({position: originLatLng, map: map});
+		destCoord();
+	});
+  });
 }
 
 // Creates an event listener for the Property marker checkbox
@@ -51,6 +84,48 @@ function getMarkers(){
         }
     });
 }
+
+function destCoord(){
+	var getDest = google.maps.event.addListener(map, 'click', function(event) {
+		//console.log(event.latLng.lat());
+		//console.log(event.latLng.lng());
+		
+		destinationLatLng = event.latLng;
+		document.getElementById('route').innerHTML = "Origin: " + originLatLng + "<br/>"  + "Destination: " + destinationLatLng + "<br/>"  + "<button type='button' class='btn btn-default' onclick='directionsDisplay.setMap(null)'>Remove</button>";
+		google.maps.event.removeListener(getDest);
+		destMarker = new google.maps.Marker({position: destinationLatLng, map: map});
+		console.log(originLatLng + "/" + destinationLatLng );
+		
+		
+		directionsDisplay.setMap(map);
+		calculateAndDisplayRoute(directionsService, directionsDisplay);
+	    document.getElementById('mode').addEventListener('change', function() {
+	      calculateAndDisplayRoute(directionsService, directionsDisplay);
+	    });
+	    originMarker.setMap(null);	
+	    destMarker.setMap(null);	
+
+	});	
+}
+
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+  var selectedMode = document.getElementById('mode').value;
+  directionsService.route({
+    origin: originLatLng,  // Haight.
+    destination: destinationLatLng,  // Ocean Beach.
+    // Note that Javascript allows us to access the constant
+    // using square brackets and a string value as its
+    // "property."
+    travelMode: google.maps.TravelMode[selectedMode]
+  }, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+}
+
 
 function addInfoWindow(data){
 	//console.log(data);

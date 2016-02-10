@@ -5,7 +5,7 @@
 
 
 /* Variables */
-$header_font: 'Signika', sans-serif;
+$header_font: 'Libre Baskerville', serif;
 
 /* Global Styles */
 
@@ -95,6 +95,8 @@ div#sidebar-layers {
           display: inline-block;
           position: absolute;
           padding: 5px;
+          font-size: 0.9em;
+          font-family: $header_font;
       }
     }
     > #close-nav{
@@ -133,6 +135,10 @@ div#page-content-wrapper{
       top: 5px !important;
       right: 5px !important;
     }
+    #routetoggleControl{
+      top: 50px !important;
+      right: 5px !important;
+    }
     #info-box{
       background-color: white;
       border: 1px solid transparent;
@@ -146,6 +152,29 @@ div#page-content-wrapper{
       transform: translate(-50%);
       z-index: 100;
       display: none
+    }
+    #route{
+      background-color: white;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      bottom: 30px;
+      min-height: 40px;
+      width: 60%;
+      padding: 10px;
+      position: absolute;
+      left: 50%; /* position the left edge of the element at the middle of the parent */
+      transform: translate(-50%);
+      z-index: 100;
+      display: none
+    }
+    #floating-panel {
+      position: absolute;
+      bottom: 0;
+      left: 5px;
+      z-index: 5;
+    }
+    #mode{
+      width: 100% !important;
     }
   }
 }

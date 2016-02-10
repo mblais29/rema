@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Real Estate Management App</title>
-    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="img/mblais.png" type="image/x-icon" />
 	<!-- Google -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcVieGnFnEqNe_YE8HSQeFn9cEMWBVif4&sensor=false&libraries=drawing" type="text/javascript"></script>
 	<link href='https://fonts.googleapis.com/css?family=Signika:600,400' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700' rel='stylesheet' type='text/css'>
 	<!-- Bootstrap -->
     <link href="components/bootstrap/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
 	<link href="components/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -62,9 +64,19 @@
 	        <!-- Page Content -->
 	        <div id="page-content-wrapper">
 	            <div class="container-fluid">
+	            	<div id="floating-panel">
+					    <select id="mode" class="form-control">
+					      <option value="DRIVING">Driving</option>
+					      <option value="WALKING">Walking</option>
+					      <option value="BICYCLING">Bicycling</option>
+					      <option value="TRANSIT">Transit</option>
+					    </select>
+				    </div>
 				  	<div id="map"></div>
 				  	<div class="iw-bottom-gradient"></div>
 				  	<div id="info-box"></div>
+				  	<!--- Uncomment route div to see the Origin and Destination lat/lng --->
+				  	<div id="route"></div>
 	            </div>
 	        </div>
  		</div>

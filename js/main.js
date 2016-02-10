@@ -4,9 +4,18 @@ var markers = [];
 var jsonArr = [];
 var layers = [];
 var currentBounds = "";
+// Routing Global Variables
+var originLatLng = "";
+var destinationLatLng = "";
+var originMarker;
+var destMarker;
+var directionsDisplay = new google.maps.DirectionsRenderer;
+var directionsService = new google.maps.DirectionsService;
+
 
 $( document ).ready(function() {
 	
+    
 	var drawMarker = google.maps.drawing.OverlayType.MARKER;
 	var circle = google.maps.drawing.OverlayType.CIRCLE;
 	var polygon = google.maps.drawing.OverlayType.POLYGON;
@@ -153,14 +162,20 @@ $( document ).ready(function() {
 		    });	
 		}
 		
-	  // Create the DIV to hold the control and call the CenterControl() constructor
-	  // passing in this DIV.
-	  var centerControlDiv = document.createElement('div');
-	  centerControlDiv.id = 'toggleControl';
-	  var centerControl = new CenterControl(centerControlDiv, map);
+	  //Creates the top right layer and routing divs
+	  var layerControlDiv = document.createElement('div');
+	  layerControlDiv.id = 'toggleControl';
+	  var layerControl = new CenterControl(layerControlDiv, map);
 		
-	  centerControlDiv.index = 1;
-	  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(centerControlDiv);
+	  layerControlDiv.index = 1;
+	  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(layerControlDiv);
+	  
+	  var routeControlDiv = document.createElement('div');
+	  routeControlDiv.id = 'routetoggleControl';
+	  var routeControl = new routing(routeControlDiv, map);
+		
+	  routeControlDiv.index = 1;
+	  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(routeControlDiv);
 	  
 	  // Hides the Form on load
 	  $("#sidebar-wrapper").hide();
@@ -340,7 +355,12 @@ $( document ).ready(function() {
             	}
         });
        }
-			
+
+		/*directionsDisplay.setMap(map);
+		calculateAndDisplayRoute(directionsService, directionsDisplay);
+	    document.getElementById('mode').addEventListener('change', function() {
+	      calculateAndDisplayRoute(directionsService, directionsDisplay);
+	    });	*/
 	getLayers();
 
 		
