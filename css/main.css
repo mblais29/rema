@@ -169,14 +169,15 @@ div#page-content-wrapper {
       border-radius: 4px;
       bottom: 30px;
       min-height: 40px;
-      width: 60%;
+      width: 35%;
       padding: 10px;
       position: absolute;
       left: 50%;
       /* position the left edge of the element at the middle of the parent */
       transform: translate(-50%);
       z-index: 100;
-      display: none; }
+      display: none;
+      text-align: center; }
     div#page-content-wrapper > .container-fluid #floating-panel {
       position: absolute;
       bottom: 0;
@@ -184,6 +185,8 @@ div#page-content-wrapper {
       z-index: 5; }
     div#page-content-wrapper > .container-fluid #mode {
       width: 100% !important; }
+    div#page-content-wrapper > .container-fluid .btn-default {
+      margin-top: 2%; }
 
 /* Marker Info */
 .gm-style-iw {

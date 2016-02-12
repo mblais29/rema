@@ -9,8 +9,37 @@ var originLatLng = "";
 var destinationLatLng = "";
 var originMarker;
 var destMarker;
-var directionsDisplay = new google.maps.DirectionsRenderer;
+var routeMarkers = [];
+var directionsDisplay = new google.maps.DirectionsRenderer({
+	suppressMarkers: true,
+    draggable: true,
+    map: map
+  });
 var directionsService = new google.maps.DirectionsService;
+// Start/Finish icons
+var icons = {
+  start: new google.maps.MarkerImage(
+   // URL
+   'img/icons/start.png',
+   // (width,height)
+   new google.maps.Size( 30, 50 ),
+   // The origin point (x,y)
+   new google.maps.Point( 0, 0 )
+   // The anchor point (x,y)
+   //new google.maps.Point( 22, 32 )
+  ),
+  end: new google.maps.MarkerImage(
+   // URL
+   'img/icons/end.png',
+   // (width,height)
+   new google.maps.Size( 30, 50 ),
+   // The origin point (x,y)
+   new google.maps.Point( 0, 0 )
+   // The anchor point (x,y)
+   //new google.maps.Point( 22, 32 )
+  )
+ };
+
 
 
 $( document ).ready(function() {
@@ -220,21 +249,21 @@ $( document ).ready(function() {
 										  '</div>';
 				  var infowindow = new google.maps.InfoWindow();	
 				   			   
-				  var marker = new google.maps.Marker({
+				  var markerProp = new google.maps.Marker({
 				       position: myLatLong,
 				       map: map,
 				       title: "Property",
 				       icon: image
 				   });
 
-				   google.maps.event.addListener(marker,'click', (function(marker,contentString,infowindow){ 
+				   google.maps.event.addListener(markerProp,'click', (function(markerProp,contentString,infowindow){ 
 				        return function() {
 				           infowindow.setContent(contentString);
-				           infowindow.open(map,marker);
+				           infowindow.open(map,markerProp);
 				        };
-				   })(marker,contentString,infowindow));
+				   })(markerProp,contentString,infowindow));
 				   //Hides the markers when map first loads
-				   marker.setVisible(false);
+				   markerProp.setVisible(false);
 		
 				   google.maps.event.addListener(infowindow, 'domready', function() {
 			
@@ -286,7 +315,7 @@ $( document ).ready(function() {
 					});
 				});
 				// Stores the marker information in an array
-				markers.push(marker);
+				markers.push(markerProp);
 			  }
 			  
 			}

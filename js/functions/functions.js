@@ -49,8 +49,7 @@ function routing(routeControlDiv, map){
   routeControlUI.appendChild(routeControlText);
   
   routeControlUI.addEventListener('click', function() {
-  	$("#route").show('slow');
-  	
+
   	var getOrigin = google.maps.event.addListener(map, 'click', function(event) {
 		//console.log(event.latLng.lat());
 		//console.log(event.latLng.lng());
@@ -91,7 +90,7 @@ function destCoord(){
 		//console.log(event.latLng.lng());
 		
 		destinationLatLng = event.latLng;
-		document.getElementById('route').innerHTML = "Origin: " + originLatLng + "<br/>"  + "Destination: " + destinationLatLng + "<br/>"  + "<button type='button' class='btn btn-default' onclick='directionsDisplay.setMap(null)'>Remove</button>";
+		document.getElementById('route').innerHTML = "<button type='button' class='btn btn-default' onclick='closeRoute(routeMarkers)'>Remove</button>";
 		google.maps.event.removeListener(getDest);
 		destMarker = new google.maps.Marker({position: destinationLatLng, map: map});
 		console.log(originLatLng + "/" + destinationLatLng );
@@ -101,7 +100,9 @@ function destCoord(){
 		calculateAndDisplayRoute(directionsService, directionsDisplay);
 	    document.getElementById('mode').addEventListener('change', function() {
 	      calculateAndDisplayRoute(directionsService, directionsDisplay);
+	      	      
 	    });
+	    $("#route").show('slow');
 	    originMarker.setMap(null);	
 	    destMarker.setMap(null);	
 
@@ -109,23 +110,54 @@ function destCoord(){
 }
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+	//deletes old routes and Markers
+	if(routeMarkers.length > 0){
+		for(i=0; i<routeMarkers.length; i++){
+	        routeMarkers[i].setMap(null);
+	    }
+	}
   var selectedMode = document.getElementById('mode').value;
   directionsService.route({
-    origin: originLatLng,  // Haight.
-    destination: destinationLatLng,  // Ocean Beach.
-    // Note that Javascript allows us to access the constant
-    // using square brackets and a string value as its
-    // "property."
+    origin: originLatLng,
+    destination: destinationLatLng,
     travelMode: google.maps.TravelMode[selectedMode]
   }, function(response, status) {
     if (status == google.maps.DirectionsStatus.OK) {
+      console.log(response);
       directionsDisplay.setDirections(response);
+      directionsDisplay.setPanel(document.getElementById('route'));
+      var leg = response.routes[ 0 ].legs[ 0 ];
+	  makeMarker( leg.start_location, icons.start);
+	  makeMarker( leg.end_location, icons.end);
     } else {
       window.alert('Directions request failed due to ' + status);
     }
   });
 }
 
+function closeRoute(routeMarkers){
+	directionsDisplay.setMap(null);
+	$('#route').hide('slow');
+	originMarker = "";
+	destMarker = "";
+	document.getElementById('route').innerHTML = "";
+	//Deletes all markers in routMarkers Array
+	for(i=0; i<routeMarkers.length; i++){
+        routeMarkers[i].setMap(null);
+    }
+
+}
+
+function makeMarker( position, icon ) {
+ var marker = new google.maps.Marker({
+  position: position,
+  map: map,
+  icon: icon
+ });
+ routeMarkers.push(marker);
+ console.log(routeMarkers);
+ 
+}
 
 function addInfoWindow(data){
 	//console.log(data);
@@ -136,8 +168,7 @@ function addInfoWindow(data){
 	  });
 	  map.data.addListener('mouseout', function(event) {
 	  	document.getElementById('info-box').style.display = "none";
-	    document.getElementById('info-box').textContent =
-	        "";
+	    document.getElementById('info-box').textContent = "";
 	  });
 }
 
