@@ -209,6 +209,7 @@ $( document ).ready(function() {
 	  // Hides the Form on load
 	  $("#sidebar-wrapper").hide();
 	  $("#sidebar-layers").hide();
+	  $("#route-details").hide();
 	  
 	  $.ajax("../rema/php/data.php",
 		{
@@ -277,13 +278,13 @@ $( document ).ready(function() {
 				   var iwBackground = iwOuter.prev();
 				
 				   // Remove the background shadow DIV
-				   iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+				   iwBackground.children(':nth-child(2)').css({'display' : 'block'});
 				
 				   // Remove the white background DIV
-				   iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+				   iwBackground.children(':nth-child(4)').css({'display' : 'block'});
 				   
 				   // Moves the infowindow 115px to the right.
-				   iwOuter.parent().parent().css({right: '-10px'});
+				   iwOuter.parent().parent().css({right: '0px'});
 				   
 				   iwOuter.prev().css({left: '-12px'});
 				   
@@ -299,13 +300,13 @@ $( document ).ready(function() {
 
 					// Apply the desired effect to the close button
 					iwCloseBtn.css({
-					  opacity: '1', // by default the close button has an opacity of 0.7
-					  right: '38px', top: '10px', // button repositioning
-					  width: '23px',
-					  height: '23px',
-					  border: '5px solid #bce8f1', // increasing button border and new color
-					  'border-radius': '13px', // circular effect
-					  'box-shadow': '0 0 5px #3990B9' // 3D effect to highlight the button
+					  //opacity: '1', // by default the close button has an opacity of 0.7
+					  right: '15px', top: '5px', // button repositioning
+					  //width: '23px',
+					  //height: '23px',
+					  //border: '5px solid #bce8f1', // increasing button border and new color
+					  //'border-radius': '13px', // circular effect
+					  //'box-shadow': '0 0 5px #3990B9' // 3D effect to highlight the button
 					  });
 					
 					// The API automatically applies 0.7 opacity to the button after the mouseout event.
@@ -385,11 +386,6 @@ $( document ).ready(function() {
         });
        }
 
-		/*directionsDisplay.setMap(map);
-		calculateAndDisplayRoute(directionsService, directionsDisplay);
-	    document.getElementById('mode').addEventListener('change', function() {
-	      calculateAndDisplayRoute(directionsService, directionsDisplay);
-	    });	*/
 	getLayers();
 
 		

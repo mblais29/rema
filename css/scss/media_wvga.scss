@@ -1,8 +1,12 @@
 // For Phones at 480w x 800h
 
 @media only screen and (max-width: 480px){
+  
   div#sidebar-wrapper{
-    width: 50%;
+    width: 50%;   
+  }
+  h1{
+    font-size: 0.9em;
   }
   div#sidebar-layers {
     width: 35%;
@@ -19,5 +23,5 @@
       }
     }
   }
-       
+  
 }

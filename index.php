@@ -61,6 +61,7 @@
 				</div>
 				<button type="button" class="btn btn-secondary" id="close-nav" onclick="hideForm()">Close</button>
 	        </div>
+	        <div id="route-details"></div>
 	        <!-- Page Content -->
 	        <div id="page-content-wrapper">
 	            <div class="container-fluid">

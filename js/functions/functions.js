@@ -1,5 +1,5 @@
 function CenterControl(layerControlDiv, map) {
-  // Set CSS for the control border.
+  // Set CSS for the layer control border.
   var layerControlUI = document.createElement('div');
   layerControlUI.style.backgroundColor = '#fff';
   layerControlUI.style.border = '2px solid #fff';
@@ -11,7 +11,7 @@ function CenterControl(layerControlDiv, map) {
   layerControlUI.title = 'Click for Layers';
   layerControlDiv.appendChild(layerControlUI);
 
-  // Set CSS for the control interior.
+  // Set CSS for the layer control interior.
   var layerControlText = document.createElement('div');
   layerControlText.style.color = 'rgb(25,25,25)';
   layerControlText.style.fontSize = '16px';
@@ -27,7 +27,7 @@ function CenterControl(layerControlDiv, map) {
 }
 
 function routing(routeControlDiv, map){ 
-  // Set CSS for the control border.
+  // Set CSS for the routing control border.
   var routeControlUI = document.createElement('div');
   routeControlUI.style.backgroundColor = '#fff';
   routeControlUI.style.border = '2px solid #fff';
@@ -39,7 +39,7 @@ function routing(routeControlDiv, map){
   routeControlUI.title = 'Click for Route';
   routeControlDiv.appendChild(routeControlUI);
 
-  // Set CSS for the control interior.
+  // Set CSS for the routing control interior.
   var routeControlText = document.createElement('div');
   routeControlText.style.color = 'rgb(25,25,25)';
   routeControlText.style.fontSize = '16px';
@@ -49,7 +49,7 @@ function routing(routeControlDiv, map){
   routeControlUI.appendChild(routeControlText);
   
   routeControlUI.addEventListener('click', function() {
-
+	alert('Click map for a starting point!');
   	var getOrigin = google.maps.event.addListener(map, 'click', function(event) {
 		//console.log(event.latLng.lat());
 		//console.log(event.latLng.lng());
@@ -85,78 +85,95 @@ function getMarkers(){
 }
 
 function destCoord(){
+	
+	alert('Click map for an ending point!');
+	
 	var getDest = google.maps.event.addListener(map, 'click', function(event) {
 		//console.log(event.latLng.lat());
 		//console.log(event.latLng.lng());
-		
 		destinationLatLng = event.latLng;
-		document.getElementById('route').innerHTML = "<button type='button' class='btn btn-default' onclick='closeRoute(routeMarkers)'>Remove</button>";
+		//Creates the remove and details buttons once route is found
+		document.getElementById('route').innerHTML = "<button type='button' id='removeButton' class='btn btn-default' onclick='closeRoute(routeMarkers)'>Remove</button><button type='button' id='details' class='btn btn-default' onclick='showRouteDetails(directionsDisplay)'>Details</button>";
 		google.maps.event.removeListener(getDest);
 		destMarker = new google.maps.Marker({position: destinationLatLng, map: map});
-		console.log(originLatLng + "/" + destinationLatLng );
-		
-		
+
 		directionsDisplay.setMap(map);
 		calculateAndDisplayRoute(directionsService, directionsDisplay);
 	    document.getElementById('mode').addEventListener('change', function() {
-	      calculateAndDisplayRoute(directionsService, directionsDisplay);
-	      	      
+	      calculateAndDisplayRoute(directionsService, directionsDisplay);     
 	    });
+	    //Shows the remove and details buttons
 	    $("#route").show('slow');
+	    //Sets the Markers to null so if a users creates another route the markers do not duplicate
 	    originMarker.setMap(null);	
-	    destMarker.setMap(null);	
+	    destMarker.setMap(null);
 
 	});	
 }
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-	//deletes old routes and Markers
+
+	//deletes old routes and Markers if there are records in the array
 	if(routeMarkers.length > 0){
 		for(i=0; i<routeMarkers.length; i++){
 	        routeMarkers[i].setMap(null);
 	    }
 	}
-  var selectedMode = document.getElementById('mode').value;
-  directionsService.route({
-    origin: originLatLng,
-    destination: destinationLatLng,
-    travelMode: google.maps.TravelMode[selectedMode]
-  }, function(response, status) {
-    if (status == google.maps.DirectionsStatus.OK) {
-      console.log(response);
-      directionsDisplay.setDirections(response);
-      directionsDisplay.setPanel(document.getElementById('route'));
-      var leg = response.routes[ 0 ].legs[ 0 ];
-	  makeMarker( leg.start_location, icons.start);
-	  makeMarker( leg.end_location, icons.end);
-    } else {
-      window.alert('Directions request failed due to ' + status);
-    }
-  });
+	//Gives the user the option to select the type of travel mode 
+  	var selectedMode = document.getElementById('mode').value;
+  	directionsService.route({
+	    origin: originLatLng,
+	    destination: destinationLatLng,
+	    travelMode: google.maps.TravelMode[selectedMode]
+	  }, function(response, status) {
+	    if (status == google.maps.DirectionsStatus.OK) {
+	      directionsDisplay.setDirections(response);
+	      var leg = response.routes[ 0 ].legs[ 0 ];
+		  makeRoutingMarkers( leg.start_location, icons.start);
+		  makeRoutingMarkers( leg.end_location, icons.end);
+	    } else {
+	      window.alert('Directions request failed due to ' + status);
+	    }
+	});
+}
+
+function showRouteDetails(directionsDisplay){
+	//Shows the route div and adds the directions to that div
+	$("#route-details").show();
+	directionsDisplay.setPanel(document.getElementById('route-details'));
 }
 
 function closeRoute(routeMarkers){
+	//sets the directionsDisplay to null and re-creates so previous routes don't show while calculating new route
 	directionsDisplay.setMap(null);
+	directionsDisplay = null;
+	directionsDisplay = new google.maps.DirectionsRenderer({
+		suppressMarkers: true,
+	    draggable: true,
+	    map: map
+	});
+	//Hides the Remove and Details Buttons
 	$('#route').hide('slow');
+	//Sets the route markers to null -- deletes them
 	originMarker = "";
 	destMarker = "";
+	//hides the routing details
+	$("#route-details").hide('slow');
 	document.getElementById('route').innerHTML = "";
+	document.getElementById('route-details').innerHTML = "";
 	//Deletes all markers in routMarkers Array
 	for(i=0; i<routeMarkers.length; i++){
         routeMarkers[i].setMap(null);
     }
-
 }
 
-function makeMarker( position, icon ) {
+function makeRoutingMarkers( position, icon ) {
  var marker = new google.maps.Marker({
   position: position,
   map: map,
   icon: icon
  });
- routeMarkers.push(marker);
- console.log(routeMarkers);
- 
+ routeMarkers.push(marker); 
 }
 
 function addInfoWindow(data){
@@ -289,6 +306,7 @@ function getCircleCoords(event){
 	console.log(event.overlay.getCenter().lng());
 }
 
+//Uncomment to get other vertices positions for google drawing tool
 /*
 function getPolygonCoords(event){
 	var polygonVertices = event.overlay.getPath();
