@@ -2,8 +2,12 @@
 var map;
 var markers = [];
 var jsonArr = [];
-var layers = [];
 var currentBounds = "";
+//Layer Global Variables
+var layers = [];
+var layerTree = [];
+var topLevelcheckBox;
+var midLevelCheckBox;
 // Routing Global Variables
 var originLatLng = "";
 var destinationLatLng = "";
@@ -330,65 +334,24 @@ $( document ).ready(function() {
 	            success: function (data) {
 	            	console.log(data);
 	            	for (i = 0; i < data.length; i++) {
-	            		$('#sidebar-layers').append('<div id="layer'+ i +'" class="checkbox" />');
-	            		$('#layer'+ i).append('<label id="label'+ i +'">');
-	            		$('#label'+ i).append('<input type="checkbox" id="checkbox'+ i +'" /><img src="img/icons/' + data[i][3] + '.png' + '" style="width: 20px; height: auto" /><h3 class="sidebar-layers-label">' + data[i][1] + '</h3>');
-	            		var thisCheckbox = document.getElementById("checkbox"+ i);
-						// Adds id, url and icon to a json array
-					    jsonArr.push({
-					        id: i,
-					        url: data[i][4],
-					        icon: 'img/icons/' + data[i][3] + '.png',
-					        layer: 'layer'+ i,
-					        name: data[i][3],
-					        color: data[i][5],
-					    });
-					    
-					    attachChangeListener(thisCheckbox,i);
-					    
-			       	}		
+	    				var record = {
+	    					"country": data[i][5], 
+							"province": data[i][6]
+							};
+	    				var JSONrecord = JSON.stringify(record);
+	    				//Checks to see if record is already in the array
+	    				if($.inArray(JSONrecord, layerTree) !== -1){
+	    					console.log("Record " + JSONrecord + " already Exists");
+	    				}else{
+	    					layerTree.push(JSONrecord);
+	    				}
+	            	}
+	            	addTopLayerTree(layerTree);
+	            	addLayers(data);	            	
 	            }
 	        });	
 		}
-		
-		//Add the event listener to the newly created checkbox
-		function attachChangeListener(thisCheckbox,i) {
-            $(thisCheckbox).change(function () {
-            	var checked = $(this).is(':checked');
-            	layers = jsonArr[i];
-            	if (checked) {
-            		var sw = map.getBounds().getSouthWest().lng() + ',' + map.getBounds().getSouthWest().lat();
-            		var ne = map.getBounds().getNorthEast().lng() + ',' + map.getBounds().getNorthEast().lat();
-					addGeoJsonLayers(layers, sw, ne);
-	
-					google.maps.event.addListener(map, 'dragend', function(feature) {
-						var layer = layers;
-						var url = jsonArr[i].url;
-						layerRefresh(feature, layer, url, thisCheckbox);
-					});
-					google.maps.event.addListener(map, 'zoom_changed', function(feature) {
-						var layer = layers;
-						var url = jsonArr[i].url;
-						layerRefresh(feature, layer, url, thisCheckbox);
-					});
-
-            	}else{
-            		
-            		var selectedLayer = layers.name;
-            		map.data.forEach(function(feature) {
-				       //filter removes selected layer
-				       if (feature.getProperty('category') == selectedLayer) {
-			                map.data.remove(feature);
-			            }
-					});
-					
-            	}
-        });
-       }
-
-	getLayers();
-
-		
+	getLayers();	
 });
 
 

@@ -84,6 +84,114 @@ function getMarkers(){
     });
 }
 
+function addTopLayerTree(layerTree){
+	for(var i=0; i<layerTree.length; i++){
+		var result = JSON.parse(layerTree[i]);
+		//console.log(result['country']);
+		$('#sidebar-layers').append('<div id="topLevel' + i + '" ><i class="fa fa-plus" style="margin-left:2px; color: #fff"></i><input type="checkbox" class="layerTreeTop" id="layerTreeTop' + result['country'] + '"/><h3 class="sidebar-layers-label">' + result['country'] + '</h3></div>');
+		$('#topLevel' + i).append('<div id="midLevel' + result['province'] + '" ><i class="fa fa-plus" id="midfa" style="margin-left:2px; color: #fff"></i><input type="checkbox" class="layerTreeMid" id="layerTreeMid' + result['province'] + '"/><h3 class="sidebar-layers-label">' + result['province'] + '</h3></div>');
+		
+		topLevelcheckBox = $('#layerTreeTop' + result['country']);
+		midLevelCheckBox = result['province'];
+		attachTopLayerListener(topLevelcheckBox, midLevelCheckBox);
+		
+	
+	}
+}
+
+function attachTopLayerListener(topLevelcheckBox, midLevelCheckBox){
+	console.log('#midLevel' + midLevelCheckBox);
+	$(topLevelcheckBox).change(function () {
+		//console.log(topLevelcheckBox);
+		var checked = $(topLevelcheckBox).is(':checked');
+		if(checked){
+			//console.log("Checked");
+			$('#midLevel' + midLevelCheckBox).show();
+		}else{
+			//console.log("Not Checked");
+			$('#midLevel' + midLevelCheckBox).hide();
+		}
+	});
+	attachMidLayerListener(midLevelCheckBox);
+}
+
+function attachMidLayerListener(midLevelCheckBox){
+	
+	$('#layerTreeMid' + midLevelCheckBox).change(function () {
+		var currentMidLevelDiv = $('#layerTreeMid' + midLevelCheckBox);
+		console.log($(currentMidLevelDiv));
+		var checked = $(currentMidLevelDiv).is(':checked');
+		if(checked){
+			console.log("Checked");
+			console.log($('#midLevel' + midLevelCheckBox).children('div'));
+			$('#midLevel' + midLevelCheckBox).children('div').show();
+		}else{
+			console.log("Not Checked");
+			$('#midLevel' + midLevelCheckBox).children('div').hide();
+		}
+	});
+
+}
+
+function addLayers(data){
+	//console.log(data[0][6]);
+	for (i = 0; i < data.length; i++) {
+		$('#midLevel' + data[i][6]).append('<div id="layer'+ i +'" class="checkbox" />');
+		$('#layer'+ i).append('<label id="label'+ i +'">');
+		$('#label'+ i).append('<input type="checkbox" id="checkbox'+ i +'" /><img src="img/icons/' + data[i][3] + '.png' + '" style="width: 20px; height: auto" /><h3 class="sidebar-layers-label">' + data[i][1] + '</h3>');
+		
+		var thisCheckbox = document.getElementById("checkbox"+ i);
+		jsonArr.push({
+	        id: i,
+	        url: data[i][4],
+	        icon: 'img/icons/' + data[i][3] + '.png',
+	        layer: 'layer'+ i,
+	        name: data[i][3],
+	        color: data[i][5],
+	    });
+	    attachChangeListener(thisCheckbox,i);
+	    $('#midLevel' + data[i][6]).hide();
+	    $('#layer'+ i).hide();
+	}
+	
+}
+
+//Add the event listener to each newly created checkbox
+function attachChangeListener(thisCheckbox,i) {
+	    $(thisCheckbox).change(function () {
+	    	var checked = $(this).is(':checked');
+	    	console.log(checked);
+	    	layers = jsonArr[i];
+	    	if (checked) {
+	    		var sw = map.getBounds().getSouthWest().lng() + ',' + map.getBounds().getSouthWest().lat();
+	    		var ne = map.getBounds().getNorthEast().lng() + ',' + map.getBounds().getNorthEast().lat();
+				addGeoJsonLayers(layers, sw, ne);
+	
+				google.maps.event.addListener(map, 'dragend', function(feature) {
+					var layer = layers;
+					var url = jsonArr[i].url;
+					layerRefresh(feature, layer, url, thisCheckbox);
+				});
+				google.maps.event.addListener(map, 'zoom_changed', function(feature) {
+					var layer = layers;
+					var url = jsonArr[i].url;
+					layerRefresh(feature, layer, url, thisCheckbox);
+				});
+	
+	    	}else{
+	    		
+	    		var selectedLayer = layers.name;
+	    		map.data.forEach(function(feature) {
+			       //filter removes selected layer
+			       if (feature.getProperty('category') == selectedLayer) {
+			                map.data.remove(feature);
+			            }
+					});
+					
+	        	}
+	    });
+}
+
 function destCoord(){
 	
 	alert('Click map for an ending point!');
@@ -281,7 +389,7 @@ function styleLayer(data){
 		}
 	});
 }
-					    
+				    
 function hideForm(){
 	$("#sidebar-wrapper").hide("slow");
 	$("#sidebar-layers").hide("slow");

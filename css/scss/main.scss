@@ -91,13 +91,6 @@ div#sidebar-layers {
       margin-top: 5%;
       display: block;
       @extend .nav-btn;
-      .sidebar-layers-label{  
-          display: inline-block;
-          position: absolute;
-          padding: 5px;
-          font-size: 0.9em;
-          font-family: $header_font;
-      }
     }
     > #close-nav{
       @extend .nav-btn;
@@ -106,6 +99,36 @@ div#sidebar-layers {
     }
 }
 
+.sidebar-layers-label{  
+    display: inline-block;
+    position: absolute;
+    padding: 5px;
+    color: #fff;
+    font-size: 0.9em;
+    font-family: $header_font;
+}
+
+.layerTreeTop{
+  color: #fff;
+  margin: 5px 0 5px 5px !important;
+  display: inline-block;
+}
+
+.layerTreeMid{
+  color: #fff;
+  margin: 5px 0 5px 10px !important;
+  display: inline-block;
+}
+
+.checkbox{
+  margin-left: 15% !important;
+}
+
+#midfa{
+  margin-left: 15px !important;
+}
+
+//Routing Details
 div#route-details {
   z-index: 2;
   position: fixed;
