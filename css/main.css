@@ -134,7 +134,7 @@ div#sidebar-layers {
   margin: 5px 0 5px 10px !important;
   display: inline-block; }
 
-.checkbox {
+.checkbox:nth-child(n+2) {
   margin-left: 15% !important; }
 
 #midfa {

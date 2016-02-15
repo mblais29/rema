@@ -120,7 +120,7 @@ div#sidebar-layers {
   display: inline-block;
 }
 
-.checkbox{
+.checkbox:nth-child(n+2){
   margin-left: 15% !important;
 }
 

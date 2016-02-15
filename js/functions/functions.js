@@ -88,18 +88,19 @@ function addTopLayerTree(layerTree){
 	for(var i=0; i<layerTree.length; i++){
 		var result = JSON.parse(layerTree[i]);
 		//console.log(result['country']);
+		var topLevelId = "topLevel" + i;
 		$('#sidebar-layers').append('<div id="topLevel' + i + '" ><i class="fa fa-plus" style="margin-left:2px; color: #fff"></i><input type="checkbox" class="layerTreeTop" id="layerTreeTop' + result['country'] + '"/><h3 class="sidebar-layers-label">' + result['country'] + '</h3></div>');
 		$('#topLevel' + i).append('<div id="midLevel' + result['province'] + '" ><i class="fa fa-plus" id="midfa" style="margin-left:2px; color: #fff"></i><input type="checkbox" class="layerTreeMid" id="layerTreeMid' + result['province'] + '"/><h3 class="sidebar-layers-label">' + result['province'] + '</h3></div>');
 		
 		topLevelcheckBox = $('#layerTreeTop' + result['country']);
 		midLevelCheckBox = result['province'];
-		attachTopLayerListener(topLevelcheckBox, midLevelCheckBox);
+		attachTopLayerListener(topLevelcheckBox, midLevelCheckBox, topLevelId);
 		
 	
 	}
 }
 
-function attachTopLayerListener(topLevelcheckBox, midLevelCheckBox){
+function attachTopLayerListener(topLevelcheckBox, midLevelCheckBox, topLevelId){
 	console.log('#midLevel' + midLevelCheckBox);
 	$(topLevelcheckBox).change(function () {
 		//console.log(topLevelcheckBox);
@@ -107,8 +108,12 @@ function attachTopLayerListener(topLevelcheckBox, midLevelCheckBox){
 		if(checked){
 			//console.log("Checked");
 			$('#midLevel' + midLevelCheckBox).show();
+			$("#" + topLevelId).children(":nth-child(1)").removeClass("fa fa-plus");
+			$("#" + topLevelId).children(":nth-child(1)").addClass("fa fa-minus");
 		}else{
 			//console.log("Not Checked");
+			$("#" + topLevelId).children(":nth-child(1)").removeClass("fa fa-minus");
+			$("#" + topLevelId).children(":nth-child(1)").addClass("fa fa-plus");
 			$('#midLevel' + midLevelCheckBox).hide();
 		}
 	});
@@ -125,9 +130,13 @@ function attachMidLayerListener(midLevelCheckBox){
 			console.log("Checked");
 			console.log($('#midLevel' + midLevelCheckBox).children('div'));
 			$('#midLevel' + midLevelCheckBox).children('div').show();
+			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").removeClass("fa fa-plus");
+			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").addClass("fa fa-minus");
 		}else{
 			console.log("Not Checked");
 			$('#midLevel' + midLevelCheckBox).children('div').hide();
+			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").removeClass("fa fa-minus");
+			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").addClass("fa fa-plus");
 		}
 	});
 
