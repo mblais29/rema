@@ -8,6 +8,8 @@ var layers = [];
 var layerTree = [];
 var topLevelcheckBox;
 var midLevelCheckBox;
+var featureInfoWindow = new google.maps.InfoWindow();
+
 // Routing Global Variables
 var originLatLng = "";
 var destinationLatLng = "";

@@ -304,6 +304,19 @@ function addInfoWindow(data){
 	  	document.getElementById('info-box').style.display = "none";
 	    document.getElementById('info-box').textContent = "";
 	  });
+	  map.data.addListener('click', function(event) {
+	  	var info = event.feature.getProperty("name");
+	  	console.log(event.feature.R);
+	  	var allInfo = event.feature.R;
+	  	for (var prop in allInfo) {
+		    console.log('  ' + prop + ': ' + info[prop]);
+		}
+
+	  	featureInfoWindow.setContent('<div id="featureInfo">' + info + '</div>');
+	  	featureInfoWindow.setPosition(event.latLng);
+        featureInfoWindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
+        featureInfoWindow.open(map);
+	  });
 }
 
 function layerRefresh(feature, layer, url, thisCheckbox){

@@ -140,6 +140,11 @@ div#sidebar-layers {
 #midfa {
   margin-left: 15px !important; }
 
+#featureInfo {
+  max-width: 337px;
+  min-height: 25px;
+  text-align: center; }
+
 div#route-details {
   z-index: 2;
   position: fixed;
