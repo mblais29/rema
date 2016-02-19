@@ -308,14 +308,16 @@ function addInfoWindow(data){
 	  	var info = event.feature.getProperty("name");
 	  	console.log(event.feature.R);
 	  	var allInfo = event.feature.R;
+	  	var featureProperties = [];
 	  	for (var prop in allInfo) {
-		    console.log('  ' + prop + ': ' + info[prop]);
+		    featureProperties.push(prop + ': ' + allInfo[prop] + '<br/>');
 		}
-
-	  	featureInfoWindow.setContent('<div id="featureInfo">' + info + '</div>');
+		//.join(' '); removes the commas
+	  	featureInfoWindow.setContent('<div id="featureInfo">' + featureProperties.join(' ').toUpperCase() + '</div>');
 	  	featureInfoWindow.setPosition(event.latLng);
         featureInfoWindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
         featureInfoWindow.open(map);
+        $("#featureInfo").parents().parents().css({"min-width": "200px"});
 	  });
 }
 
