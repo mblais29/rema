@@ -310,10 +310,10 @@ function addInfoWindow(data){
 	  	var allInfo = event.feature.R;
 	  	var featureProperties = [];
 	  	for (var prop in allInfo) {
-		    featureProperties.push(prop + ': ' + allInfo[prop] + '<br/>');
+		    featureProperties.push('<div class="featureProp">' + prop + ': ' + allInfo[prop] + '</div><br/>');
 		}
 		//.join(' '); removes the commas
-	  	featureInfoWindow.setContent('<div id="featureInfo">' + featureProperties.join(' ').toUpperCase() + '</div>');
+	  	featureInfoWindow.setContent('<header id="infoHeader">DETAILS</header><div id="featureInfo">' + featureProperties.join(' ').toUpperCase() + '</div>');
 	  	featureInfoWindow.setPosition(event.latLng);
         featureInfoWindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
         featureInfoWindow.open(map);

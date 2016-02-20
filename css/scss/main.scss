@@ -128,10 +128,28 @@ div#sidebar-layers {
   margin-left: 15px !important;
 }
 
+#infoHeader{
+  text-align: center;
+  color: #31708f;
+  background-color: #d9edf7;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #bce8f1;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+
+}
+
+
 #featureInfo{
   max-width: 337px;
   min-height: 25px;
   text-align: center;
+}
+
+.FEATUREPROP{
+  padding: 5px;
+  border: 1px solid #bce8f1;
 }
 
 //Routing Details
