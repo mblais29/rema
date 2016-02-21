@@ -38,13 +38,32 @@
 		                	<div class="form-group">
 							  <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address...">
 							  <input type="text" class="form-control" id="city" name="city" placeholder="Enter City...">
-							  <input type="text" class="form-control" id="province" name="province" placeholder="Enter Province...">
+							  <select id="mode" class="form-control">
+							      <option value="AB">Alberta</option>
+							      <option value="BC">British Columbia</option>
+							      <option value="MB">Manitoba</option>
+							      <option value="NB">New Brunswick</option>
+							      <option value="NL">Newfoundland</option>
+							      <option value="NT">Northwest Territory</option>
+							      <option value="NS">Nova Scotia</option>
+							      <option value="NU">Nunavat</option>
+							      <option value="ON">Ontario</option>
+							      <option value="PE">Prince Edward Island</option>
+							      <option value="QC">Quebec</option>
+							      <option value="SK">Saskatchewan</option>
+							      <option value="YT">Yukon</option>
+							  </select>
 							  <input type="number" class="form-control" id="purchase_price" name="purchase_price" placeholder="Enter Purchase Price...">
 							  <input type="date" class="form-control" id="year_built" name="year_built" placeholder="Enter Year Built...">
 							  <input type="number" class="form-control" id="sqft"  name="sqft" placeholder="Enter Square Footage...">
 							  <input type="number" class="form-control" id="lat" name="lat" readonly>
 							  <input type="number" class="form-control" id="lon" name="lon" readonly>
-							  <input type="text" class="form-control" id="type" name="type" placeholder="Enter Dwelling Type 'Condo, detached house etc'...">
+							  <select id="mode" class="form-control">
+							      <option value="DETACHHOME">Detached Home</option>
+							      <option value="ATTACHHOME">Attached Home</option>
+							      <option value="CONDO">Condo</option>
+							      <option value="LAND">Land</option>
+							  </select>
 							  <textarea class="form-control" rows="5" id="comment" name="comment" placeholder="Enter comment here..."></textarea>
 							  <button type="button" class="btn btn-secondary" id="close" onclick="hideForm()">Close</button>
 							  <button type="submit" name="send" class="btn btn-secondary">Submit</button>

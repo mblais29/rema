@@ -1,6 +1,6 @@
 <?php
 	require 'connection.php';
-	$query = 'SELECT * FROM'.' '.$schema_name.'.calgis_layers';
+	$query = 'SELECT * FROM'.' '.$schema_name.'.calgis_layers ORDER BY name ASC';
 	$result = pg_query($query);
 	
 	//echo "<script type='text/javascript'>alert('$result');</script>";

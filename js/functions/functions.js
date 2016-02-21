@@ -88,15 +88,17 @@ function addTopLayerTree(layerTree){
 	for(var i=0; i<layerTree.length; i++){
 		var result = JSON.parse(layerTree[i]);
 		//console.log(result['country']);
-		var topLevelId = "topLevel" + i;
-		$('#sidebar-layers').append('<div id="topLevel' + i + '" ><i class="fa fa-plus" style="margin-left:2px; color: #fff"></i><input type="checkbox" class="layerTreeTop" id="layerTreeTop' + result['country'] + '"/><h3 class="sidebar-layers-label">' + result['country'] + '</h3></div>');
-		$('#topLevel' + i).append('<div id="midLevel' + result['province'] + '" ><i class="fa fa-plus" id="midfa" style="margin-left:2px; color: #fff"></i><input type="checkbox" class="layerTreeMid" id="layerTreeMid' + result['province'] + '"/><h3 class="sidebar-layers-label">' + result['province'] + '</h3></div>');
+		var topLevelId = "topLevel" + result['country'];
+		//If the toplevel id does not exist it will create the toplevel layer tree
+		if(document.getElementById("topLevel" + result['country']) === null)
+		{
+			$('#sidebar-layers').append('<div id="topLevel' + result['country'] + '" ><i class="fa fa-plus" style="margin-left:2px; color: #fff"></i><input type="checkbox" class="layerTreeTop" id="layerTreeTop' + result['country'] + '"/><h3 class="sidebar-layers-label">' + result['country'] + '</h3></div>');
+		}
 		
+		$('#topLevel' + result['country']).append('<div id="midLevel' + result['province'] + '" ><i class="fa fa-plus" id="midfa" style="margin-left:2px; color: #fff"></i><input type="checkbox" class="layerTreeMid" id="layerTreeMid' + result['province'] + '"/><h3 class="sidebar-layers-label">' + result['province'] + '</h3></div>');	
 		topLevelcheckBox = $('#layerTreeTop' + result['country']);
 		midLevelCheckBox = result['province'];
 		attachTopLayerListener(topLevelcheckBox, midLevelCheckBox, topLevelId);
-		
-	
 	}
 }
 
@@ -139,12 +141,14 @@ function attachMidLayerListener(midLevelCheckBox){
 			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").addClass("fa fa-plus");
 		}
 	});
+	
 
 }
 
 function addLayers(data){
 	//console.log(data[0][6]);
 	for (i = 0; i < data.length; i++) {
+		var currentDiv = $('layer'+ i);
 		$('#midLevel' + data[i][6]).append('<div id="layer'+ i +'" class="checkbox" />');
 		$('#layer'+ i).append('<label id="label'+ i +'">');
 		$('#label'+ i).append('<input type="checkbox" id="checkbox'+ i +'" /><img src="img/icons/' + data[i][3] + '.png' + '" style="width: 20px; height: auto" /><h3 class="sidebar-layers-label">' + data[i][1] + '</h3>');
