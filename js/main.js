@@ -334,7 +334,7 @@ $( document ).ready(function() {
 	            dataType: 'json',
 	            contentType: 'application/json',
 	            success: function (data) {
-	            	console.log(data);
+	            	//console.log(data);
 	            	for (i = 0; i < data.length; i++) {
 	    				var record = {
 	    					"country": data[i][5], 
@@ -343,7 +343,7 @@ $( document ).ready(function() {
 	    				var JSONrecord = JSON.stringify(record);
 	    				//Checks to see if record is already in the array
 	    				if($.inArray(JSONrecord, layerTree) !== -1){
-	    					console.log("Record " + JSONrecord + " already Exists");
+	    					//console.log("Record " + JSONrecord + " already Exists");
 	    				}else{
 	    					layerTree.push(JSONrecord);
 	    				}

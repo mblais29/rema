@@ -103,7 +103,7 @@ function addTopLayerTree(layerTree){
 }
 
 function attachTopLayerListener(topLevelcheckBox, midLevelCheckBox, topLevelId){
-	console.log('#midLevel' + midLevelCheckBox);
+	//console.log('#midLevel' + midLevelCheckBox);
 	$(topLevelcheckBox).change(function () {
 		//console.log(topLevelcheckBox);
 		var checked = $(topLevelcheckBox).is(':checked');
@@ -126,16 +126,16 @@ function attachMidLayerListener(midLevelCheckBox){
 	
 	$('#layerTreeMid' + midLevelCheckBox).change(function () {
 		var currentMidLevelDiv = $('#layerTreeMid' + midLevelCheckBox);
-		console.log($(currentMidLevelDiv));
+		//console.log($(currentMidLevelDiv));
 		var checked = $(currentMidLevelDiv).is(':checked');
 		if(checked){
-			console.log("Checked");
-			console.log($('#midLevel' + midLevelCheckBox).children('div'));
+			//console.log("Checked");
+			//console.log($('#midLevel' + midLevelCheckBox).children('div'));
 			$('#midLevel' + midLevelCheckBox).children('div').show();
 			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").removeClass("fa fa-plus");
 			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").addClass("fa fa-minus");
 		}else{
-			console.log("Not Checked");
+			//console.log("Not Checked");
 			$('#midLevel' + midLevelCheckBox).children('div').hide();
 			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").removeClass("fa fa-minus");
 			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").addClass("fa fa-plus");
@@ -173,7 +173,7 @@ function addLayers(data){
 function attachChangeListener(thisCheckbox,i) {
 	    $(thisCheckbox).change(function () {
 	    	var checked = $(this).is(':checked');
-	    	console.log(checked);
+	    	//console.log(checked);
 	    	layers = jsonArr[i];
 	    	if (checked) {
 	    		var sw = map.getBounds().getSouthWest().lng() + ',' + map.getBounds().getSouthWest().lat();
@@ -326,7 +326,7 @@ function addInfoWindow(data){
 }
 
 function layerRefresh(feature, layer, url, thisCheckbox){
-	console.log(layer);
+	//console.log(layer);
 	var selectedLayer = layer.name;
 	//console.log(selectedLayer);
 	map.data.forEach(function(feature) {
@@ -340,7 +340,6 @@ function layerRefresh(feature, layer, url, thisCheckbox){
 	//console.log(jsonArr[i]);
 	features = [];
 	if($(thisCheckbox).is(':checked')){
-		if(layers.tiled === 0){
 			$.ajax({
 		     	url: url + '&bbox=' + sw + ',' + ne,
 		     	dataType: 'json',
@@ -359,40 +358,12 @@ function layerRefresh(feature, layer, url, thisCheckbox){
 				console.log(textStatus);
 			    console.log(errorThrown);
 			});
-		}else{
-			
-		var tiledLayer = new google.maps.ImageMapType({getTileUrl:
-			function(sw, ne) {
-				var bbox = sw + ',' + ne;
-				//base WMS URL
-				var url = "http://localhost:8081/geoserver/REMA/wms?";
-					url += "&service=WMS";
-					url += "&version=1.1.0";
-					url += "&request=GetMap";
-					url += "&layers=REMA:yt_contours_50k";
-					url += "&styles=";
-					url += "&format=image/png";
-					url += "&TRANSPARENT=TRUE";
-					url += "&srs=EPSG:3857";
-					url += "&bbox=" + bbox;
-					url += "&width=256";
-					url += "&height=256";
-					url += "&tiled=true";
-					return url;
-					},
-					
-				tileSize: new google.maps.Size(256, 256),
-				opacity: 0.85,
-				isPng: true
-				});
-				map.overlayMapTypes.push(tiledLayer);
-		
-		}
 	}
 }
 
 function addGeoJsonLayers(layers, sw, ne){
-	if(layers.tiled === 0){
+	//console.log(layers.tiled);
+	//if(layers.tiled === 0){
 		$.ajax({
 	     	url: layers.url + '&bbox=' + sw + ',' + ne,
 	     	dataType: 'json',
@@ -402,7 +373,7 @@ function addGeoJsonLayers(layers, sw, ne){
 	 			styleLayer(data);
 	 			addInfoWindow(data);
 				features = map.data.addGeoJson(data);
-				console.log(features.length);
+				//console.log(features.length);
 				
 		    }
 		}).fail(function (jqXHR, textStatus, errorThrown) {
@@ -411,7 +382,7 @@ function addGeoJsonLayers(layers, sw, ne){
 			console.log(textStatus);
 		    console.log(errorThrown);
 		});
-	}else{
+	/*}else{
 		var mapBounds = this.map.getBounds();
 		var northEast = mapBounds.getNorthEast();
 		var southWest = mapBounds.getSouthWest();
@@ -420,6 +391,7 @@ function addGeoJsonLayers(layers, sw, ne){
 		
 		var bbox = swMerc.x + ',' + swMerc.y + ',' + neMerc.x + ',' + neMerc.y;
 		console.log(bbox);
+
 		var tiledLayer = new google.maps.ImageMapType({
 			getTileUrl: function() {
 				//base WMS URL
@@ -445,11 +417,10 @@ function addGeoJsonLayers(layers, sw, ne){
 				});
 				map.overlayMapTypes.push(tiledLayer);
 				map.overlayMapTypes.insertAt(0, tiledLayer);
-	}
+	}*/
 }
 
 function toMercator(coord){
-	console.log(coord);
 	var lat = coord.lat();
 	var lng = coord.lng();
 	
