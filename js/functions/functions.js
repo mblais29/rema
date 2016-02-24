@@ -152,7 +152,7 @@ function addLayers(data){
 		$('#midLevel' + data[i][6]).append('<div id="layer'+ i +'" class="checkbox" />');
 		$('#layer'+ i).append('<label id="label'+ i +'">');
 		$('#label'+ i).append('<input type="checkbox" id="checkbox'+ i +'" /><img src="img/icons/' + data[i][3] + '.png' + '" style="width: 20px; height: auto" /><h3 class="sidebar-layers-label">' + data[i][1] + '</h3>');
-		
+
 		var thisCheckbox = document.getElementById("checkbox"+ i);
 		jsonArr.push({
 	        id: i,
@@ -160,7 +160,7 @@ function addLayers(data){
 	        icon: 'img/icons/' + data[i][3] + '.png',
 	        layer: 'layer'+ i,
 	        name: data[i][3],
-	        color: data[i][5],
+	        tiled: data[i][7],
 	    });
 	    attachChangeListener(thisCheckbox,i);
 	    $('#midLevel' + data[i][6]).hide();
@@ -340,16 +340,69 @@ function layerRefresh(feature, layer, url, thisCheckbox){
 	//console.log(jsonArr[i]);
 	features = [];
 	if($(thisCheckbox).is(':checked')){
+		if(layers.tiled === 0){
+			$.ajax({
+		     	url: url + '&bbox=' + sw + ',' + ne,
+		     	dataType: 'json',
+		     	contentType: 'application/json',
+		     	timeout: 15000,
+		     	success: function(data) {
+		 			styleLayer(data);
+		 			addInfoWindow(data);
+		 			features = map.data.addGeoJson(data);
+					
+					
+			    }
+			}).fail(function (jqXHR, textStatus, errorThrown) {
+				alert("Error processing your request");
+				console.log(jqXHR);
+				console.log(textStatus);
+			    console.log(errorThrown);
+			});
+		}else{
+			
+		var tiledLayer = new google.maps.ImageMapType({getTileUrl:
+			function(sw, ne) {
+				var bbox = sw + ',' + ne;
+				//base WMS URL
+				var url = "http://localhost:8081/geoserver/REMA/wms?";
+					url += "&service=WMS";
+					url += "&version=1.1.0";
+					url += "&request=GetMap";
+					url += "&layers=REMA:yt_contours_50k";
+					url += "&styles=";
+					url += "&format=image/png";
+					url += "&TRANSPARENT=TRUE";
+					url += "&srs=EPSG:3857";
+					url += "&bbox=" + bbox;
+					url += "&width=256";
+					url += "&height=256";
+					url += "&tiled=true";
+					return url;
+					},
+					
+				tileSize: new google.maps.Size(256, 256),
+				opacity: 0.85,
+				isPng: true
+				});
+				map.overlayMapTypes.push(tiledLayer);
+		
+		}
+	}
+}
+
+function addGeoJsonLayers(layers, sw, ne){
+	if(layers.tiled === 0){
 		$.ajax({
-	     	url: url + '&bbox=' + sw + ',' + ne,
+	     	url: layers.url + '&bbox=' + sw + ',' + ne,
 	     	dataType: 'json',
 	     	contentType: 'application/json',
 	     	timeout: 15000,
 	     	success: function(data) {
 	 			styleLayer(data);
 	 			addInfoWindow(data);
-	 			features = map.data.addGeoJson(data);
-				
+				features = map.data.addGeoJson(data);
+				console.log(features.length);
 				
 		    }
 		}).fail(function (jqXHR, textStatus, errorThrown) {
@@ -358,28 +411,56 @@ function layerRefresh(feature, layer, url, thisCheckbox){
 			console.log(textStatus);
 		    console.log(errorThrown);
 		});
+	}else{
+		var mapBounds = this.map.getBounds();
+		var northEast = mapBounds.getNorthEast();
+		var southWest = mapBounds.getSouthWest();
+		var neMerc = toMercator(northEast);
+		var swMerc = toMercator(southWest);
+		
+		var bbox = swMerc.x + ',' + swMerc.y + ',' + neMerc.x + ',' + neMerc.y;
+		console.log(bbox);
+		var tiledLayer = new google.maps.ImageMapType({
+			getTileUrl: function() {
+				//base WMS URL
+				var url = "http://localhost:8081/geoserver/REMA/wms?";
+					url += "&service=WMS";
+					url += "&version=1.1.0";
+					url += "&request=GetMap";
+					url += "&layers=REMA:yt_contours_50k";
+					url += "&styles=";
+					url += "&format=image/png";
+					url += "&TRANSPARENT=TRUE";
+					url += "&srs=EPSG:3857";
+					url += "&bbox=" + bbox;
+					url += "&width=256";
+					url += "&height=256";
+					url += "&tiled=true";
+					return url;
+					
+					},
+				tileSize: new google.maps.Size(256, 256),
+				opacity: 0.85,
+				isPng: true
+				});
+				map.overlayMapTypes.push(tiledLayer);
+				map.overlayMapTypes.insertAt(0, tiledLayer);
 	}
 }
 
-function addGeoJsonLayers(layers, sw, ne){
-	$.ajax({
-     	url: layers.url + '&bbox=' + sw + ',' + ne,
-     	dataType: 'json',
-     	contentType: 'application/json',
-     	timeout: 15000,
-     	success: function(data) {
- 			styleLayer(data);
- 			addInfoWindow(data);
-			features = map.data.addGeoJson(data);
-			console.log(features.length);
-			
-	    }
-	}).fail(function (jqXHR, textStatus, errorThrown) {
-		alert("Error processing your request");
-		console.log(jqXHR);
-		console.log(textStatus);
-	    console.log(errorThrown);
-	});
+function toMercator(coord){
+	console.log(coord);
+	var lat = coord.lat();
+	var lng = coord.lng();
+	
+	if((Math.abs(lng) > 180 || Math.abs(lat) > 90 ))
+		return;
+	var num = lng * 0.017453292519943295;
+	var x = 6378137.0 * num;
+	var a = lat * 0.017453292519943295;
+	var merc_lon = x;
+	var merc_lat = 3189068.5 * Math.log((1.0 + Math.sin(a))/(1.0 - Math.sin(a)));
+	return{x: merc_lon, y: merc_lat};
 }
 
 function styleLayer(data){
