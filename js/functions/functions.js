@@ -49,6 +49,8 @@ function routing(routeControlDiv, map){
   routeControlUI.appendChild(routeControlText);
   
   routeControlUI.addEventListener('click', function() {
+  	//Makes the cursor a pointer 
+	document.getElementById("map").firstChild.firstChild.style.cursor = "default";
 	alert('Click map for a starting point!');
   	var getOrigin = google.maps.event.addListener(map, 'click', function(event) {
 		//console.log(event.latLng.lat());
@@ -94,6 +96,9 @@ function addTopLayerTree(layerTree){
 		{
 			$('#sidebar-layers').append('<div id="topLevel' + result['country'] + '" ><i class="fa fa-plus" style="margin-left:2px; color: #fff"></i><input type="checkbox" class="layerTreeTop" id="layerTreeTop' + result['country'] + '"/><h3 class="sidebar-layers-label">' + result['country'] + '</h3></div>');
 		}
+		if(document.getElementById("close-nav") === null){
+			$('#sidebar-layers').append('<button type="button" class="btn btn-secondary" id="close-nav" onclick="hideForm()">Close</button>');
+		}
 		
 		$('#topLevel' + result['country']).append('<div id="midLevel' + result['province'] + '" ><i class="fa fa-plus" id="midfa" style="margin-left:2px; color: #fff"></i><input type="checkbox" class="layerTreeMid" id="layerTreeMid' + result['province'] + '"/><h3 class="sidebar-layers-label">' + result['province'] + '</h3></div>');	
 		topLevelcheckBox = $('#layerTreeTop' + result['country']);
@@ -131,6 +136,7 @@ function attachMidLayerListener(midLevelCheckBox){
 		if(checked){
 			//console.log("Checked");
 			//console.log($('#midLevel' + midLevelCheckBox).children('div'));
+
 			$('#midLevel' + midLevelCheckBox).children('div').show();
 			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").removeClass("fa fa-plus");
 			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").addClass("fa fa-minus");
@@ -206,7 +212,8 @@ function attachChangeListener(thisCheckbox,i) {
 }
 
 function destCoord(){
-	
+	//Makes the cursor a pointer 
+	document.getElementById("map").firstChild.firstChild.style.cursor = "default";
 	alert('Click map for an ending point!');
 	
 	var getDest = google.maps.event.addListener(map, 'click', function(event) {

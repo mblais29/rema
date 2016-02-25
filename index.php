@@ -38,7 +38,7 @@
 		                	<div class="form-group">
 							  <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address...">
 							  <input type="text" class="form-control" id="city" name="city" placeholder="Enter City...">
-							  <select id="mode" class="form-control">
+							  <select class="form-control">
 							      <option value="AB">Alberta</option>
 							      <option value="BC">British Columbia</option>
 							      <option value="MB">Manitoba</option>
@@ -58,7 +58,7 @@
 							  <input type="number" class="form-control" id="sqft"  name="sqft" placeholder="Enter Square Footage...">
 							  <input type="number" class="form-control" id="lat" name="lat" readonly>
 							  <input type="number" class="form-control" id="lon" name="lon" readonly>
-							  <select id="mode" class="form-control">
+							  <select class="form-control">
 							      <option value="DETACHHOME">Detached Home</option>
 							      <option value="ATTACHHOME">Attached Home</option>
 							      <option value="CONDO">Condo</option>
@@ -78,7 +78,6 @@
 				  	<input type="checkbox" value="" id="markerCheckbox" onclick="getMarkers()"><img src="img/icons/location.png" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">Properties</h3>
 				  </label>
 				</div>
-				<button type="button" class="btn btn-secondary" id="close-nav" onclick="hideForm()">Close</button>
 	        </div>
 	        <div id="route-details"></div>
 	        <!-- Page Content -->

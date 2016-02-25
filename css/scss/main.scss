@@ -94,14 +94,14 @@ div#sidebar-layers {
     }
     > #close-nav{
       @extend .nav-btn;
-      bottom: 5%;
-      position: absolute;
+      margin-top: 5%;
+      position: relative;
     }
 }
 
 .sidebar-layers-label{  
     display: inline-block;
-    position: absolute;
+    position: relative;
     padding: 5px;
     color: #fff;
     font-size: 0.8em;
