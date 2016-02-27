@@ -1,3 +1,4 @@
+//Creates the Layer Control
 function CenterControl(layerControlDiv, map) {
   // Set CSS for the layer control border.
   var layerControlUI = document.createElement('div');
@@ -24,66 +25,6 @@ function CenterControl(layerControlDiv, map) {
   layerControlUI.addEventListener('click', function() {
   	$("#sidebar-layers").show('slow');
   });
-}
-
-function routing(routeControlDiv, map){ 
-  // Set CSS for the routing control border.
-  var routeControlUI = document.createElement('div');
-  routeControlUI.style.backgroundColor = '#fff';
-  routeControlUI.style.border = '2px solid #fff';
-  routeControlUI.style.borderRadius = '3px';
-  routeControlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-  routeControlUI.style.cursor = 'pointer';
-  routeControlUI.style.marginBottom = '22px';
-  routeControlUI.style.textAlign = 'center';
-  routeControlUI.title = 'Click for Route';
-  routeControlDiv.appendChild(routeControlUI);
-
-  // Set CSS for the routing control interior.
-  var routeControlText = document.createElement('div');
-  routeControlText.style.color = 'rgb(25,25,25)';
-  routeControlText.style.fontSize = '16px';
-  routeControlText.style.paddingLeft = '2px';
-  routeControlText.style.paddingRight = '2px';
-  routeControlText.innerHTML = '<i class="fa fa-road fa-2x"></i>';
-  routeControlUI.appendChild(routeControlText);
-  
-  routeControlUI.addEventListener('click', function() {
-  	//Makes the cursor a pointer 
-	document.getElementById("map").firstChild.firstChild.style.cursor = "default";
-	alert('Click map for a starting point!');
-  	var getOrigin = google.maps.event.addListener(map, 'click', function(event) {
-		//console.log(event.latLng.lat());
-		//console.log(event.latLng.lng());
-		//document.getElementById('route').innerHTML = "Lat: " + event.latLng.lat() + "Lng: " + event.latLng.lng();
-		originLatLng = event.latLng;
-		google.maps.event.removeListener(getOrigin);
-		originMarker = new google.maps.Marker({position: originLatLng, map: map});
-		destCoord();
-	});
-  });
-}
-
-// Creates an event listener for the Property marker checkbox
-function getMarkers(){
-	$("#markerCheckbox").unbind('change');
-   	$('#markerCheckbox').change(
-    function(){
-        if (this.checked) {
-            //alert('checked');
-            //console.log(markers);
-            // Loops through markers and sets invisibility to true shows the markers
-            for(var i=0; i<markers.length; i++){
-		        markers[i].setVisible(true);
-		    }
-        }else{
-        	//alert('not checked');
-        	// Loops through markers and sets invisibility to false hides the markers
-        	for(var i=0; i<markers.length; i++){
-		        markers[i].setVisible(false);
-		    }
-        }
-    });
 }
 
 function addTopLayerTree(layerTree){
@@ -151,6 +92,29 @@ function attachMidLayerListener(midLevelCheckBox){
 
 }
 
+// Creates an event listener for the Property marker checkbox
+function getMarkers(){
+	$("#markerCheckbox").unbind('change');
+   	$('#markerCheckbox').change(
+    function(){
+        if (this.checked) {
+            //alert('checked');
+            //console.log(markers);
+            // Loops through markers and sets invisibility to true shows the markers
+            for(var i=0; i<markers.length; i++){
+		        markers[i].setVisible(true);
+		    }
+        }else{
+        	//alert('not checked');
+        	// Loops through markers and sets invisibility to false hides the markers
+        	for(var i=0; i<markers.length; i++){
+		        markers[i].setVisible(false);
+		    }
+        }
+    });
+}
+
+//Adds all the layers in the database
 function addLayers(data){
 	//console.log(data[0][6]);
 	for (i = 0; i < data.length; i++) {
@@ -211,99 +175,6 @@ function attachChangeListener(thisCheckbox,i) {
 	    });
 }
 
-function destCoord(){
-	//Makes the cursor a pointer 
-	document.getElementById("map").firstChild.firstChild.style.cursor = "default";
-	alert('Click map for an ending point!');
-	
-	var getDest = google.maps.event.addListener(map, 'click', function(event) {
-		//console.log(event.latLng.lat());
-		//console.log(event.latLng.lng());
-		destinationLatLng = event.latLng;
-		//Creates the remove and details buttons once route is found
-		document.getElementById('route').innerHTML = "<button type='button' id='removeButton' class='btn btn-default' onclick='closeRoute(routeMarkers)'>Remove</button><button type='button' id='details' class='btn btn-default' onclick='showRouteDetails(directionsDisplay)'>Details</button>";
-		google.maps.event.removeListener(getDest);
-		destMarker = new google.maps.Marker({position: destinationLatLng, map: map});
-
-		directionsDisplay.setMap(map);
-		calculateAndDisplayRoute(directionsService, directionsDisplay);
-	    document.getElementById('mode').addEventListener('change', function() {
-	      calculateAndDisplayRoute(directionsService, directionsDisplay);     
-	    });
-	    //Shows the remove and details buttons
-	    $("#route").show('slow');
-	    //Sets the Markers to null so if a users creates another route the markers do not duplicate
-	    originMarker.setMap(null);	
-	    destMarker.setMap(null);
-
-	});	
-}
-
-function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-
-	//deletes old routes and Markers if there are records in the array
-	if(routeMarkers.length > 0){
-		for(i=0; i<routeMarkers.length; i++){
-	        routeMarkers[i].setMap(null);
-	    }
-	}
-	//Gives the user the option to select the type of travel mode 
-  	var selectedMode = document.getElementById('mode').value;
-  	directionsService.route({
-	    origin: originLatLng,
-	    destination: destinationLatLng,
-	    travelMode: google.maps.TravelMode[selectedMode]
-	  }, function(response, status) {
-	    if (status == google.maps.DirectionsStatus.OK) {
-	      directionsDisplay.setDirections(response);
-	      var leg = response.routes[ 0 ].legs[ 0 ];
-		  makeRoutingMarkers( leg.start_location, icons.start);
-		  makeRoutingMarkers( leg.end_location, icons.end);
-	    } else {
-	      window.alert('Directions request failed due to ' + status);
-	    }
-	});
-}
-
-function showRouteDetails(directionsDisplay){
-	//Shows the route div and adds the directions to that div
-	$("#route-details").show();
-	directionsDisplay.setPanel(document.getElementById('route-details'));
-}
-
-function closeRoute(routeMarkers){
-	//sets the directionsDisplay to null and re-creates so previous routes don't show while calculating new route
-	directionsDisplay.setMap(null);
-	directionsDisplay = null;
-	directionsDisplay = new google.maps.DirectionsRenderer({
-		suppressMarkers: true,
-	    draggable: true,
-	    map: map
-	});
-	//Hides the Remove and Details Buttons
-	$('#route').hide('slow');
-	//Sets the route markers to null -- deletes them
-	originMarker = "";
-	destMarker = "";
-	//hides the routing details
-	$("#route-details").hide('slow');
-	document.getElementById('route').innerHTML = "";
-	document.getElementById('route-details').innerHTML = "";
-	//Deletes all markers in routMarkers Array
-	for(i=0; i<routeMarkers.length; i++){
-        routeMarkers[i].setMap(null);
-    }
-}
-
-function makeRoutingMarkers( position, icon ) {
- var marker = new google.maps.Marker({
-  position: position,
-  map: map,
-  icon: icon
- });
- routeMarkers.push(marker); 
-}
-
 function addInfoWindow(data){
 	//console.log(data);
 	map.data.addListener('mouseover', function(event) {
@@ -332,6 +203,29 @@ function addInfoWindow(data){
 	  });
 }
 
+//Makes request to Geoserver to get the geojson layer
+function addGeoJsonLayers(layers, sw, ne){
+		$.ajax({
+	     	url: layers.url + '&bbox=' + sw + ',' + ne,
+	     	dataType: 'json',
+	     	contentType: 'application/json',
+	     	timeout: 15000,
+	     	success: function(data) {
+	 			styleLayer(data);
+	 			addInfoWindow(data);
+				features = map.data.addGeoJson(data);
+				//console.log(features.length);
+				
+		    }
+		}).fail(function (jqXHR, textStatus, errorThrown) {
+			alert("Error processing your request");
+			console.log(jqXHR);
+			console.log(textStatus);
+		    console.log(errorThrown);
+		});
+}
+
+//Refreshes the displayed layers that are turned on when bounding box changes
 function layerRefresh(feature, layer, url, thisCheckbox){
 	//console.log(layer);
 	var selectedLayer = layer.name;
@@ -368,79 +262,7 @@ function layerRefresh(feature, layer, url, thisCheckbox){
 	}
 }
 
-function addGeoJsonLayers(layers, sw, ne){
-	//console.log(layers.tiled);
-	//if(layers.tiled === 0){
-		$.ajax({
-	     	url: layers.url + '&bbox=' + sw + ',' + ne,
-	     	dataType: 'json',
-	     	contentType: 'application/json',
-	     	timeout: 15000,
-	     	success: function(data) {
-	 			styleLayer(data);
-	 			addInfoWindow(data);
-				features = map.data.addGeoJson(data);
-				//console.log(features.length);
-				
-		    }
-		}).fail(function (jqXHR, textStatus, errorThrown) {
-			alert("Error processing your request");
-			console.log(jqXHR);
-			console.log(textStatus);
-		    console.log(errorThrown);
-		});
-	/*}else{
-		var mapBounds = this.map.getBounds();
-		var northEast = mapBounds.getNorthEast();
-		var southWest = mapBounds.getSouthWest();
-		var neMerc = toMercator(northEast);
-		var swMerc = toMercator(southWest);
-		
-		var bbox = swMerc.x + ',' + swMerc.y + ',' + neMerc.x + ',' + neMerc.y;
-		console.log(bbox);
-
-		var tiledLayer = new google.maps.ImageMapType({
-			getTileUrl: function() {
-				//base WMS URL
-				var url = "http://localhost:8081/geoserver/REMA/wms?";
-					url += "&service=WMS";
-					url += "&version=1.1.0";
-					url += "&request=GetMap";
-					url += "&layers=REMA:yt_contours_50k";
-					url += "&styles=";
-					url += "&format=image/png";
-					url += "&TRANSPARENT=TRUE";
-					url += "&srs=EPSG:3857";
-					url += "&bbox=" + bbox;
-					url += "&width=256";
-					url += "&height=256";
-					url += "&tiled=true";
-					return url;
-					
-					},
-				tileSize: new google.maps.Size(256, 256),
-				opacity: 0.85,
-				isPng: true
-				});
-				map.overlayMapTypes.push(tiledLayer);
-				map.overlayMapTypes.insertAt(0, tiledLayer);
-	}*/
-}
-
-function toMercator(coord){
-	var lat = coord.lat();
-	var lng = coord.lng();
-	
-	if((Math.abs(lng) > 180 || Math.abs(lat) > 90 ))
-		return;
-	var num = lng * 0.017453292519943295;
-	var x = 6378137.0 * num;
-	var a = lat * 0.017453292519943295;
-	var merc_lon = x;
-	var merc_lat = 3189068.5 * Math.log((1.0 + Math.sin(a))/(1.0 - Math.sin(a)));
-	return{x: merc_lon, y: merc_lat};
-}
-
+//Styles for the polygon, lines or point layers
 function styleLayer(data){
 	map.data.setStyle(function(feature) {
 		switch(feature.getGeometry().getType()) {
@@ -482,6 +304,7 @@ function hideForm(){
 	$("#sidebar-layers").hide("slow");
 }
 
+//Retrieves the Marker Coordinates
 function getMarkerCoords(event){
 	console.log(event.overlay.position.lat());
 	console.log(event.overlay.position.lng());
@@ -495,6 +318,7 @@ function getMarkerCoords(event){
 	$("#sidebar-wrapper").show("slow");
 }
 
+//Retrieves the Circle Coordinates
 function getCircleCoords(event){
 	console.log(event.overlay.getRadius());
 	console.log(event.overlay.getCenter().lat());

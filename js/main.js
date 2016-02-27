@@ -22,7 +22,7 @@ var directionsDisplay = new google.maps.DirectionsRenderer({
     map: map
   });
 var directionsService = new google.maps.DirectionsService;
-// Start/Finish icons
+// Start/Finish icons for routing
 var icons = {
   start: new google.maps.MarkerImage(
    // URL
@@ -45,8 +45,6 @@ var icons = {
    //new google.maps.Point( 22, 32 )
   )
  };
-
-
 
 $( document ).ready(function() {
 	

@@ -106,7 +106,9 @@
     <script src="components/bootstrap/bootstrap-3.3.5/js/bootstrap.min.js"></script>
     <!-- Include custom jquery -->
     <script src="js/main.js"></script>
-    <script src="js/functions/functions.js"></script>
+    <script src="js/functions/layers.js"></script>
+    <script src="js/functions/WMSTiled.js"></script>
+    <script src="js/functions/routing.js"></script>
 	<? @include data.php ?>
   </body>
 </html>
