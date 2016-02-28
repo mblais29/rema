@@ -6,32 +6,87 @@
 
 /* Variables */
 $header_font: 'Libre Baskerville', serif;
-
-/* Global Styles */
-
-  /* Nav Button */
-  .nav-btn{
-    margin: 0 5px 0 20px;
+  
+/* Main index.php Page Styles */
+  /* Global Styles */
+  
+    /* Nav Button */
+    .nav-btn{
+      margin: 0 5px 0 20px;
+    }
+  /* Loading Page */
+    .vcenter {
+      z-index: 10;
+      position:absolute;
+      top: 40%;
   }
-/* Loading Page */
-  .vcenter {
-    z-index: 10;
-    position:absolute;
-    top: 40%;
-}
-.displayNone{
-  display: none;
-}
-
-/* Toggle Styles */
-
-div#wrapper {
-  width: 100%;
-}
-
-/* Navigation */
-
-div#sidebar-wrapper {
+  .displayNone{
+    display: none;
+  }
+  
+  /* Toggle Styles */
+  
+  div#wrapper {
+    width: 100%;
+  }
+  
+  /* Navigation */
+  
+  div#sidebar-wrapper {
+      z-index: 1000;
+      position: fixed;
+      left: 0;
+      width: 25%;
+      height: 100%;
+      margin-left: 0;
+      overflow-y: auto;
+      background: rgba(0,0,0,0.7);
+      
+      > .sidebar-nav {
+          position: absolute;
+          top: 0;
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          > li {
+            text-indent: 20px;
+            line-height: 40px;
+            #property_form #close{
+              @extend .nav-btn;
+            }
+            > a {
+              display: block;
+              text-decoration: none;
+              color: #999999;
+              &:hover {
+                text-decoration: none;
+                color: #fff;
+                background: rgba(255,255,255,0.2);
+              }
+              &:active{
+                text-decoration: none;
+              }
+              &:focus{
+                text-decoration: none;
+              }
+            }
+          }
+          > .sidebar-brand {
+              height: 65px;
+              font-size: 18px;
+              line-height: 60px;
+              > h1{
+                   color: #FFF;
+                   font-family: $header_font;
+              }
+          }
+      }
+  }
+  
+  /* Layer Navigation */
+  
+  div#sidebar-layers {
     z-index: 1000;
     position: fixed;
     left: 0;
@@ -40,234 +95,210 @@ div#sidebar-wrapper {
     margin-left: 0;
     overflow-y: auto;
     background: rgba(0,0,0,0.7);
+      > .checkbox{
+        color: #fff;
+        margin-top: 5%;
+        display: block;
+        @extend .nav-btn;
+      }
+      > #close-nav{
+        @extend .nav-btn;
+        margin-top: 5%;
+        position: relative;
+      }
+  }
+  
+  .sidebar-layers-label{  
+      display: inline-block;
+      position: relative;
+      padding: 5px;
+      color: #fff;
+      font-size: 0.8em;
+      font-family: $header_font;
+  }
+  
+  .layerTreeTop{
+    color: #fff;
+    margin: 5px 0 5px 5px !important;
+    display: inline-block;
+  }
+  
+  .layerTreeMid{
+    color: #fff;
+    margin: 5px 0 5px 10px !important;
+    display: inline-block;
+  }
+  
+  .checkbox:nth-child(n+2){
+    margin-left: 15% !important;
+  }
+  
+  #midfa{
+    margin-left: 15px !important;
+  }
+  
+  #infoHeader{
+    text-align: center;
+    color: #31708f;
+    background-color: #d9edf7;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #bce8f1;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+  
+  }
+  
+  
+  #featureInfo{
+    max-width: 337px;
+    min-height: 25px;
+    text-align: center;
+  }
+  
+  .FEATUREPROP{
+    padding: 5px;
+    border: 1px solid #bce8f1;
+  }
+  
+  //Routing Details
+  div#route-details {
+    z-index: 2;
+    position: fixed;
+    left: 0;
+    width: 25%;
+    height: 85%;
+    padding: 2%;
+    margin-left: 0;
+    overflow: auto;
+    background: rgba(255,255,255,1);
     
-    > .sidebar-nav {
-        position: absolute;
-        top: 0;
+  }
+  
+  #details, #removeButton{
+    margin-right: 2%;
+  }
+  
+  /* Input Form */
+  
+  .form-control{
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 8%;
+  }
+  
+  /* Page Content: Map */
+  
+  div#page-content-wrapper{
+    width: 100%;
+    position: absolute;
+    @media(min-width:768px) {
+      position: relative;
+    }
+    > .container-fluid{
+      padding: 0 !important;
+      > #map{
+        height: 100vh;
         width: 100%;
         margin: 0;
         padding: 0;
-        list-style: none;
-        > li {
-          text-indent: 20px;
-          line-height: 40px;
-          #property_form #close{
-            @extend .nav-btn;
-          }
-          > a {
-            display: block;
-            text-decoration: none;
-            color: #999999;
-            &:hover {
-              text-decoration: none;
-              color: #fff;
-              background: rgba(255,255,255,0.2);
-            }
-            &:active{
-              text-decoration: none;
-            }
-            &:focus{
-              text-decoration: none;
-            }
-          }
-        }
-        > .sidebar-brand {
-            height: 65px;
-            font-size: 18px;
-            line-height: 60px;
-            > h1{
-                 color: #FFF;
-                 font-family: $header_font;
-            }
-        }
+        z-index: 1;
+      }
+      #toggleControl{
+        top: 5px !important;
+        right: 5px !important;
+      }
+      #routetoggleControl{
+        top: 50px !important;
+        right: 5px !important;
+      }
+      #info-box{
+        background-color: white;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        bottom: 30px;
+        height: 40px;
+        min-width: 40px;
+        padding: 10px;
+        position: absolute;
+        left: 50%; /* position the left edge of the element at the middle of the parent */
+        transform: translate(-50%);
+        z-index: 100;
+        display: none
+      }
+      #route{
+        //background-color: white;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        bottom: 30px;
+        min-height: 40px;
+        width: 35%;
+        padding: 10px;
+        position: absolute;
+        left: 50%; /* position the left edge of the element at the middle of the parent */
+        transform: translate(-50%);
+        z-index: 100;
+        display: none;
+        text-align: center
+      }
+      #floating-panel {
+        position: absolute;
+        bottom: 0;
+        left: 5px;
+        z-index: 5;
+      }
+      #mode{
+        width: 100% !important;
+      }
+      .btn-default{
+        margin-top: 2%;
+      }
     }
-}
-
-/* Layer Navigation */
-
-div#sidebar-layers {
-  z-index: 1000;
-  position: fixed;
-  left: 0;
-  width: 25%;
-  height: 100%;
-  margin-left: 0;
-  overflow-y: auto;
-  background: rgba(0,0,0,0.7);
-    > .checkbox{
-      color: #fff;
-      margin-top: 5%;
-      display: block;
-      @extend .nav-btn;
-    }
-    > #close-nav{
-      @extend .nav-btn;
-      margin-top: 5%;
-      position: relative;
-    }
-}
-
-.sidebar-layers-label{  
-    display: inline-block;
-    position: relative;
-    padding: 5px;
-    color: #fff;
-    font-size: 0.8em;
-    font-family: $header_font;
-}
-
-.layerTreeTop{
-  color: #fff;
-  margin: 5px 0 5px 5px !important;
-  display: inline-block;
-}
-
-.layerTreeMid{
-  color: #fff;
-  margin: 5px 0 5px 10px !important;
-  display: inline-block;
-}
-
-.checkbox:nth-child(n+2){
-  margin-left: 15% !important;
-}
-
-#midfa{
-  margin-left: 15px !important;
-}
-
-#infoHeader{
-  text-align: center;
-  color: #31708f;
-  background-color: #d9edf7;
-  padding: 10px;
-  margin-bottom: 5px;
-  border: 1px solid #bce8f1;
-  border-top-right-radius: 4px;
-  border-top-left-radius: 4px;
-
-}
-
-
-#featureInfo{
-  max-width: 337px;
-  min-height: 25px;
-  text-align: center;
-}
-
-.FEATUREPROP{
-  padding: 5px;
-  border: 1px solid #bce8f1;
-}
-
-//Routing Details
-div#route-details {
-  z-index: 2;
-  position: fixed;
-  left: 0;
-  width: 25%;
-  height: 85%;
-  padding: 2%;
-  margin-left: 0;
-  overflow: auto;
-  background: rgba(255,255,255,1);
+  }
   
-}
+  /* Marker Info */
+  
+  .gm-style-iw{
+     width: 350px !important;
+     //top: 37px !important;
+     //left: 0 !important;
+     //background-color: #fff;
+     //box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
+     //border: 1px solid rgba(72, 181, 233, 0.6);
+     //@include border-radius(2px, 2px, 10px, 10px); // apply 10px to the bottom corners of the infowindow
+  }
+  .panel-title{
+    padding-bottom: 5px;
+  }
 
-#details, #removeButton{
-  margin-right: 2%;
-}
-
-/* Input Form */
-
-.form-control{
-  width: 80%;
-  margin: 0 auto;
-  margin-bottom: 8%;
-}
-
-/* Page Content: Map */
-
-div#page-content-wrapper{
+/* Main login.php Page Styles */
+#wrapper{
   width: 100%;
-  position: absolute;
-  @media(min-width:768px) {
-    position: relative;
-  }
-  > .container-fluid{
-    padding: 0 !important;
-    > #map{
-      height: 100vh;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      z-index: 1;
-    }
-    #toggleControl{
-      top: 5px !important;
-      right: 5px !important;
-    }
-    #routetoggleControl{
-      top: 50px !important;
-      right: 5px !important;
-    }
-    #info-box{
-      background-color: white;
-      border: 1px solid transparent;
-      border-radius: 4px;
-      bottom: 30px;
-      height: 40px;
-      min-width: 40px;
-      padding: 10px;
-      position: absolute;
-      left: 50%; /* position the left edge of the element at the middle of the parent */
-      transform: translate(-50%);
-      z-index: 100;
-      display: none
-    }
-    #route{
-      //background-color: white;
-      border: 1px solid transparent;
-      border-radius: 4px;
-      bottom: 30px;
-      min-height: 40px;
-      width: 35%;
-      padding: 10px;
-      position: absolute;
-      left: 50%; /* position the left edge of the element at the middle of the parent */
-      transform: translate(-50%);
-      z-index: 100;
-      display: none;
-      text-align: center
-    }
-    #floating-panel {
-      position: absolute;
-      bottom: 0;
-      left: 5px;
-      z-index: 5;
-    }
-    #mode{
-      width: 100% !important;
-    }
-    .btn-default{
-      margin-top: 2%;
-    }
-  }
 }
 
-/* Marker Info */
-
-.gm-style-iw{
-   width: 350px !important;
-   //top: 37px !important;
-   //left: 0 !important;
-   //background-color: #fff;
-   //box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
-   //border: 1px solid rgba(72, 181, 233, 0.6);
-   //@include border-radius(2px, 2px, 10px, 10px); // apply 10px to the bottom corners of the infowindow
+#login_form{
+  width: 40%;
+  height: 60vh;
+  margin: 0 auto;
+  position: relative;
+  -webkit-transform: translateY(30%);
+  -ms-transform: translateY(30%);
+  transform: translateY(30%);
 }
-.panel-title{
-  padding-bottom: 5px;
+
+#header{
+  text-align: center;
+}
+
+#login_form{
+  text-align: center;
+}
+
+.login-label{
+  font-size: 1.5em;
+  font-weight: bold;
+  font-family: $header_font;
+  margin: 2% 0 2% 0;
 }
 
 /* Includes wvga size screen 480 x 800 */

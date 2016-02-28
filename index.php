@@ -24,7 +24,6 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-	<body>
 	  <body>
 	  	<!--- Adds a ajax loader if page is taking time to load --->
 		<div id="loading" class="col-lg-12 text-center vcenter">

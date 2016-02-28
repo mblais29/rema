@@ -49,6 +49,7 @@ table {
 /* Includes Dynamic Functions */
 /* Transition Function */
 /* Variables */
+/* Main index.php Page Styles */
 /* Global Styles */
 /* Nav Button */
 .nav-btn, div#sidebar-wrapper > .sidebar-nav > li #property_form #close, div#sidebar-layers > .checkbox, div#sidebar-layers > #close-nav {
@@ -253,6 +254,31 @@ div#page-content-wrapper {
 
 .panel-title {
   padding-bottom: 5px; }
+
+/* Main login.php Page Styles */
+#wrapper {
+  width: 100%; }
+
+#login_form {
+  width: 40%;
+  height: 60vh;
+  margin: 0 auto;
+  position: relative;
+  -webkit-transform: translateY(30%);
+  -ms-transform: translateY(30%);
+  transform: translateY(30%); }
+
+#header {
+  text-align: center; }
+
+#login_form {
+  text-align: center; }
+
+.login-label {
+  font-size: 1.5em;
+  font-weight: bold;
+  font-family: "Libre Baskerville", serif;
+  margin: 2% 0 2% 0; }
 
 /* Includes wvga size screen 480 x 800 */
 @media only screen and (max-width: 480px) {
