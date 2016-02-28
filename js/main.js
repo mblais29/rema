@@ -3,6 +3,9 @@ var map;
 var markers = [];
 var jsonArr = [];
 var currentBounds = "";
+var propMarkers = [];
+var selectedPropMarkerLat = "";
+var selectedPropMarkerLon = "";
 //Layer Global Variables
 var layers = [];
 var layerTree = [];
@@ -47,7 +50,9 @@ var icons = {
  };
 
 $( document ).ready(function() {
-	
+	$('#wrapper').css("visibility", "hidden");
+	// Hides the Form on load
+    $("#route-details").hide();
     
 	var drawMarker = google.maps.drawing.OverlayType.MARKER;
 	var circle = google.maps.drawing.OverlayType.CIRCLE;
@@ -70,7 +75,6 @@ $( document ).ready(function() {
 	    scrollwheel: true,
 	    zoom: 14
 	  });
-  	  
   	  
   	  //Use Custom Icon for Marker
 	  var image = {
@@ -141,6 +145,7 @@ $( document ).ready(function() {
 				console.log(event.overlay.position.lng());
 				getMarkerCoords(event);  		
 		  	});
+
 		  	//Circle event Listener
 		  	drawingObject.addListener('center_changed', function() {
             	console.log(event.overlay.getRadius());
@@ -179,21 +184,16 @@ $( document ).ready(function() {
 		});
 	  });
 
-	  //Creates an info window showing the current position
-	  //var infoWindow = new google.maps.InfoWindow({map: map});
-	
-	  // Try HTML5 geolocation.
-	  if (navigator.geolocation) {
+	  // HTML5 geolocation.
+	  /*if (navigator.geolocation) {
 		    navigator.geolocation.getCurrentPosition(function(position) {
 		      var pos = {
 		        lat: position.coords.latitude,
 		        lng: position.coords.longitude
 		      };
-		      //infoWindow.setPosition(pos);
-		      //infoWindow.setContent('Location found.');
 		      map.setCenter(pos);
 		    });	
-		}
+		}*/
 		
 	  //Creates the top right layer and routing divs
 	  var layerControlDiv = document.createElement('div');
@@ -210,121 +210,7 @@ $( document ).ready(function() {
 	  routeControlDiv.index = 1;
 	  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(routeControlDiv);
 	  
-	  // Hides the Form on load
-	  $("#sidebar-wrapper").hide();
-	  $("#sidebar-layers").hide();
-	  $("#route-details").hide();
 	  
-	  $.ajax("../rema/php/data.php",
-		{
-		    type: 'GET',
-		    dataType: 'json',
-		    success: function (data) {
-		        //console.log(data);
-		        //console.log("lat: " + data[0][9]);
-		        //console.log("lon: " + data[0][10]);
-		        
-		        
-		        for (i = 0; i < data.length; i++) {
-		        	var address = data[i][1];
-			        var city = data[i][2];
-			        var province = data[i][3];
-			        var purchasePrice = data[i][4];
-			        var buildingAge = data[i][5];
-			        var sqft = data[i][6];
-			        var type = data[i][7];
-			        var comments = data[i][8];
-			        var lat = data[i][9];
-			        var lon = data[i][10];
-			       	var myLatLong = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
-				   	//MARKERS
-				   	var contentString = '<div class="panel panel-info">'+
-				   						  '<div class="panel-heading">'+
-										    '<h3 class="panel-title">Property Info</h3>'+
-										  '</div>'+
-										  '<div class="panel-body">'+
-										  	'<ul class="list-group">'+
-											  '<li class="list-group-item">' + 'Building: ' + address + ', ' + city+  ', ' + province + '</li>'+
-											  '<br><li class="list-group-item">' + 'Purchase Price: ' + purchasePrice + '</li>'+
-											  '<br><li class="list-group-item">' + 'Built: ' + buildingAge + '</li>'+
-											  '<br><li class="list-group-item">' + 'Area: ' + sqft + ' sqft' + '</li>'+
-											  '<br><li class="list-group-item">' + 'Type: ' + type + '</li>'+
-											  '<br><li class="list-group-item">' + 'Comments: ' + comments + '</li>'+
-										   '</ul>'+
-										  '</div>';
-				  var infowindow = new google.maps.InfoWindow();	
-				   			   
-				  var markerProp = new google.maps.Marker({
-				       position: myLatLong,
-				       map: map,
-				       title: "Property",
-				       icon: image
-				   });
-
-				   google.maps.event.addListener(markerProp,'click', (function(markerProp,contentString,infowindow){ 
-				        return function() {
-				           infowindow.setContent(contentString);
-				           infowindow.open(map,markerProp);
-				        };
-				   })(markerProp,contentString,infowindow));
-				   //Hides the markers when map first loads
-				   markerProp.setVisible(false);
-		
-				   google.maps.event.addListener(infowindow, 'domready', function() {
-			
-				   // Reference to the DIV which receives the contents of the infowindow using jQuery
-				   var iwOuter = $('.gm-style-iw');
-				
-				   /* The DIV we want to change is above the .gm-style-iw DIV.
-				    * So, we use jQuery and create a iwBackground variable,
-				    * and took advantage of the existing reference to .gm-style-iw for the previous DIV with .prev().
-				    */
-				   var iwBackground = iwOuter.prev();
-				
-				   // Remove the background shadow DIV
-				   iwBackground.children(':nth-child(2)').css({'display' : 'block'});
-				
-				   // Remove the white background DIV
-				   iwBackground.children(':nth-child(4)').css({'display' : 'block'});
-				   
-				   // Moves the infowindow 115px to the right.
-				   iwOuter.parent().parent().css({right: '0px'});
-				   
-				   iwOuter.prev().css({left: '-12px'});
-				   
-				   // Moves the shadow of the arrow 76px to the left margin 
-					iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
-					
-					// Moves the arrow 76px to the left margin 
-					iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
-					
-					iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
-					
-					var iwCloseBtn = iwOuter.next();
-
-					// Apply the desired effect to the close button
-					iwCloseBtn.css({
-					  //opacity: '1', // by default the close button has an opacity of 0.7
-					  right: '15px', top: '5px', // button repositioning
-					  //width: '23px',
-					  //height: '23px',
-					  //border: '5px solid #bce8f1', // increasing button border and new color
-					  //'border-radius': '13px', // circular effect
-					  //'box-shadow': '0 0 5px #3990B9' // 3D effect to highlight the button
-					  });
-					
-					// The API automatically applies 0.7 opacity to the button after the mouseout event.
-					// This function reverses this event to the desired value.
-					iwCloseBtn.mouseout(function(){
-					  $(this).css({opacity: '1'});
-					});
-				});
-				// Stores the marker information in an array
-				markers.push(markerProp);
-			  }
-			  
-			}
-		});
 		//Get Layers
 		function getLayers(){
 			$.ajax({
@@ -351,8 +237,20 @@ $( document ).ready(function() {
 	            }
 	        });	
 		}
-	getLayers();	
+	
+	getLayers();
+	getPropertyMarkers();	
 });
+
+window.onload = function(){
+	var bounds = new google.maps.LatLngBounds();
+    for (var i = 0; i < markers.length; i++) {
+      bounds.extend(markers[i].getPosition());
+    }
+	map.fitBounds(bounds);
+	$('#loading').hide();
+	$('#wrapper').css("visibility", "visible");
+};
 
 
 

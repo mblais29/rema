@@ -54,6 +54,15 @@ table {
 .nav-btn, div#sidebar-wrapper > .sidebar-nav > li #property_form #close, div#sidebar-layers > .checkbox, div#sidebar-layers > #close-nav {
   margin: 0 5px 0 20px; }
 
+/* Loading Page */
+.vcenter {
+  z-index: 10;
+  position: absolute;
+  top: 40%; }
+
+.displayNone {
+  display: none; }
+
 /* Toggle Styles */
 div#wrapper {
   width: 100%; }
@@ -113,7 +122,7 @@ div#sidebar-layers {
     margin-top: 5%;
     display: block; }
   div#sidebar-layers > #close-nav {
-  	margin-top: 5%;
+    margin-top: 5%;
     position: relative; }
 
 .sidebar-layers-label {
@@ -241,6 +250,9 @@ div#page-content-wrapper {
 /* Marker Info */
 .gm-style-iw {
   width: 350px !important; }
+
+.panel-title {
+  padding-bottom: 5px; }
 
 /* Includes wvga size screen 480 x 800 */
 @media only screen and (max-width: 480px) {

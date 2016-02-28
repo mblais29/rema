@@ -26,9 +26,14 @@
   </head>
 	<body>
 	  <body>
+	  	<!--- Adds a ajax loader if page is taking time to load --->
+		<div id="loading" class="col-lg-12 text-center vcenter">
+		  <img id="loading-image" src="img/mblais.png" width="100" height="100" alt="Loading..." /><br/>
+		  <img id="loading-image" src="img/ajax-loader.gif" alt="Loading..." />
+		</div>
 	  	<div id="wrapper">
 		  	<!-- Navigation -->
-	        <div id="sidebar-wrapper">
+	        <div id="sidebar-wrapper" class="displayNone">
 	            <ul class="sidebar-nav">
 	                <li class="sidebar-brand">
 	                    <h1>Property Information</h1>
@@ -36,9 +41,10 @@
 	                <li>
 	                	<form id="property_form" action="php/property.php" method="post">
 		                	<div class="form-group">
+		                	  <input type="hidden" class="form-control" id="layerId" name="layerId" >
 							  <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address...">
 							  <input type="text" class="form-control" id="city" name="city" placeholder="Enter City...">
-							  <select class="form-control">
+							  <select class="form-control" id="province" name="province">
 							      <option value="AB">Alberta</option>
 							      <option value="BC">British Columbia</option>
 							      <option value="MB">Manitoba</option>
@@ -53,26 +59,28 @@
 							      <option value="SK">Saskatchewan</option>
 							      <option value="YT">Yukon</option>
 							  </select>
-							  <input type="number" class="form-control" id="purchase_price" name="purchase_price" placeholder="Enter Purchase Price...">
+							  <input type="text" class="form-control" id="purchase_price" name="purchase_price" placeholder="Enter Purchase Price...">
 							  <input type="date" class="form-control" id="year_built" name="year_built" placeholder="Enter Year Built...">
 							  <input type="number" class="form-control" id="sqft"  name="sqft" placeholder="Enter Square Footage...">
 							  <input type="number" class="form-control" id="lat" name="lat" readonly>
 							  <input type="number" class="form-control" id="lon" name="lon" readonly>
-							  <select class="form-control">
-							      <option value="DETACHHOME">Detached Home</option>
-							      <option value="ATTACHHOME">Attached Home</option>
-							      <option value="CONDO">Condo</option>
-							      <option value="LAND">Land</option>
+							  <select class="form-control" id="type" name="type">
+							      <option value="Detached House">Detached House</option>
+							      <option value="Attached House">Attached House</option>
+							      <option value="Condo">Condo</option>
+							      <option value="Land">Land</option>
 							  </select>
 							  <textarea class="form-control" rows="5" id="comment" name="comment" placeholder="Enter comment here..."></textarea>
 							  <button type="button" class="btn btn-secondary" id="close" onclick="hideForm()">Close</button>
-							  <button type="submit" name="send" class="btn btn-secondary">Submit</button>
+							  <button type="submit" name="submit" id="send" class="btn btn-secondary" value="one" >Submit</button>
+							  <button type="submit" name="submit" id="edit" class="btn btn-secondary" value="two" >Edit</button>
 							</div>
 						</form>
 	                </li>
 	            </ul>
+	            <iframe name="formSending"></iframe>
 	        </div>
-	        <div id="sidebar-layers">
+	        <div id="sidebar-layers" class="displayNone">
 	        	<div class="checkbox">
 				  <label>
 				  	<input type="checkbox" value="" id="markerCheckbox" onclick="getMarkers()"><img src="img/icons/location.png" style="width: 20px; height: 25px" /><h3 class="sidebar-layers-label">Properties</h3>

@@ -1,5 +1,6 @@
 //Creates the Layer Control
 function CenterControl(layerControlDiv, map) {
+	
   // Set CSS for the layer control border.
   var layerControlUI = document.createElement('div');
   layerControlUI.style.backgroundColor = '#fff';
@@ -23,11 +24,13 @@ function CenterControl(layerControlDiv, map) {
 
   // Setup the click event listeners
   layerControlUI.addEventListener('click', function() {
-  	$("#sidebar-layers").show('slow');
+  	$("#sidebar-layers").show('slow').removeClass('displayNone');
   });
+  
 }
 
 function addTopLayerTree(layerTree){
+	
 	for(var i=0; i<layerTree.length; i++){
 		var result = JSON.parse(layerTree[i]);
 		//console.log(result['country']);
@@ -46,9 +49,11 @@ function addTopLayerTree(layerTree){
 		midLevelCheckBox = result['province'];
 		attachTopLayerListener(topLevelcheckBox, midLevelCheckBox, topLevelId);
 	}
+	
 }
 
 function attachTopLayerListener(topLevelcheckBox, midLevelCheckBox, topLevelId){
+	
 	//console.log('#midLevel' + midLevelCheckBox);
 	$(topLevelcheckBox).change(function () {
 		//console.log(topLevelcheckBox);
@@ -60,12 +65,15 @@ function attachTopLayerListener(topLevelcheckBox, midLevelCheckBox, topLevelId){
 			$("#" + topLevelId).children(":nth-child(1)").addClass("fa fa-minus");
 		}else{
 			//console.log("Not Checked");
+			//Unchecks all children layers when topLevelId is unchecked
+			$("#" + topLevelId).children('div').find("input[type='checkbox']").prop('checked', false).change();
 			$("#" + topLevelId).children(":nth-child(1)").removeClass("fa fa-minus");
 			$("#" + topLevelId).children(":nth-child(1)").addClass("fa fa-plus");
 			$('#midLevel' + midLevelCheckBox).hide();
 		}
 	});
 	attachMidLayerListener(midLevelCheckBox);
+	
 }
 
 function attachMidLayerListener(midLevelCheckBox){
@@ -83,17 +91,175 @@ function attachMidLayerListener(midLevelCheckBox){
 			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").addClass("fa fa-minus");
 		}else{
 			//console.log("Not Checked");
+			//Unchecks all children layers when midLevelId is unchecked
+			$('#midLevel' + midLevelCheckBox).children('div').find("input[type='checkbox']").prop('checked', false).change();
 			$('#midLevel' + midLevelCheckBox).children('div').hide();
 			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").removeClass("fa fa-minus");
 			$("#midLevel" + midLevelCheckBox).children(":nth-child(1)").addClass("fa fa-plus");
 		}
 	});
 	
+}
+
+//Get Property Markers
+function getPropertyMarkers(){
+	
+  //Use Custom Icon for Marker
+  var image = {
+	  url: 'img/icons/location.png',
+	  size: new google.maps.Size(71, 71),
+	  origin: new google.maps.Point(0, 0),
+	  anchor: new google.maps.Point(17, 34),
+	  scaledSize: new google.maps.Size(50, 50)
+  };
+  $.ajax("../rema/php/data.php",
+	{
+	    type: 'GET',
+	    dataType: 'json',
+	    success: function (data) {
+	        //console.log(data);
+	        //console.log("lat: " + data[0][9]);
+	        //console.log("lon: " + data[0][10]);
+	        
+	        for (i = 0; i < data.length; i++) {
+	        	var layer_id = data[i][0];
+	        	var address = data[i][1];
+		        var city = data[i][2];
+		        var province = data[i][3];
+		        var purchasePrice = data[i][4];
+		        var buildingAge = data[i][5];
+		        var sqft = data[i][6];
+		        var type = data[i][7];
+		        var comments = data[i][8];
+		        var lat = data[i][9];
+		        var lon = data[i][10];
+		       	var myLatLong = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
+			   	//MARKERS
+			   	var contentString = '<div class="panel panel-info">'+
+			   						  '<div class="panel-heading">'+
+									    '<h3 class="panel-title">Property Info</h3><a href="#" id="edit'+i+'" onclick="getMarkerData('+i+')">Edit</a>'+
+									  '</div>'+
+									  '<div class="panel-body">'+
+									  	'<ul class="list-group">'+
+										  '<li class="list-group-item">' + 'Building: ' + address + ', ' + city+  ', ' + province + '</li>'+
+										  '<br><li class="list-group-item">' + 'Purchase Price: ' + purchasePrice + '</li>'+
+										  '<br><li class="list-group-item">' + 'Built: ' + buildingAge + '</li>'+
+										  '<br><li class="list-group-item">' + 'Area: ' + sqft + ' sqft' + '</li>'+
+										  '<br><li class="list-group-item">' + 'Type: ' + type + '</li>'+
+										  '<br><li class="list-group-item">' + 'Comments: ' + comments + '</li>'+
+									   '</ul>'+
+									  '</div>';
+			  var infowindow = new google.maps.InfoWindow();
+
+			  propMarkers.push({
+			  	"layer_id": data[i][0],
+	        	"address": data[i][1],
+		        "city": data[i][2],
+		        "province": data[i][3],
+		        "purchasePrice": data[i][4],
+		        "buildingAge": data[i][5],
+		        "sqft": data[i][6],
+		        "type": data[i][7],
+		        "comments": data[i][8],
+		        "lat": data[i][9],
+		        "lon": data[i][10]
+			  });	
+			     
+			  var markerProp = new google.maps.Marker({
+			       position: myLatLong,
+			       map: map,
+			       title: "Property",
+			       icon: image,
+			       draggable: false
+			   });
+			   markerProp.set("id", i);
+
+			   
+			   google.maps.event.addListener(markerProp,'click', (function(markerProp,contentString,infowindow){ 
+			        return function() {
+			           infowindow.setContent(contentString);
+			           infowindow.open(map,markerProp);
+			           selectedPropMarkerLat = markerProp.getPosition().lat();
+			           selectedPropMarkerLon = markerProp.getPosition().lng();
+
+			        };
+			   })(markerProp,contentString,infowindow));
+			   //Hides the markers when map first loads
+			   markerProp.setVisible(false);
+			   
+			   google.maps.event.addListener(markerProp,'dragend', (function(){
+				   	selectedPropMarkerLat = markerProp.getPosition().lat();
+				    selectedPropMarkerLon = markerProp.getPosition().lng();
+					//Updates the property table lat and lon when user drags property marker
+				    $('#lat').val(selectedPropMarkerLat);
+				    $('#lon').val(selectedPropMarkerLon);
+			   	
+			   }));
+			   	
+			   	
+			   	
+			   google.maps.event.addListener(infowindow, 'domready', function() {
+		
+			   // Reference to the DIV which receives the contents of the infowindow using jQuery
+			   var iwOuter = $('.gm-style-iw');
+			
+			   /* The DIV we want to change is above the .gm-style-iw DIV.
+			    * So, we use jQuery and create a iwBackground variable,
+			    * and took advantage of the existing reference to .gm-style-iw for the previous DIV with .prev().
+			    */
+			   var iwBackground = iwOuter.prev();
+			
+			   // Remove the background shadow DIV
+			   iwBackground.children(':nth-child(2)').css({'display' : 'block'});
+			
+			   // Remove the white background DIV
+			   iwBackground.children(':nth-child(4)').css({'display' : 'block'});
+			   
+			   // Moves the infowindow 115px to the right.
+			   iwOuter.parent().parent().css({right: '0px'});
+			   
+			   iwOuter.prev().css({left: '-12px'});
+			   
+			   // Moves the shadow of the arrow 76px to the left margin 
+				//iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 76px !important;';});
+				
+				// Moves the arrow 76px to the left margin 
+				//iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 76px !important;';});
+				
+				iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+				
+				var iwCloseBtn = iwOuter.next();
+
+				// Apply the desired effect to the close button
+				iwCloseBtn.css({
+				  //opacity: '1', // by default the close button has an opacity of 0.7
+				  right: '15px', top: '5px', // button repositioning
+				  //width: '23px',
+				  //height: '23px',
+				  //border: '5px solid #bce8f1', // increasing button border and new color
+				  //'border-radius': '13px', // circular effect
+				  //'box-shadow': '0 0 5px #3990B9' // 3D effect to highlight the button
+				  });
+				
+				// The API automatically applies 0.7 opacity to the button after the mouseout event.
+				// This function reverses this event to the desired value.
+				iwCloseBtn.mouseout(function(){
+				  $(this).css({opacity: '1'});
+				});
+			});
+			// Stores the marker information in an array
+			markers.push(markerProp);
+
+		  }
+		  
+		}
+	});
 
 }
 
 // Creates an event listener for the Property marker checkbox
 function getMarkers(){
+	
 	$("#markerCheckbox").unbind('change');
    	$('#markerCheckbox').change(
     function(){
@@ -112,10 +278,53 @@ function getMarkers(){
 		    }
         }
     });
+    
+}
+
+function getMarkerData(i){
+	
+	hideForm();
+	$("#send").hide();
+	$("#sidebar-wrapper").show("slow");
+	//makes all markers draggable
+	setMarkerDraggable();
+
+	$('#layerId').val(propMarkers[i].layer_id);
+	$('#address').val(propMarkers[i].address);
+	$('#city').val(propMarkers[i].city);
+	//Updates the select to data
+	var propertyProvince = document.getElementById( "province" );
+	var provinceSelectedOption = propertyProvince.options[ propertyProvince.selectedIndex ].value;
+	if( provinceSelectedOption !== propMarkers[i].province){
+		$("#province").val(propMarkers[i].province);
+	};
+	
+	$('#purchase_price').val(propMarkers[i].purchasePrice);
+	$('#year_built').val(propMarkers[i].buildingAge);
+	$('#sqft').val(propMarkers[i].sqft);
+	$('#lat').val(propMarkers[i].lat);
+	$('#lon').val(propMarkers[i].lon);
+	//Updates the select to data 
+	var propertyType = document.getElementById( "type" );
+	var typeSelectedOption = propertyType.options[ propertyType.selectedIndex ].value;
+	if( typeSelectedOption !== propMarkers[i].type){
+		$("#type").val(propMarkers[i].type);
+	};
+	$('#comment').val(propMarkers[i].comments);
+	
+}
+
+function setMarkerDraggable(){
+	
+	for(var i=0; i<markers.length; i++){
+        markers[i].setOptions({draggable: true});
+   };
+   
 }
 
 //Adds all the layers in the database
 function addLayers(data){
+	
 	//console.log(data[0][6]);
 	for (i = 0; i < data.length; i++) {
 		var currentDiv = $('layer'+ i);
@@ -141,6 +350,7 @@ function addLayers(data){
 
 //Add the event listener to each newly created checkbox
 function attachChangeListener(thisCheckbox,i) {
+	
 	    $(thisCheckbox).change(function () {
 	    	var checked = $(this).is(':checked');
 	    	//console.log(checked);
@@ -173,9 +383,11 @@ function attachChangeListener(thisCheckbox,i) {
 					
 	        	}
 	    });
+	    
 }
 
 function addInfoWindow(data){
+	
 	//console.log(data);
 	map.data.addListener('mouseover', function(event) {
 		document.getElementById('info-box').style.display = "block";
@@ -201,10 +413,12 @@ function addInfoWindow(data){
         featureInfoWindow.open(map);
         $("#featureInfo").parents().parents().css({"min-width": "200px"});
 	  });
+	  
 }
 
 //Makes request to Geoserver to get the geojson layer
 function addGeoJsonLayers(layers, sw, ne){
+	
 		$.ajax({
 	     	url: layers.url + '&bbox=' + sw + ',' + ne,
 	     	dataType: 'json',
@@ -223,10 +437,12 @@ function addGeoJsonLayers(layers, sw, ne){
 			console.log(textStatus);
 		    console.log(errorThrown);
 		});
+		
 }
 
 //Refreshes the displayed layers that are turned on when bounding box changes
 function layerRefresh(feature, layer, url, thisCheckbox){
+	
 	//console.log(layer);
 	var selectedLayer = layer.name;
 	//console.log(selectedLayer);
@@ -260,10 +476,12 @@ function layerRefresh(feature, layer, url, thisCheckbox){
 			    console.log(errorThrown);
 			});
 	}
+	
 }
 
 //Styles for the polygon, lines or point layers
 function styleLayer(data){
+	
 	map.data.setStyle(function(feature) {
 		switch(feature.getGeometry().getType()) {
 		    case 'Point':
@@ -297,15 +515,22 @@ function styleLayer(data){
 		        break;
 		}
 	});
+	
 }
 				    
 function hideForm(){
-	$("#sidebar-wrapper").hide("slow");
-	$("#sidebar-layers").hide("slow");
+	
+	$("#sidebar-wrapper").hide("slow").addClass('displayNone');
+	$("#sidebar-layers").hide("slow").addClass('displayNone');
+	
 }
 
 //Retrieves the Marker Coordinates
 function getMarkerCoords(event){
+	
+	document.getElementById("property_form").reset();
+	$('#edit').hide();
+	$('#send').show();
 	console.log(event.overlay.position.lat());
 	console.log(event.overlay.position.lng());
 	var latitude = event.overlay.position.lat();
@@ -314,15 +539,19 @@ function getMarkerCoords(event){
 	inputLat.value = latitude;
 	var inputLon = document.getElementById("lon");
 	inputLon.value = longitude;
+	
 	//Opens the form when marker is placed
 	$("#sidebar-wrapper").show("slow");
+	
 }
 
 //Retrieves the Circle Coordinates
 function getCircleCoords(event){
+	
 	console.log(event.overlay.getRadius());
 	console.log(event.overlay.getCenter().lat());
 	console.log(event.overlay.getCenter().lng());
+	
 }
 
 //Uncomment to get other vertices positions for google drawing tool
