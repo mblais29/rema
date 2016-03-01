@@ -295,12 +295,15 @@ $header_font: 'Libre Baskerville', serif;
 }
 
 .login-label{
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-weight: bold;
   font-family: $header_font;
-  margin: 2% 0 2% 0;
+  margin: 2% 0 1% 0;
 }
 
+.loginInput{
+  width: 50% !important;
+}
 /* Includes wvga size screen 480 x 800 */
 @import 'media_wvga';
 

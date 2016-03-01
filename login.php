@@ -27,23 +27,24 @@
 	<body>
 		<div id="wrapper">
 		  	<div id="login">
-		  		<form id="login_form">
+		  		<form id="login_form" action="php/login_con.php" method="post">
 		  			<div id="header">
 		  				<img id="loading-image" src="img/mblais.png" width="100" height="100" alt="Loading..." />
 		  			</div>
 		  			<label class="login-label" for="username">USERNAME</label>
-		  			<input type="text" class="form-control" id="username" name="username" >
+		  			<input type="text" class="form-control loginInput" id="username" name="username" >
 		  			<label class="login-label" for="password">PASSWORD</label>
-		  			<input type="password" class="form-control" id="password" name="password" >	
+		  			<input type="password" class="form-control loginInput" id="password" name="password" >
+		  			<button type="submit" name="submit" id="sendLogin" class="btn btn-secondary" >Login</button>
 		  		</form>
 		  	</div>
-		  	
  		</div>
 	
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="components/jquery/jquery-2.1.4.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="components/bootstrap/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/functions/layers.js"></script>
 
   	</body>
 </html>

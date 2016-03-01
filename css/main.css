@@ -275,10 +275,13 @@ div#page-content-wrapper {
   text-align: center; }
 
 .login-label {
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-weight: bold;
   font-family: "Libre Baskerville", serif;
-  margin: 2% 0 2% 0; }
+  margin: 2% 0 1% 0; }
+
+.loginInput {
+  width: 50% !important; }
 
 /* Includes wvga size screen 480 x 800 */
 @media only screen and (max-width: 480px) {
