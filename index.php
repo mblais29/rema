@@ -1,3 +1,15 @@
+<?php
+//Checks to see if the user has logged in yet before proceeding to the map
+$cookie_name = 'USERNAME';
+if(!isset($_COOKIE[$cookie_name])) {
+	echo "<script type='text/javascript'>alert('User login is required...');window.location.replace(\"login.php\");</script>";
+} /*else {
+    echo "Cookie '" . $cookie_name . "' is set!<br>";
+    echo "Value is: " . $_COOKIE[$cookie_name];
+}*/
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -98,6 +110,15 @@
 					      <option value="TRANSIT">Transit</option>
 					    </select>
 				    </div>
+				    <div id="floating-user-panel">
+					    <div class="dropdown">
+						    <button class="btn btn-default dropdown-toggle" id="signIn" type="button" data-toggle="dropdown"><?php echo $_COOKIE['USERNAME'] ?>
+						    <span class="caret"></span></button>
+						    <ul class="dropdown-menu">
+						      <li><a href="#">Sign Out</a></li>
+						    </ul>
+						</div>
+				    </div>
 				  	<div id="map"></div>
 				  	<div class="iw-bottom-gradient"></div>
 				  	<div id="info-box"></div>
@@ -116,6 +137,9 @@
     <script src="js/functions/layers.js"></script>
     <script src="js/functions/WMSTiled.js"></script>
     <script src="js/functions/routing.js"></script>
+    
 	<? @include data.php ?>
+
+
   </body>
 </html>

@@ -43,9 +43,13 @@
 		    //echo '<br/> SQL Query: '.$sql;
 			$getResults = pg_query($dbconn, $sql);
 			$response = pg_fetch_result($getResults, 0, 0);
+			
+		
 			if ($response == 't') {
 			    echo "<script type='text/javascript'>alert('Username and Password are Correct...');</script>";
-				setcookie("USERNAME", $usernameResponse);
+				$cookie_name = "USERNAME";
+				$cookie_value = $usernameResponse;
+				setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
 				header("Location: ../index.php");
 		    	exit;
 			} else{

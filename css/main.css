@@ -243,6 +243,14 @@ div#page-content-wrapper {
       bottom: 0;
       left: 5px;
       z-index: 5; }
+    div#page-content-wrapper > .container-fluid #floating-user-panel {
+      position: absolute;
+      top: 0;
+      right: 55px;
+      z-index: 5; }
+    div#page-content-wrapper > .container-fluid .dropdown-menu {
+      width: auto !important;
+      min-width: 50px !important; }
     div#page-content-wrapper > .container-fluid #mode {
       width: 100% !important; }
     div#page-content-wrapper > .container-fluid .btn-default {

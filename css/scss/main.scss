@@ -247,6 +247,16 @@ $header_font: 'Libre Baskerville', serif;
         left: 5px;
         z-index: 5;
       }
+      #floating-user-panel {
+        position: absolute;
+        top: 0;
+        right: 55px;
+        z-index: 5;
+      }
+      .dropdown-menu{
+        width: auto !important;
+        min-width: 50px !important;
+      }
       #mode{
         width: 100% !important;
       }

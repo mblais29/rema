@@ -50,6 +50,7 @@ var icons = {
  };
 
 $( document ).ready(function() {
+	
 	$('#wrapper').css("visibility", "hidden");
 	// Hides the Form on load
     $("#route-details").hide();
@@ -241,6 +242,7 @@ $( document ).ready(function() {
 	getLayers();
 	getPropertyMarkers();	
 });
+
 
 window.onload = function(){
 	var bounds = new google.maps.LatLngBounds();

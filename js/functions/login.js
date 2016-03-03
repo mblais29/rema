@@ -8,7 +8,7 @@ $(document).ready(function () {
 	    // Serialize the form data.
 		var formData = $('#login_form').serialize();
 		var url = $('#login_form').attr('action');
-		alert(formData);
+		//alert(formData);
 		
 		submitForm(formData,url);
 
