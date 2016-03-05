@@ -125,6 +125,22 @@ if(!isset($_COOKIE[$cookie_name])) {
 				  	<div id="route"></div>
 	            </div>
 	        </div>
+	        <div id="settings-page">
+	        	<div id="system-admin">
+	        		<span class="close-button"><img src="https://maps.gstatic.com/mapfiles/api-3/images/mapcnt6.png" draggable="false" style="position: absolute; left: -2px; top: -336px; width: 59px; height: 492px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></span>
+	        		<ul id="settings-list" class="nav nav-tabs">
+					  <li id="user" class="settings active"><a href="#">Users</a></li>
+					  <li id="property" class="settings"><a href="#">Property</a></li>
+					  <li id="lease" class="settings"><a href="#">Leases</a></li>
+					</ul>
+					<div id="settings-user" class="divSize">User Page</div>
+					<div id="settings-property" class="hide">Property Page</div>
+					<div id="settings-lease" class="hide">Lease Page </div>
+	        	</div>
+	        	<!---<form id="user_form" action="" method="post">
+	        	
+	        	</form>--->
+	        </div>
  		</div>
 	
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -137,6 +153,7 @@ if(!isset($_COOKIE[$cookie_name])) {
     <script src="js/functions/WMSTiled.js"></script>
     <script src="js/functions/routing.js"></script>
     <script src="js/functions/signout.js"></script>
+    <script src="js/functions/admin.js"></script>
     
 	<? @include data.php ?>
 

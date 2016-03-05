@@ -187,6 +187,45 @@ $header_font: 'Libre Baskerville', serif;
     margin-bottom: 8%;
   }
   
+  /* Settings */
+  #settings-page{
+    width: 50%;
+    height: 50vh;
+    top: 25%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    background-color: rgba(255,255,255,1);
+    border: 2px solid #bce8f1;
+    display: block;
+    position: absolute;
+    z-index: 10;
+    > .system-admin{
+      > .hide{
+        display: none;
+      }
+      .divSize{
+      height: 75%;
+      width: 100%;
+      display: block;
+      position: absolute;
+      }
+    }
+    .close-button{
+      width: 13px; 
+      height: 13px; 
+      overflow: hidden; 
+      position: absolute; 
+      opacity: 1; 
+      right: 5px; 
+      top: 5px; 
+      z-index: 10000; 
+      cursor: pointer;
+    }
+  }
+  
+  
+  
   /* Page Content: Map */
   
   div#page-content-wrapper{
@@ -210,6 +249,10 @@ $header_font: 'Libre Baskerville', serif;
       }
       #routetoggleControl{
         top: 50px !important;
+        right: 5px !important;
+      }
+      #adminControl{
+        top: 95px !important;
         right: 5px !important;
       }
       #info-box{

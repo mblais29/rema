@@ -54,6 +54,8 @@ $( document ).ready(function() {
 	$('#wrapper').css("visibility", "hidden");
 	// Hides the Form on load
     $("#route-details").hide();
+    $("#settings-page").hide();
+    
     
 	var drawMarker = google.maps.drawing.OverlayType.MARKER;
 	var circle = google.maps.drawing.OverlayType.CIRCLE;
@@ -210,6 +212,16 @@ $( document ).ready(function() {
 		
 	  routeControlDiv.index = 1;
 	  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(routeControlDiv);
+	  
+	  //Admin Link for User Settings
+	  var adminControlDiv = document.createElement('div');
+	  adminControlDiv.id = 'adminControl';
+	  //adminControlDiv.style.width = '42.2969px';
+	  //adminControlDiv.style.height = '58px';
+	  var adminControl = new AdminControl(adminControlDiv, map);
+		
+	  adminControlDiv.index = 1;
+	  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(adminControlDiv);
 	  
 	  
 		//Get Layers
