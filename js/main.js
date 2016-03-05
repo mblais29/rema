@@ -252,6 +252,7 @@ window.onload = function(){
 	map.fitBounds(bounds);
 	$('#loading').hide();
 	$('#wrapper').css("visibility", "visible");
+
 };
 
 

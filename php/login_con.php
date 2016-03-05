@@ -49,7 +49,7 @@
 			    echo "<script type='text/javascript'>alert('Username and Password are Correct...');</script>";
 				$cookie_name = "USERNAME";
 				$cookie_value = $usernameResponse;
-				setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+				setcookie($cookie_name, $cookie_value, time() + (86400 * 1), "/"); //86400 * 1 cookie expires in one day
 				header("Location: ../index.php");
 		    	exit;
 			} else{

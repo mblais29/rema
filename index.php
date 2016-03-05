@@ -7,7 +7,6 @@ if(!isset($_COOKIE[$cookie_name])) {
     echo "Cookie '" . $cookie_name . "' is set!<br>";
     echo "Value is: " . $_COOKIE[$cookie_name];
 }*/
-
 ?>
 
 <!DOCTYPE html>
@@ -115,7 +114,7 @@ if(!isset($_COOKIE[$cookie_name])) {
 						    <button class="btn btn-default dropdown-toggle" id="signIn" type="button" data-toggle="dropdown"><?php echo $_COOKIE['USERNAME'] ?>
 						    <span class="caret"></span></button>
 						    <ul class="dropdown-menu">
-						      <li><a href="#">Sign Out</a></li>
+						      <li><a href="#" id="signout">Sign Out</a></li>
 						    </ul>
 						</div>
 				    </div>
@@ -137,6 +136,7 @@ if(!isset($_COOKIE[$cookie_name])) {
     <script src="js/functions/layers.js"></script>
     <script src="js/functions/WMSTiled.js"></script>
     <script src="js/functions/routing.js"></script>
+    <script src="js/functions/signout.js"></script>
     
 	<? @include data.php ?>
 
