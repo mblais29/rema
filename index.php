@@ -81,7 +81,7 @@ if(!isset($_COOKIE[$cookie_name])) {
 							      <option value="Land">Land</option>
 							  </select>
 							  <textarea class="form-control" rows="5" id="comment" name="comment" placeholder="Enter comment here..."></textarea>
-							  
+							  <button type="button" class="btn btn-secondary" id="close" onclick="hideForm()">Close</button>
 							  <button type="submit" name="submit" id="send" class="btn btn-secondary" value="one" >Submit</button>
 							  <button type="submit" name="submit" id="edit" class="btn btn-secondary" value="two" >Edit</button>
 							</div>
@@ -89,7 +89,20 @@ if(!isset($_COOKIE[$cookie_name])) {
 	                </li>
 	            </ul>
 	            <form id="user_form" action="" method="post">
-	        		<button type="button" class="btn btn-secondary" id="close" onclick="hideForm()">Close</button>
+                    <div class="sidebar-brand">
+	                    <h1>User Management</h1>
+	                </div>
+	            	<input type="text" class="form-control" id="userName" name="userName" placeholder="Enter a Username...">
+	            	<input type="password" class="form-control" id="userPassword"  name="userPassword" placeholder="Enter Users Password...">
+					<input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter Users First Name...">
+					<input type="text" class="form-control" id="lastName"  name="lastName" placeholder="Enter Users Last Name...">
+					<input type="text" class="form-control" id="userEmail"  name="userEmail" placeholder="Enter Users Email...">
+					<input type="text" class="form-control" id="userPhone"  name="userPhone" placeholder="Enter Users Phone Number...">
+					<select class="form-control" id="userSecurity" name="userSecurity">
+				    	<option value="admin">Administrator</option>
+				    	<option value="viewer">Viewer</option>
+				  	</select>
+	        		<button type="button" class="btn btn-secondary" id="close-button" onclick="hideForm()">Close</button>
 	        	</form>
 	        </div>
 	        <div id="settings-page">

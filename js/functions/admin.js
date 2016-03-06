@@ -27,7 +27,7 @@ function AdminControl(adminControlDiv, map) {
   	$("#settings-page").show('slow');
   	$('#settings-page').css("visibility", "visible");
   	if($('.user-table').length){
-  		console.log('table already created');
+  		console.log('Table already created');
   	}else{
   		openSettings();
   	}
@@ -89,6 +89,7 @@ function getUsers(){
 
 function editUser(){
 	$("#sidebar-wrapper").show("slow");
+	$("#user_form").show();
 	$(".sidebar-nav").hide();
 }
 

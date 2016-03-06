@@ -285,6 +285,8 @@ function getMarkerData(i){
 	
 	hideForm();
 	$("#send").hide();
+	$("#user_form").hide();
+	$(".sidebar-nav").show();
 	$("#sidebar-wrapper").show("slow");
 	//makes all markers draggable
 	setMarkerDraggable();
