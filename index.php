@@ -81,14 +81,31 @@ if(!isset($_COOKIE[$cookie_name])) {
 							      <option value="Land">Land</option>
 							  </select>
 							  <textarea class="form-control" rows="5" id="comment" name="comment" placeholder="Enter comment here..."></textarea>
-							  <button type="button" class="btn btn-secondary" id="close" onclick="hideForm()">Close</button>
+							  
 							  <button type="submit" name="submit" id="send" class="btn btn-secondary" value="one" >Submit</button>
 							  <button type="submit" name="submit" id="edit" class="btn btn-secondary" value="two" >Edit</button>
 							</div>
 						</form>
 	                </li>
 	            </ul>
-	            <iframe name="formSending"></iframe>
+	            <form id="user_form" action="" method="post">
+	        		<button type="button" class="btn btn-secondary" id="close" onclick="hideForm()">Close</button>
+	        	</form>
+	        </div>
+	        <div id="settings-page">
+	        	<div id="system-admin">
+	        		<span class="close-button"><img src="https://maps.gstatic.com/mapfiles/api-3/images/mapcnt6.png" draggable="false" style="position: absolute; left: -2px; top: -336px; width: 59px; height: 492px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></span>
+	        		<ul id="settings-list" class="nav nav-tabs">
+					  <li id="user" class="settings active"><a href="#">Users</a></li>
+					  <li id="property" class="settings"><a href="#">Property</a></li>
+					  <li id="lease" class="settings"><a href="#">Leases</a></li>
+					</ul>
+					<div id="settings-user" class="divSize">
+						
+	        		</div>
+					<div id="settings-property" class="hide">Property Page</div>
+					<div id="settings-lease" class="hide">Lease Page </div>
+	        	</div>
 	        </div>
 	        <div id="sidebar-layers" class="displayNone">
 	        	<div class="checkbox">
@@ -124,22 +141,6 @@ if(!isset($_COOKIE[$cookie_name])) {
 				  	<!--- Uncomment route div to see the Origin and Destination lat/lng --->
 				  	<div id="route"></div>
 	            </div>
-	        </div>
-	        <div id="settings-page">
-	        	<div id="system-admin">
-	        		<span class="close-button"><img src="https://maps.gstatic.com/mapfiles/api-3/images/mapcnt6.png" draggable="false" style="position: absolute; left: -2px; top: -336px; width: 59px; height: 492px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></span>
-	        		<ul id="settings-list" class="nav nav-tabs">
-					  <li id="user" class="settings active"><a href="#">Users</a></li>
-					  <li id="property" class="settings"><a href="#">Property</a></li>
-					  <li id="lease" class="settings"><a href="#">Leases</a></li>
-					</ul>
-					<div id="settings-user" class="divSize">User Page</div>
-					<div id="settings-property" class="hide">Property Page</div>
-					<div id="settings-lease" class="hide">Lease Page </div>
-	        	</div>
-	        	<!---<form id="user_form" action="" method="post">
-	        	
-	        	</form>--->
 	        </div>
  		</div>
 	

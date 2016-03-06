@@ -24,14 +24,21 @@ function AdminControl(adminControlDiv, map) {
 
   // Setup the click event listeners
   adminControlUI.addEventListener('click', function() {
-  	//$("#sidebar-layers").show('slow').removeClass('displayNone');
-  	openSettings();
+  	$("#settings-page").show('slow');
+  	$('#settings-page').css("visibility", "visible");
+  	if($('.user-table').length){
+  		console.log('table already created');
+  	}else{
+  		openSettings();
+  	}
+  	
   });
   
 }
 
 function openSettings(){
-	$("#settings-page").show('slow');
+	//$("#settings-page").show('slow');
+	getUsers();
 }
 
 $('li.settings a').on('click', function(){
@@ -49,7 +56,41 @@ function settingListCheck(id){
 $('.close-button').on('click', function(c){
 	$(this).parent().parent().fadeOut('slow', function(c){
 	});
-});	
+	$('#settings-page').css("visibility", "hidden");
+});
+
+//Get Users in Database
+function getUsers(){
+	$.ajax({
+        url: "../rema/php/editUsers.php",
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (data) {
+        	var table = $('<table></table>').addClass('table table-striped user-table');
+        	var header = table.append('<thead><tr><th>First Name</th><th>Last Name</th><th>Username</th><th>Security</th></tr></thead>');
+        	var body = header.append('<tbody></tbody>');
+        	
+        	for (i = 0; i < data.length; i++) {
+
+			     var row = $('<tr>').append(
+		            $('<td>').text(data[i][1]),
+		            $('<td>').text(data[i][2]),
+		            $('<td>').text(data[i][5]),
+		            $('<td>').text(data[i][7]),
+		            $('<td>').html('<button type="button" class="btn btn-info edit-button" onclick="editUser()">Edit</button>')
+		        ); 
+		        body.append(row);
+	
+        	}
+        	$('#settings-user').append(table);           	
+        }
+    });	
+}
+
+function editUser(){
+	$("#sidebar-wrapper").show("slow");
+	$(".sidebar-nav").hide();
+}
 
 
 

@@ -52,9 +52,9 @@ var icons = {
 $( document ).ready(function() {
 	
 	$('#wrapper').css("visibility", "hidden");
+	$('#settings-page').css("visibility", "hidden");
 	// Hides the Form on load
     $("#route-details").hide();
-    $("#settings-page").hide();
     
     
 	var drawMarker = google.maps.drawing.OverlayType.MARKER;
