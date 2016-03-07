@@ -24,10 +24,11 @@ $theme_font_color: #31708f;
       position:absolute;
       top: 40%;
   }
-  .displayNone{
-    display: none;
-  }
-  
+  /* Display None Class */
+    .displayNone{
+      display: none;
+    }
+
   /* Toggle Styles */
   
   div#wrapper {
@@ -89,7 +90,7 @@ $theme_font_color: #31708f;
   }
   
   /* Layer Navigation */
-  
+
   div#sidebar-layers {
     z-index: 1000;
     position: fixed;
@@ -192,6 +193,9 @@ $theme_font_color: #31708f;
   }
   
   /* Settings */
+  .heading{
+    border-bottom: none !important;
+  }
   #settings-page{
     width: 50%;
     height: 50vh;
@@ -202,9 +206,8 @@ $theme_font_color: #31708f;
     overflow: auto;
     background-color: rgba(255,255,255,1);
     border: 2px solid $theme_color_border;
-    display: block;
     position: absolute;
-    z-index: 10;
+    z-index: 2;
     > .system-admin{
       > .hide{
         display: none;
@@ -216,7 +219,8 @@ $theme_font_color: #31708f;
       position: absolute;
       }
     }
-    .user-table{
+  /* User Form Table */
+    > .user-table{
       margin-top: 5%;
     }
     .close-button{
@@ -237,8 +241,7 @@ $theme_font_color: #31708f;
       &:hover{
         background-color: $theme_color_hover !important;
       }
-    }
-    
+    } 
   }
   #user_form{
     > .sidebar-brand {

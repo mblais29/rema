@@ -61,6 +61,7 @@ table {
   position: absolute;
   top: 40%; }
 
+/* Display None Class */
 .displayNone {
   display: none; }
 
@@ -190,6 +191,9 @@ div#route-details {
   margin-bottom: 8%; }
 
 /* Settings */
+.heading {
+  border-bottom: none !important; }
+
 #settings-page {
   width: 50%;
   height: 50vh;
@@ -200,9 +204,9 @@ div#route-details {
   overflow: auto;
   background-color: white;
   border: 2px solid #bce8f1;
-  display: block;
   position: absolute;
-  z-index: 10; }
+  z-index: 2;
+  /* User Form Table */ }
   #settings-page > .system-admin > .hide {
     display: none; }
   #settings-page > .system-admin .divSize {
@@ -210,7 +214,7 @@ div#route-details {
     width: 100%;
     display: block;
     position: absolute; }
-  #settings-page .user-table {
+  #settings-page > .user-table {
     margin-top: 5%; }
   #settings-page .close-button {
     width: 13px;

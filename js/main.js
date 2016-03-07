@@ -12,6 +12,8 @@ var layerTree = [];
 var topLevelcheckBox;
 var midLevelCheckBox;
 var featureInfoWindow = new google.maps.InfoWindow();
+//Users Global Variables
+var userInfo = [];
 
 // Routing Global Variables
 var originLatLng = "";
@@ -52,7 +54,7 @@ var icons = {
 $( document ).ready(function() {
 	
 	$('#wrapper').css("visibility", "hidden");
-	$('#settings-page').css("visibility", "hidden");
+	
 	// Hides the Form on load
     $("#route-details").hide();
     
@@ -257,6 +259,7 @@ $( document ).ready(function() {
 
 
 window.onload = function(){
+
 	var bounds = new google.maps.LatLngBounds();
     for (var i = 0; i < markers.length; i++) {
       bounds.extend(markers[i].getPosition());

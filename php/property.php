@@ -8,7 +8,7 @@
 				case 'one':
 					try {
 						//creates the new record
-						$sql="INSERT INTO rema.property(address, city, province, purchase_price, year_built, sqft, type, comments, lat, lon)
+						$sql="INSERT INTO $schema_name.property(address, city, province, purchase_price, year_built, sqft, type, comments, lat, lon)
 			    		VALUES ('$_POST[address]', '$_POST[city]', '$_POST[province]', '$_POST[purchase_price]', '$_POST[year_built]', '$_POST[sqft]', '$_POST[type]', '$_POST[comment]', '$_POST[lat]', '$_POST[lon]')";
 					    
 					    

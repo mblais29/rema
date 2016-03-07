@@ -17,12 +17,14 @@
 		function getUser($schema_name,$dbconn) {
 			//checks to see if the user exists
 			
-			$username = "SELECT username FROM ".$schema_name.".users WHERE username = '$_POST[username]' LIMIT 1";
+			$username = "SELECT username, security FROM ".$schema_name.".users WHERE username = '$_POST[username]' LIMIT 1";
 			$usernameResults = pg_query($dbconn, $username);
 			$numrows = pg_numrows($usernameResults);
 			if($numrows > 0){
 				$usernameResponse = pg_fetch_result($usernameResults, 0, 0);
-				checkPassword($usernameResponse,$dbconn,$schema_name);
+				$securityResponse = pg_fetch_result($usernameResults, 0, 1);
+				//echo $securityResponse;
+				checkPassword($usernameResponse,$securityResponse,$dbconn,$schema_name);
 			}else{
 				echo "<script type='text/javascript'>alert('User does not exist..');window.location.replace(\"../login.php\");</script>";
 			}
@@ -37,7 +39,7 @@
 			}*/
 		}
 		
-		function checkPassword($usernameResponse,$dbconn,$schema_name) {
+		function checkPassword($usernameResponse,$securityResponse,$dbconn,$schema_name) {
 			//Authenticates to see if the password is valid
 			$sql="SELECT (pwd = crypt('$_POST[password]', pwd)) AS password FROM ".$schema_name.".users WHERE username ='".$usernameResponse."' LIMIT 1";
 		    //echo '<br/> SQL Query: '.$sql;
@@ -47,9 +49,12 @@
 		
 			if ($response == 't') {
 			    echo "<script type='text/javascript'>alert('Username and Password are Correct...');</script>";
-				$cookie_name = "USERNAME";
+				$cookie_username = "USERNAME";
+				$cookie_security = "SECURITY";
 				$cookie_value = $usernameResponse;
-				setcookie($cookie_name, $cookie_value, time() + (86400 * 1), "/"); //86400 * 1 cookie expires in one day
+				$cookie_sec_value = $securityResponse;
+				setcookie($cookie_username, $cookie_value, time() + (86400 * 1), "/"); //86400 * 1 cookie expires in one day
+				setcookie($cookie_security, $cookie_sec_value, time() + (86400 * 1), "/");
 				header("Location: ../index.php");
 		    	exit;
 			} else{

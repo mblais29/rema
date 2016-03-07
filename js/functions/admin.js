@@ -24,8 +24,8 @@ function AdminControl(adminControlDiv, map) {
 
   // Setup the click event listeners
   adminControlUI.addEventListener('click', function() {
-  	$("#settings-page").show('slow');
-  	$('#settings-page').css("visibility", "visible");
+  	//$("#settings-page").show('slow');
+  	$('#settings-page').show('slow').removeClass('displayNone');
   	if($('.user-table').length){
   		console.log('Table already created');
   	}else{
@@ -56,18 +56,18 @@ function settingListCheck(id){
 $('.close-button').on('click', function(c){
 	$(this).parent().parent().fadeOut('slow', function(c){
 	});
-	$('#settings-page').css("visibility", "hidden");
+	$('#settings-page').hide().addClass('displayNone');
 });
 
 //Get Users in Database
 function getUsers(){
 	$.ajax({
-        url: "../rema/php/editUsers.php",
+        url: "../rema/php/getUsers.php",
         dataType: 'json',
         contentType: 'application/json',
         success: function (data) {
         	var table = $('<table></table>').addClass('table table-striped user-table');
-        	var header = table.append('<thead><tr><th>First Name</th><th>Last Name</th><th>Username</th><th>Security</th></tr></thead>');
+        	var header = table.append('<thead><tr><th class="heading">First Name</th><th class="heading">Last Name</th><th class="heading">Username</th><th class="heading">Security</th></tr></thead>');
         	var body = header.append('<tbody></tbody>');
         	
         	for (i = 0; i < data.length; i++) {
@@ -77,9 +77,20 @@ function getUsers(){
 		            $('<td>').text(data[i][2]),
 		            $('<td>').text(data[i][5]),
 		            $('<td>').text(data[i][7]),
-		            $('<td>').html('<button type="button" class="btn btn-info edit-button" onclick="editUser()">Edit</button>')
+		            $('<td>').html('<button type="button" class="btn btn-info edit-button" onclick="editUser('+i+')">Edit</button>')
 		        ); 
 		        body.append(row);
+		        
+		        userInfo.push({
+			  	"user_id": data[i][0],
+	        	"first_name": data[i][1],
+		        "last_name": data[i][2],
+		        "email": data[i][3],
+		        "phone": data[i][4],
+		        "username": data[i][5],
+		        "pwd": data[i][6],
+		        "security": data[i][7]
+			  });
 	
         	}
         	$('#settings-user').append(table);           	
@@ -87,10 +98,35 @@ function getUsers(){
     });	
 }
 
-function editUser(){
+function editUser(i){
 	$("#sidebar-wrapper").show("slow");
 	$("#user_form").show();
 	$(".sidebar-nav").hide();
+	$("#userSend").hide();
+	//Insert User Info Array values
+	$('#userId').val(userInfo[i].user_id);
+	$('#userName').val(userInfo[i].username);
+	$('#userPassword').val(userInfo[i].pwd);
+	$('#firstName').val(userInfo[i].first_name);
+	$('#lastName').val(userInfo[i].last_name);
+	$('#userEmail').val(userInfo[i].email);
+	$('#userPhone').val(userInfo[i].phone);
+
+	//Updates the select to data 
+	var securityType = document.getElementById( "userSecurity" );
+	var securitySelectedOption = securityType.options[ securityType.selectedIndex ].value;
+	if( securitySelectedOption !== userInfo[i].security){
+		$("#userSecurity").val(userInfo[i].security);
+	};
+	var previousValue = $("#userPassword").val();
+	console.log(previousValue);
+	$("#userPassword").blur(function(e) {
+	    var currentValue = $(this).val();
+	    if(currentValue != previousValue) {
+	         previousValue = currentValue;
+	         console.log(previousValue);
+	    }
+	});
 }
 
 
