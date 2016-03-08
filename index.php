@@ -48,57 +48,70 @@ if(!isset($_COOKIE[$cookie_name])) {
 	                <li class="sidebar-brand">
 	                    <h1>Property Information</h1>
 	                </li>
-	                <li>
-	                	<form id="property_form" action="php/property.php" method="post">
-		                	<div class="form-group">
-		                	  <input type="hidden" class="form-control" id="layerId" name="layerId" >
-							  <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address...">
-							  <input type="text" class="form-control" id="city" name="city" placeholder="Enter City...">
-							  <select class="form-control" id="province" name="province">
-							      <option value="AB">Alberta</option>
-							      <option value="BC">British Columbia</option>
-							      <option value="MB">Manitoba</option>
-							      <option value="NB">New Brunswick</option>
-							      <option value="NL">Newfoundland</option>
-							      <option value="NT">Northwest Territory</option>
-							      <option value="NS">Nova Scotia</option>
-							      <option value="NU">Nunavat</option>
-							      <option value="ON">Ontario</option>
-							      <option value="PE">Prince Edward Island</option>
-							      <option value="QC">Quebec</option>
-							      <option value="SK">Saskatchewan</option>
-							      <option value="YT">Yukon</option>
-							  </select>
-							  <input type="text" class="form-control" id="purchase_price" name="purchase_price" placeholder="Enter Purchase Price...">
-							  <input type="date" class="form-control" id="year_built" name="year_built" placeholder="Enter Year Built...">
-							  <input type="number" class="form-control" id="sqft"  name="sqft" placeholder="Enter Square Footage...">
-							  <input type="number" class="form-control" id="lat" name="lat" readonly>
-							  <input type="number" class="form-control" id="lon" name="lon" readonly>
-							  <select class="form-control" id="type" name="type">
-							      <option value="Detached House">Detached House</option>
-							      <option value="Attached House">Attached House</option>
-							      <option value="Condo">Condo</option>
-							      <option value="Land">Land</option>
-							  </select>
-							  <textarea class="form-control" rows="5" id="comment" name="comment" placeholder="Enter comment here..."></textarea>
-							  <button type="button" class="btn btn-secondary" id="close" onclick="hideForm()">Close</button>
-							  <button type="submit" name="submit" id="send" class="btn btn-secondary" value="one" >Submit</button>
-							  <button type="submit" name="submit" id="edit" class="btn btn-secondary" value="two" >Save</button>
-							</div>
-						</form>
-	                </li>
+                	<form id="property_form" action="php/property.php" method="post">
+	                	  <input type="hidden" class="form-control" id="layerId" name="layerId" >
+	                	  <label for="address">Address:</label>
+						  <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address...">
+						  <label for="city">City:</label>
+						  <input type="text" class="form-control" id="city" name="city" placeholder="Enter City...">
+						  <label for="province">Province:</label>
+						  <select class="form-control" id="province" name="province">
+						      <option value="AB">Alberta</option>
+						      <option value="BC">British Columbia</option>
+						      <option value="MB">Manitoba</option>
+						      <option value="NB">New Brunswick</option>
+						      <option value="NL">Newfoundland</option>
+						      <option value="NT">Northwest Territory</option>
+						      <option value="NS">Nova Scotia</option>
+						      <option value="NU">Nunavat</option>
+						      <option value="ON">Ontario</option>
+						      <option value="PE">Prince Edward Island</option>
+						      <option value="QC">Quebec</option>
+						      <option value="SK">Saskatchewan</option>
+						      <option value="YT">Yukon</option>
+						  </select>
+						  <label for="purchase_price">Purchase Price:</label>
+						  <input type="text" class="form-control" id="purchase_price" name="purchase_price" placeholder="Enter Purchase Price...">
+						  <label for="year_built">Year Built:</label>
+						  <input type="date" class="form-control" id="year_built" name="year_built" placeholder="Enter Year Built...">
+						  <label for="sqft">Square Feet:</label>
+						  <input type="number" class="form-control" id="sqft"  name="sqft" placeholder="Enter Square Footage...">
+						  <label for="lat">Latitude:</label>
+						  <input type="number" class="form-control" id="lat" name="lat" readonly>
+						  <label for="lon">Longitude:</label>
+						  <input type="number" class="form-control" id="lon" name="lon" readonly>
+						  <label for="type">Building Type:</label>
+						  <select class="form-control" id="type" name="type">
+						      <option value="Detached House">Detached House</option>
+						      <option value="Attached House">Attached House</option>
+						      <option value="Condo">Condo</option>
+						      <option value="Land">Land</option>
+						  </select>
+						  <label for="comment">Comments:</label>
+						  <textarea class="form-control" rows="5" id="comment" name="comment" placeholder="Enter comment here..."></textarea>
+						  <button type="button" class="btn btn-secondary" id="close" onclick="hideForm()">Close</button>
+						  <button type="submit" name="submit" id="send" class="btn btn-secondary" value="one" >Submit</button>
+						  <button type="submit" name="submit" id="edit" class="btn btn-secondary" value="two" >Save</button>
+					</form>
 	            </ul>
-	            <form id="user_form" action="php/addEditUsers.php" method="post">
+	            <form id="user_form" action="php/addEditUsers.php" method="post" autocomplete='off'>
                     <div class="sidebar-brand">
 	                    <h1>User Management</h1>
 	                </div>
 	                <input type="hidden" class="form-control" id="userId" name="userId" >
+	                <label for="userName">Username:</label>
 	            	<input type="text" class="form-control" id="userName" name="userName" placeholder="Enter a Username...">
+	            	<label for="userPassword">Password:</label>
 	            	<input type="password" class="form-control" id="userPassword"  name="userPassword" placeholder="Enter Users Password...">
+					<label for="firstName">First Name:</label>
 					<input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter Users First Name...">
+					<label for="firstName">Last Name:</label>
 					<input type="text" class="form-control" id="lastName"  name="lastName" placeholder="Enter Users Last Name...">
+					<label for="userEmail">Email:</label>
 					<input type="text" class="form-control" id="userEmail"  name="userEmail" placeholder="Enter Users Email...">
+					<label for="userPhone">Phone:</label>
 					<input type="text" class="form-control" id="userPhone"  name="userPhone" placeholder="Enter Users Phone Number...">
+					<label for="userSecurity">Security:</label>
 					<select class="form-control" id="userSecurity" name="userSecurity">
 				    	<option value="Administrator">Administrator</option>
 				    	<option value="Viewer">Viewer</option>

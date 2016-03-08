@@ -24,21 +24,17 @@ function AdminControl(adminControlDiv, map) {
 
   // Setup the click event listeners
   adminControlUI.addEventListener('click', function() {
-  	//$("#settings-page").show('slow');
+  	//SHows the Admin Page
   	$('#settings-page').show('slow').removeClass('displayNone');
+  	//Checks to see if the table is already created to avoid duplicating tables
   	if($('.user-table').length){
   		console.log('Table already created');
   	}else{
-  		openSettings();
+  		getUsers();
   	}
   	
   });
   
-}
-
-function openSettings(){
-	//$("#settings-page").show('slow');
-	getUsers();
 }
 
 $('li.settings a').on('click', function(){
@@ -61,6 +57,8 @@ $('.close-button').on('click', function(c){
 
 //Get Users in Database
 function getUsers(){
+	//empty the user array before re-populating the array
+	userInfo = [];
 	$.ajax({
         url: "../rema/php/getUsers.php",
         dataType: 'json',
@@ -81,7 +79,6 @@ function getUsers(){
 		            $('<td>').html('<button type="button" class="btn btn-info edit-button" onclick="deleteUser('+i+')">Delete</button>')
 		        ); 
 		        body.append(row);
-		        
 		        userInfo.push({
 			  	"user_id": data[i][0],
 	        	"first_name": data[i][1],
@@ -99,12 +96,58 @@ function getUsers(){
     });	
 }
 
+function addUsers(){
+	$("#sidebar-wrapper").show("slow");
+	$("#user_form").show();
+	$("#userSend").show();
+	$("#user_form").trigger("reset");
+	$(".sidebar-nav").hide();
+	$("#userEdit").hide();
+}
+
+//Catches which submit button was clicked before being submitted
+var sumbitButton = "";
+
+$('#user_form').on('click', 'button[type=submit]', function(e) {
+      sumbitButton = $(this).val();
+});
+
+// Set up an event listener for the User form.
+$("#user_form").submit(function(event) {
+    // Stop the browser from submitting the form.
+    event.preventDefault();
+    // Serialize form data and submit button value
+    var formData = $("#user_form").serialize() + '&submit=' + sumbitButton;
+	createUsers(formData);
+});
+
+function createUsers(formData){
+	$.ajax({
+        url: $("#user_form").attr('action'),
+        type: "POST",
+        data: formData,
+        success: function (data) {
+        	alert(data);
+        	//Deletes the old table storing the Users Info before creating a new one
+        	$('.user-table').remove();
+        	getUsers();
+        	//Resets the Form
+        	$("#user_form").trigger("reset");
+        	//Hide Sidebar Wrapper Form
+        	$("#sidebar-wrapper").hide();
+        }
+	});
+}
+
+
 function editUser(i){
+
 	$("#sidebar-wrapper").show("slow");
 	$("#user_form").show();
 	$("#userEdit").show();
 	$(".sidebar-nav").hide();
 	$("#userSend").hide();
+	
 	//Insert User Info Array values
 	$('#userId').val(userInfo[i].user_id);
 	$('#userName').val(userInfo[i].username);
@@ -121,7 +164,7 @@ function editUser(i){
 		$("#userSecurity").val(userInfo[i].security);
 	};
 	var previousValue = $("#userPassword").val();
-	console.log(previousValue);
+	//console.log(previousValue);
 	$("#userPassword").blur(function(e) {
 	    var currentValue = $(this).val();
 	    if(currentValue != previousValue) {
@@ -131,18 +174,8 @@ function editUser(i){
 	});
 }
 
-function addUsers(){
-	$("#sidebar-wrapper").show("slow");
-	$("#user_form").show();
-	$("#userSend").show();
-	$("#user_form").trigger("reset");
-	$(".sidebar-nav").hide();
-	$("#userEdit").hide();
-}
-
 function deleteUser(i){
-	console.log(userInfo[i].user_id);
-	console.log(userInfo[i].username);
+
 	var userId = userInfo[i].user_id;
 	var userName = userInfo[i].username;
 	var formData = {name:userName,id:userId};
@@ -153,9 +186,13 @@ function deleteUser(i){
         data: formData,
         success: function (data) {
         	//console.log(data);
-        	alert('Username ' + data + ' has been removed!');
+        	alert(data);
+        	//Deletes the old table storing the Users Info before creating a new one
         	$('.user-table').remove();
+        	//Resets the Form
         	getUsers();
+        	//Hide Sidebar Wrapper Form
+        	$("#sidebar-wrapper").hide();
         }
  });
 }
