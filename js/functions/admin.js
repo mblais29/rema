@@ -67,7 +67,7 @@ function getUsers(){
         contentType: 'application/json',
         success: function (data) {
         	var table = $('<table></table>').addClass('table table-striped user-table');
-        	var header = table.append('<thead><tr><th class="heading">First Name</th><th class="heading">Last Name</th><th class="heading">Username</th><th class="heading">Security</th></tr></thead>');
+        	var header = table.append('<thead><tr><th class="heading">First Name</th><th class="heading">Last Name</th><th class="heading">Username</th><th class="heading">Security</th><th class="heading"></th><th class="heading"><button type="button" class="btn btn-info edit-button" id="new-button" onclick="addUsers()">New</button></th></tr></thead>');
         	var body = header.append('<tbody></tbody>');
         	
         	for (i = 0; i < data.length; i++) {
@@ -77,7 +77,8 @@ function getUsers(){
 		            $('<td>').text(data[i][2]),
 		            $('<td>').text(data[i][5]),
 		            $('<td>').text(data[i][7]),
-		            $('<td>').html('<button type="button" class="btn btn-info edit-button" onclick="editUser('+i+')">Edit</button>')
+		            $('<td>').html('<button type="button" class="btn btn-info edit-button" onclick="editUser('+i+')">Edit</button>'),
+		            $('<td>').html('<button type="button" class="btn btn-info edit-button" onclick="deleteUser('+i+')">Delete</button>')
 		        ); 
 		        body.append(row);
 		        
@@ -101,6 +102,7 @@ function getUsers(){
 function editUser(i){
 	$("#sidebar-wrapper").show("slow");
 	$("#user_form").show();
+	$("#userEdit").show();
 	$(".sidebar-nav").hide();
 	$("#userSend").hide();
 	//Insert User Info Array values
@@ -127,6 +129,35 @@ function editUser(i){
 	         console.log(previousValue);
 	    }
 	});
+}
+
+function addUsers(){
+	$("#sidebar-wrapper").show("slow");
+	$("#user_form").show();
+	$("#userSend").show();
+	$("#user_form").trigger("reset");
+	$(".sidebar-nav").hide();
+	$("#userEdit").hide();
+}
+
+function deleteUser(i){
+	console.log(userInfo[i].user_id);
+	console.log(userInfo[i].username);
+	var userId = userInfo[i].user_id;
+	var userName = userInfo[i].username;
+	var formData = {name:userName,id:userId};
+	
+	$.ajax({
+        url: "../rema/php/deleteUsers.php",
+        type: "POST",
+        data: formData,
+        success: function (data) {
+        	//console.log(data);
+        	alert('Username ' + data + ' has been removed!');
+        	$('.user-table').remove();
+        	getUsers();
+        }
+ });
 }
 
 
