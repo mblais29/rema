@@ -100,7 +100,7 @@ if(!isset($_COOKIE[$cookie_name])) {
 	                </div>
 	                <input type="hidden" class="form-control" id="userId" name="userId" >
 	                <label for="userName">Username:</label>
-	            	<input type="text" class="form-control" id="userName" name="userName" placeholder="Enter a Username...">
+	            	<input type="text" class="form-control" id="userName" name="userName" style="text-transform:uppercase" placeholder="Enter a Username...">
 	            	<label for="userPassword">Password:</label>
 	            	<input type="password" class="form-control" id="userPassword"  name="userPassword" placeholder="Enter Users Password...">
 					<label for="firstName">First Name:</label>
@@ -108,7 +108,7 @@ if(!isset($_COOKIE[$cookie_name])) {
 					<label for="firstName">Last Name:</label>
 					<input type="text" class="form-control" id="lastName"  name="lastName" placeholder="Enter Users Last Name...">
 					<label for="userEmail">Email:</label>
-					<input type="text" class="form-control" id="userEmail"  name="userEmail" placeholder="Enter Users Email...">
+					<input type="email" class="form-control" id="userEmail"  name="userEmail" placeholder="Enter Users Email...">
 					<label for="userPhone">Phone:</label>
 					<input type="text" class="form-control" id="userPhone"  name="userPhone" placeholder="Enter Users Phone Number...">
 					<label for="userSecurity">Security:</label>

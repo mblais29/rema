@@ -524,6 +524,9 @@ function hideForm(){
 	
 	$("#sidebar-wrapper").hide("slow").addClass('displayNone');
 	$("#sidebar-layers").hide("slow").addClass('displayNone');
+	$("#user_form").trigger('reset');
+	$("#property_form").trigger('reset');
+	
 	
 }
 

@@ -65,6 +65,25 @@ table {
 .displayNone {
   display: none; }
 
+input.form-control, input.form-control:focus {
+  border: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -moz-transition: none;
+  -webkit-transition: none; }
+
+/* Validate Input Styles */
+.notValid {
+  -webkit-box-shadow: 0px 0px 6px 2px red !important;
+  -moz-box-shadow: 0px 0px 6px 2px red !important;
+  box-shadow: 0px 0px 6px 2px red !important; }
+
+.valid {
+  -webkit-box-shadow: 0px 0px 6px 2px lime !important;
+  -moz-box-shadow: 0px 0px 6px 2px lime !important;
+  box-shadow: 0px 0px 6px 2px lime !important; }
+
 /* Toggle Styles */
 div#wrapper {
   width: 100%; }
