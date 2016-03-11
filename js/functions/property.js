@@ -22,9 +22,10 @@ function getProperty(){
 		            //$('<td>').html('<button type="button" class="btn btn-info edit-button" onclick="deleteUser('+i+')">Delete</button>')
 		        ); 
 		        body.append(row);
-		       propertyInfo.push({
-			  	"id": data[i][0]
-			  });
+		        //push the id to help retrive marker lat, lon from propMarker Array
+		        propertyInfo.push({
+			  	  "id": data[i][0]
+			    });
 	
         	}
         	$('#settings-property').append(table);           	
@@ -33,15 +34,20 @@ function getProperty(){
 }
 
 function gotoProperty(id){
-	//console.log(id);
-	//console.log(propertyInfo);
-	console.log(propMarkers);
+	var selectedId = id;
+	//Gets the correct property info from propMarkers
 	var result = $.grep(propMarkers, function(e){ 
 					return e.layer_id == id; 
 				});
-	console.log(result);
-
-	
+	var newLat = result[0].lat;
+	var newLon = result[0].lon;
+	for(var i=0; i<markers.length; i++){
+        markers[i].setVisible(true);
+    }
+    //Zooms into the selected property
+    map.setZoom(15);
+    map.setCenter(new google.maps.LatLng(newLat, newLon));
+    document.getElementById("markerCheckbox").checked = true;
 	
 }
 	
