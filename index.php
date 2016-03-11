@@ -129,10 +129,8 @@ if(!isset($_COOKIE[$cookie_name])) {
 					  <li id="property" class="settings"><a href="#">Property</a></li>
 					  <li id="lease" class="settings"><a href="#">Leases</a></li>
 					</ul>
-					<div id="settings-user" class="divSize">
-						
-	        		</div>
-					<div id="settings-property" class="hide">Property Page</div>
+					<div id="settings-user" class="divSize"></div>
+					<div id="settings-property" class="hide"></div>
 					<div id="settings-lease" class="hide">Lease Page </div>
 	        	</div>
 	        </div>
@@ -184,6 +182,7 @@ if(!isset($_COOKIE[$cookie_name])) {
     <script src="js/functions/routing.js"></script>
     <script src="js/functions/signout.js"></script>
     <script src="js/functions/admin.js"></script>
+    <script src="js/functions/property.js"></script>
     
 	<? @include data.php ?>
 

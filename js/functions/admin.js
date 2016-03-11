@@ -27,10 +27,11 @@ function AdminControl(adminControlDiv, map) {
   	//SHows the Admin Page
   	$('#settings-page').show('slow').removeClass('displayNone');
   	//Checks to see if the table is already created to avoid duplicating tables
-  	if($('.user-table').length){
+  	if($('.user-table').length || $('.property-table').length){
   		console.log('Table already created');
   	}else{
   		getUsers();
+  		getProperty();
   	}
   	
   });
@@ -71,7 +72,7 @@ function AdminControl(adminControlDiv, map) {
 	        success: function (data) {
 	        	var table = $('<table></table>').addClass('table table-striped user-table');
 	        	var header = table.append('<thead><tr><th class="heading">First Name</th><th class="heading">Last Name</th><th class="heading">Username</th><th class="heading">Security</th><th class="heading"></th><th class="heading"><button type="button" class="btn btn-info edit-button" id="new-button" onclick="addUsers()">New</button></th></tr></thead>');
-	        	var body = header.append('<tbody></tbody>');
+	        	var body = header.append('<tbody id="user-tab"></tbody>');
 	        	
 	        	for (i = 0; i < data.length; i++) {
 	
@@ -226,26 +227,23 @@ function AdminControl(adminControlDiv, map) {
 	    }
 	});
 	
-	$('#userEmail').keydown(function(){
+	$('#userEmail').keyup(function(){
 		//Validates User's email input
-	    var validateEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; 
-	    //console.log(testEmail.test(this.value));
+	    var validateEmail =  /^[\w\.-_]+@[\w\.-_]+\.[a-zA-Z]{2,3}$/; 
+	    console.log(validateEmail.test(this.value));
+	    console.log(this.value);
 	    if (validateEmail.test(this.value)){
-	    	if($('#userEmail').attr('class','form-control notValid')){
-	    		$('#userEmail').removeClass('form-control notValid');
-	    	}
+	    	$('#userEmail').removeClass('form-control notValid');
 	        $('#userEmail').addClass('form-control valid');
 	    } else {
-	    	if($('#userEmail').attr('class','form-control valid')){
-	    		$('#userEmail').removeClass('form-control valid');
-	    	}
+	    	$('#userEmail').removeClass('form-control valid');
 	    	$('#userEmail').addClass('form-control notValid');
 	    }
 	});
 	
 	function validateEmail(email){
 		//Validates User's email input
-	    var validateEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	    var validateEmail =  /^[\w\.-_]+@[\w\.-_]+\.[a-zA-Z]{2,3}$/;
 	    var input = email;
 	    if (validateEmail.test(input)){
 	        $('#userEmail').addClass('form-control valid');

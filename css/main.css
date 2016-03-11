@@ -65,14 +65,6 @@ table {
 .displayNone {
   display: none; }
 
-input.form-control, input.form-control:focus {
-  border: none;
-  box-shadow: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  -moz-transition: none;
-  -webkit-transition: none; }
-
 /* Validate Input Styles */
 .notValid {
   -webkit-box-shadow: 0px 0px 6px 2px red !important;
@@ -114,6 +106,13 @@ div#sidebar-wrapper {
     div#sidebar-wrapper > .sidebar-nav > li {
       text-indent: 20px;
       line-height: 40px; }
+      div#sidebar-wrapper > .sidebar-nav > li #property_form > input.form-control, div#sidebar-wrapper > .sidebar-nav > li #property_form input.form-control:focus {
+        border: none;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        -moz-transition: none;
+        -webkit-transition: none; }
       div#sidebar-wrapper > .sidebar-nav > li > a {
         display: block;
         text-decoration: none;
@@ -254,7 +253,8 @@ div#route-details {
   #settings-page .edit-button {
     background-color: #d9edf7 !important;
     border: 1px solid #bce8f1 !important;
-    color: #31708f !important; }
+    color: #31708f !important;
+    font-size: 12px; }
     #settings-page .edit-button:hover {
       background-color: #EAFCFF !important; }
 
@@ -274,6 +274,12 @@ div#route-details {
     font-family: "Libre Baskerville", serif; }
 #user_form > #close-button {
   margin: 0 5px 0 20px; }
+
+#user-tab {
+  font-size: 12px; }
+
+#prop-table {
+  font-size: 12px; }
 
 /* Page Content: Map */
 div#page-content-wrapper {

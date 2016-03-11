@@ -28,15 +28,7 @@ $theme_font_color: #31708f;
     .displayNone{
       display: none;
     }
-  
-  input.form-control,input.form-control:focus {
-    border:none;
-    box-shadow: none;
-   -webkit-box-shadow: none;
-   -moz-box-shadow: none;
-   -moz-transition: none;
-   -webkit-transition: none;
-  }
+
   
   /* Validate Input Styles */
   .notValid{
@@ -90,6 +82,16 @@ $theme_font_color: #31708f;
             line-height: 40px;
             #property_form #close{
               @extend .nav-btn;
+            }
+            #property_form{
+              > input.form-control,input.form-control:focus {
+                border:none;
+                box-shadow: none;
+               -webkit-box-shadow: none;
+               -moz-box-shadow: none;
+               -moz-transition: none;
+               -webkit-transition: none;
+              }
             }
             > a {
               display: block;
@@ -269,6 +271,7 @@ $theme_font_color: #31708f;
       background-color: $theme_color !important;
       border: 1px solid $theme_color_border !important;
       color: $theme_font_color !important;
+      font-size: 12px;
       &:hover{
         background-color: $theme_color_hover !important;
       }
@@ -295,7 +298,18 @@ $theme_font_color: #31708f;
     > #close-button{
         margin: 0 5px 0 20px;
       }
- }
+  
+  }
+  
+  #user-tab{
+    font-size: 12px;
+  }
+  
+  //Property Form
+  #prop-table{
+    font-size: 12px;
+  }
+    
   
   
   

@@ -535,6 +535,7 @@ function getMarkerCoords(event){
 	
 	document.getElementById("property_form").reset();
 	$('#edit').hide();
+	$('#user_form').hide();
 	$('#send').show();
 	console.log(event.overlay.position.lat());
 	console.log(event.overlay.position.lng());
