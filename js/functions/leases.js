@@ -1,13 +1,14 @@
 function getLeases(){
+	leaseInfo = [];
 	$.ajax({
         url: "../rema/php/getLeases.php",
         dataType: 'json',
         contentType: 'application/json',
         success: function (data) {
         	var table = $('<table></table>').addClass('table table-striped lease-table');
-        	var header = table.append('<thead><tr><th class="heading">Tenant</th><th class="heading">Start Date</th><th class="heading">End Date</th><th class="heading">Income</th><th class="heading">Frequency</th><th class="heading">Property</th><th class="heading">Deposit</th><th class="heading"></th></tr></thead>');
+        	var header = table.append('<thead><tr><th class="heading">Tenant</th><th class="heading">Start Date</th><th class="heading">End Date</th><th class="heading">Income</th><th class="heading">Frequency</th><th class="heading">Property</th><th class="heading">Deposit</th><th class="heading"></th><th class="heading"></th><th class="heading"><button type="button" class="btn btn-info edit-button" id="new-button" onclick="addNewLease()">New</button></th></tr></thead>');
         	var body = header.append('<tbody id="table-lease"></tbody>');
-        	console.log(data);
+        	//console.log(data);
         	for (i = 0; i < data.length; i++) {
 			    var row = $('<tr>').append(
 		            $('<td>').text(data[i][9] + ' ' + data[i][10]),
@@ -18,7 +19,8 @@ function getLeases(){
 		            $('<td>').text(data[i][15] + ', ' + data[i][16] + ', ' + data[i][17]),
 		            $('<td>').text(data[i][7]),
 		            $('<td>').html('<button type="button" class="btn btn-info edit-button" onclick="gotoProperty('+ data[i][14] +')">Go</button>'),
-		            $('<td>').html('<button type="button" class="btn btn-info edit-button" onclick="editLease(' + i + ')">Edit</button>')
+		            $('<td>').html('<button type="button" class="btn btn-info edit-button" onclick="editLease(' + i + ')">Edit</button>'),
+		            $('<td>').html('<button type="button" class="btn btn-info edit-button" onclick="deleteLease(' + i + ')">Delete</button>')
 		        ); 
 		        body.append(row);
 		        //push the id to help retrive marker lat, lon from propMarker Array
@@ -39,11 +41,26 @@ function getLeases(){
     });	
 }
 
+function addNewLease(){
+	$('#user_form').hide();
+	$('#property_form').hide();
+	$('#leaseEdit').hide();
+	$('#leaseSend').show();
+	
+	$("#sidebar-wrapper").show("slow");
+	$("#lease_form").show();
+	
+	propertyDropdown();
+	tenantDropdown();
+
+}
+
 function editLease(i){
 
 	$('#user_form').hide();
 	$('#property_form').hide();
 	$('#leaseSend').hide();
+	$('#leaseEdit').show();
 	
 	$("#sidebar-wrapper").show("slow");
 	$("#lease_form").show();
@@ -53,15 +70,80 @@ function editLease(i){
 	$('#leaseStart').val(leaseInfo[i].start_date);
 	$('#leaseEnd').val(leaseInfo[i].end_date);
 	$('#leaseAmount').val(leaseInfo[i].income);
-	$('#freq').val(leaseInfo[i].freq);
+	var frequency = leaseInfo[i].freq;
+	//$('#freq').val(leaseInfo[i].freq);
 	var prop = leaseInfo[i].property;
 	$('#deposit').val(leaseInfo[i].deposit);
 	//Updates the select options
-	tenantDropdown(tenant);
-	propertyDropdown(prop);
+	if($('#tenant option').length === 0){
+		tenantDropdown(tenant);
+	}
+	if($('#property option').length === 0){
+		propertyDropdown(prop);
+	}
+	if($('#freq option').length === 0){
+		selectFreq(frequency);
+	}
+	
 	addLeaseFormValid();
 
 	
+}
+
+// User Form Modifications
+	
+	var sumbitButton = "";
+	
+	//Catches which submit button was clicked before being submitted
+	$('#lease_form').on('click', 'button[type=submit]', function(e) {
+	      sumbitButton = $(this).val();
+	});
+	
+// Set up an event listener for the User form.
+	$("#lease_form").submit(function(event) {
+	    // Stop the browser from submitting the form.
+	    event.preventDefault();
+	    // Serialize form data and submit button value
+	    var formData = $("#lease_form").serialize() + '&submit=' + sumbitButton;
+		createLeases(formData);
+	});
+	
+function createLeases(formData){
+	$.ajax({
+        url: $("#lease_form").attr('action'),
+        type: "POST",
+        data: formData,
+        success: function (data) {
+        	alert(data);
+        	//Deletes the old table storing the Users Info before creating a new one
+        	$('.lease-table').remove();
+        	getLeases();
+        	//Resets the Form
+        	$("#lease_form").trigger("reset");
+        	//Hide Sidebar Wrapper Form
+        	$("#sidebar-wrapper").hide();
+        }
+	});
+}
+
+function deleteLease(i){
+	var id = leaseInfo[i].lease_id;
+	var formData = {id:id};
+	
+	$.ajax({
+        url: "../rema/php/deleteLeases.php",
+        type: "POST",
+        data: formData,
+        success: function (data) {
+        	console.log(data);
+        	//Deletes the old table storing the Users Info before creating a new one
+        	$('.lease-table').remove();
+        	//Resets the Form
+        	getLeases();
+        	//Hide Sidebar Wrapper Form
+        	$("#sidebar-wrapper").hide();
+        }
+ });
 }
 
 function propertyDropdown(prop){
@@ -121,6 +203,15 @@ function selectProp(prop){
 	var propertySelectedOption = propertyId.options[ propertyId.selectedIndex ].value;
 	if( propertySelectedOption !== prop){
 		$("#property").val(prop);
+	};
+}
+
+function selectFreq(frequency){
+	//Updates the select to data
+	var freqId = document.getElementById( "freq" );
+	var freqSelectedOption = freqId.options[ freqId.selectedIndex ].value;
+	if( freqSelectedOption !== frequency){
+		$("#freq").val(frequency);
 	};
 }
 

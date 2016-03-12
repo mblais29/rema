@@ -120,7 +120,7 @@ if(!isset($_COOKIE[$cookie_name])) {
 	        		<button type="submit" name="submit" id="userSend" class="btn btn-secondary" value="one" >Submit</button>
 					<button type="submit" name="submit" id="userEdit" class="btn btn-secondary" value="two" >Save</button>
 	        	</form>
-	        	<form id="lease_form" action="" method="post" autocomplete='off'>
+	        	<form id="lease_form" action="php/addEditLeases.php" method="post" autocomplete='off'>
                     <div class="sidebar-brand">
 	                    <h1>Lease Management</h1>
 	                </div>
@@ -136,7 +136,12 @@ if(!isset($_COOKIE[$cookie_name])) {
 					<label for="leaseAmount">Income:</label>
 					<input type="text" class="form-control" id="leaseAmount"  name="leaseAmount" placeholder="Enter Amount Income....">
 					<label for="freq">Frequency:</label>
-					<input type="text" class="form-control" id="freq"  name="freq" placeholder="Enter Frequency...">
+					<select class="form-control" id="freq" name="freq">
+				      	<option value="Weekly">Weekly</option>
+				      	<option value="Bi-Weekly">Bi-Weekly</option>
+				      	<option value="Monthly">Monthly</option>
+				      	<option value="Annually">Annually</option>
+				    </select>
 					<label for="property">Property:</label>
 					<select class="form-control" id="property" name="property">
 				    	
