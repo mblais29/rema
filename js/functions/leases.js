@@ -59,6 +59,7 @@ function editLease(i){
 	//Updates the select options
 	tenantDropdown(tenant);
 	propertyDropdown(prop);
+	addLeaseFormValid();
 
 	
 }
@@ -121,4 +122,35 @@ function selectProp(prop){
 	if( propertySelectedOption !== prop){
 		$("#property").val(prop);
 	};
+}
+
+// Selects all input text under User Form and Attach's Validation
+$('#lease_form').find('input[type=text], input[type=date]').each(function(){
+     $(this).keyup(function(){
+     	var text = $(this).val();
+     	if(text != '')
+         {
+           if($(this).attr('class','form-control notValid')){
+    		  $(this).removeClass('form-control notValid');
+    	   }
+           $(this).addClass('form-control valid');
+         }else{
+           if($(this).attr('class','form-control valid')){
+    		  $(this).removeClass('form-control valid');
+    	   }
+       	   $(this).addClass('form-control notValid');
+         }
+      });
+});
+  	
+function addLeaseFormValid(){
+	$('#lease_form').find('input[type=text], input[type=date]').each(function(){
+		var text_value = $(this).val();
+	     if(text_value != '')
+	       {
+	        $(this).addClass('form-control valid');
+	       }else{
+	       	$(this).addClass('form-control notValid');
+	       }
+   	});
 }
