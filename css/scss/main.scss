@@ -60,15 +60,7 @@ $theme_font_color: #31708f;
       margin-left: 0;
       overflow-y: auto;
       background: rgba(0,0,0,0.7);
-      
-      > .sidebar-nav {
-          position: absolute;
-          top: 0;
-          width: 100%;
-          margin: 0;
-          padding: 0;
-          list-style: none;
-          #property_form{
+      #property_form{
             > .sidebar-brand {
                 height: 65px;
                 font-size: 18px;
@@ -130,7 +122,6 @@ $theme_font_color: #31708f;
               }
           }
       }
-  }
   
   /* Layer Navigation */
 
@@ -330,6 +321,27 @@ $theme_font_color: #31708f;
   }
   
   #lease_form{
+    > .sidebar-brand{
+      height: 65px;
+      font-size: 18px;
+      line-height: 60px;
+      text-indent: 20px;
+      > h1{
+         color: #FFF;
+         font-family: $header_font;
+      }
+    }
+    > label{
+        font-size: 0.8em;
+        text-indent: 20px;
+        padding-bottom: 10px;
+        color: #FFF;
+        font-family: $header_font;
+      }
+  }
+  
+  //Tenant Form
+  #tenant_form{
     > .sidebar-brand{
       height: 65px;
       font-size: 18px;

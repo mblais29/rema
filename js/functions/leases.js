@@ -44,21 +44,30 @@ function getLeases(){
 function addNewLease(){
 	$('#user_form').hide();
 	$('#property_form').hide();
+	$('#tenant_form').hide();
 	$('#leaseEdit').hide();
 	$('#leaseSend').show();
 	
 	$("#sidebar-wrapper").show("slow");
 	$("#lease_form").show();
 	
-	propertyDropdown();
-	tenantDropdown();
-
+	if($('#tenant option').length === 0){
+		tenantDropdown();
+	}
+	if($('#property option').length === 0){
+		propertyDropdown();
+	}
+	if($('#freq option').length === 0){
+		selectFreq();
+	}
+	addLeaseFormValid();
 }
 
 function editLease(i){
 
 	$('#user_form').hide();
 	$('#property_form').hide();
+	$('#tenant_form').hide();
 	$('#leaseSend').hide();
 	$('#leaseEdit').show();
 	
@@ -85,7 +94,7 @@ function editLease(i){
 		selectFreq(frequency);
 	}
 	
-	addLeaseFormValid();
+	editLeaseFormValid();
 
 	
 }
@@ -234,7 +243,7 @@ $('#lease_form').find('input[type=text], input[type=date]').each(function(){
       });
 });
   	
-function addLeaseFormValid(){
+function editLeaseFormValid(){
 	$('#lease_form').find('input[type=text], input[type=date]').each(function(){
 		var text_value = $(this).val();
 	     if(text_value != '')
@@ -243,5 +252,20 @@ function addLeaseFormValid(){
 	       }else{
 	       	$(this).addClass('form-control notValid');
 	       }
+   	});
+}
+
+function addLeaseFormValid(){
+	$('#lease_form').find('input[type=text]').each(function(){
+		if($(this).attr('class','form-control valid')){
+			$(this).removeClass('form-control valid');
+			$(this).addClass('form-control notValid');
+		}
+   	});
+   	$('#lease_form').find('input[type=date]').each(function(){
+		if($(this).attr('class','form-control valid')){
+			$(this).removeClass('form-control valid');
+			$(this).addClass('form-control notValid');
+		}
    	});
 }

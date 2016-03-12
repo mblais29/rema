@@ -16,6 +16,8 @@ var featureInfoWindow = new google.maps.InfoWindow();
 var userInfo = [];
 //Lease Global Variables
 var leaseInfo = [];
+//Tenant Global Variables
+var tenantInfo = [];
 // Routing Global Variables
 var originLatLng = "";
 var destinationLatLng = "";

@@ -33,6 +33,7 @@ function AdminControl(adminControlDiv, map) {
   		getUsers();
   		getProperty();
   		getLeases();
+  		getTenants();
   	}
   	
   });
@@ -112,6 +113,8 @@ function AdminControl(adminControlDiv, map) {
 		addUserFormValid();
 	    
 	    $("#lease_form").hide();
+	    $("#tenant_form").hide();
+	    $("#property_form").hide();
 		$("#sidebar-wrapper").show("slow");
 		$("#user_form").show();
 		$("#userSend").show();
@@ -145,6 +148,8 @@ function AdminControl(adminControlDiv, map) {
 		$("#userEdit").show();
 		$(".sidebar-nav").hide();
 		$("#lease_form").hide();
+		$("#tenant_form").hide();
+		$("#property_form").hide();
 		$("#userSend").hide();
 		
 		
@@ -156,11 +161,8 @@ function AdminControl(adminControlDiv, map) {
 		$('#lastName').val(userInfo[i].last_name);
 		$('#userEmail').val(userInfo[i].email);
 		$('#userPhone').val(userInfo[i].phone);
-		
 		var email = userInfo[i].email;
-		validateEmail(email);
-		
-		editUserFormValid();
+		editUserFormValid(email);
 		
 		//Updates the select to data 
 		var securityType = document.getElementById( "userSecurity" );
@@ -233,8 +235,6 @@ function AdminControl(adminControlDiv, map) {
 	$('#userEmail').keyup(function(){
 		//Validates User's email input
 	    var validateEmail =  /^[\w\.-_]+@[\w\.-_]+\.[a-zA-Z]{2,3}$/; 
-	    console.log(validateEmail.test(this.value));
-	    console.log(this.value);
 	    if (validateEmail.test(this.value)){
 	    	$('#userEmail').removeClass('form-control notValid');
 	        $('#userEmail').addClass('form-control valid');
@@ -243,19 +243,7 @@ function AdminControl(adminControlDiv, map) {
 	    	$('#userEmail').addClass('form-control notValid');
 	    }
 	});
-	
-	function validateEmail(email){
-		//Validates User's email input
-	    var validateEmail =  /^[\w\.-_]+@[\w\.-_]+\.[a-zA-Z]{2,3}$/;
-	    var input = email;
-	    if (validateEmail.test(input)){
-	        $('#userEmail').addClass('form-control valid');
-	    } else {
-	    	$('#userEmail').addClass('form-control notValid');
-	    }
-	
-	}
-	
+
 	// Set up an event listener for the User form.
 	$("#user_form").submit(function(event) {
 	    // Stop the browser from submitting the form.
@@ -317,7 +305,15 @@ function AdminControl(adminControlDiv, map) {
       });
   	});
 
-	function editUserFormValid(){
+	function editUserFormValid(email){
+		var validateEmail =  /^[\w\.-_]+@[\w\.-_]+\.[a-zA-Z]{2,3}$/;
+	    var input = email;
+	    if (validateEmail.test(input)){
+	        $('#userEmail').addClass('form-control valid');
+	    } else {
+	    	$('#userEmail').addClass('form-control notValid');
+	    }
+	
 		$('#user_form').find('input[type=text]').each(function(){
 			var text_value = $(this).val();
 	     	if(text_value != '')
@@ -352,6 +348,7 @@ function AdminControl(adminControlDiv, map) {
     		}
        	});
 	}
+
 
 //---------------------------------------------------------
 

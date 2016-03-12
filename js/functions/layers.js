@@ -284,9 +284,11 @@ function getMarkers(){
 function getMarkerData(i){
 	
 	hideForm();
+	//Hide other forms in the wrapper
 	$("#send").hide();
 	$("#user_form").hide();
 	$("#lease_form").hide();
+	$("#tenant_form").hide();
 	$(".sidebar-nav").show();
 	$("#property_form").show();
 	$("#sidebar-wrapper").show("slow");
@@ -537,9 +539,11 @@ function hideForm(){
 function getMarkerCoords(event){
 	
 	document.getElementById("property_form").reset();
+	//Hide other forms in the wrapper
 	$('#edit').hide();
 	$('#user_form').hide();
 	$("#lease_form").hide();
+	$("#tenant_form").hide();
 	$('#send').show();
 	console.log(event.overlay.position.lat());
 	console.log(event.overlay.position.lng());

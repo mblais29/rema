@@ -52,7 +52,7 @@ table {
 /* Main index.php Page Styles */
 /* Global Styles */
 /* Nav Button */
-.nav-btn, div#sidebar-wrapper > .sidebar-nav > li #property_form #close, div#sidebar-layers > .checkbox, div#sidebar-layers > #close-nav {
+.nav-btn, div#sidebar-wrapper > li #property_form #close, div#sidebar-layers > .checkbox, div#sidebar-layers > #close-nav {
   margin: 0 5px 0 20px; }
 
 /* Loading Page */
@@ -90,56 +90,49 @@ div#sidebar-wrapper {
   margin-left: 0;
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.7); }
-  div#sidebar-wrapper > .sidebar-nav {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    list-style: none; }
-    div#sidebar-wrapper > .sidebar-nav #property_form > .sidebar-brand {
-      height: 65px;
-      font-size: 18px;
-      line-height: 60px;
-      text-indent: 20px; }
-      div#sidebar-wrapper > .sidebar-nav #property_form > .sidebar-brand > h1 {
-        color: #FFF;
-        font-family: "Libre Baskerville", serif; }
-    div#sidebar-wrapper > .sidebar-nav #property_form > label {
-      font-size: 0.8em;
-      text-indent: 20px;
-      padding-bottom: 10px;
+  div#sidebar-wrapper #property_form > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+    text-indent: 20px; }
+    div#sidebar-wrapper #property_form > .sidebar-brand > h1 {
       color: #FFF;
       font-family: "Libre Baskerville", serif; }
-    div#sidebar-wrapper > .sidebar-nav > li {
-      text-indent: 20px;
-      line-height: 40px; }
-      div#sidebar-wrapper > .sidebar-nav > li #property_form > input.form-control, div#sidebar-wrapper > .sidebar-nav > li #property_form input.form-control:focus {
-        border: none;
-        box-shadow: none;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        -moz-transition: none;
-        -webkit-transition: none; }
-      div#sidebar-wrapper > .sidebar-nav > li > a {
-        display: block;
+  div#sidebar-wrapper #property_form > label {
+    font-size: 0.8em;
+    text-indent: 20px;
+    padding-bottom: 10px;
+    color: #FFF;
+    font-family: "Libre Baskerville", serif; }
+  div#sidebar-wrapper > li {
+    text-indent: 20px;
+    line-height: 40px; }
+    div#sidebar-wrapper > li #property_form > input.form-control, div#sidebar-wrapper > li #property_form input.form-control:focus {
+      border: none;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      -moz-transition: none;
+      -webkit-transition: none; }
+    div#sidebar-wrapper > li > a {
+      display: block;
+      text-decoration: none;
+      color: #999999; }
+      div#sidebar-wrapper > li > a:hover {
         text-decoration: none;
-        color: #999999; }
-        div#sidebar-wrapper > .sidebar-nav > li > a:hover {
-          text-decoration: none;
-          color: #fff;
-          background: rgba(255, 255, 255, 0.2); }
-        div#sidebar-wrapper > .sidebar-nav > li > a:active {
-          text-decoration: none; }
-        div#sidebar-wrapper > .sidebar-nav > li > a:focus {
-          text-decoration: none; }
-    div#sidebar-wrapper > .sidebar-nav > .sidebar-brand {
-      height: 65px;
-      font-size: 18px;
-      line-height: 60px; }
-      div#sidebar-wrapper > .sidebar-nav > .sidebar-brand > h1 {
-        color: #FFF;
-        font-family: "Libre Baskerville", serif; }
+        color: #fff;
+        background: rgba(255, 255, 255, 0.2); }
+      div#sidebar-wrapper > li > a:active {
+        text-decoration: none; }
+      div#sidebar-wrapper > li > a:focus {
+        text-decoration: none; }
+  div#sidebar-wrapper > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px; }
+    div#sidebar-wrapper > .sidebar-brand > h1 {
+      color: #FFF;
+      font-family: "Libre Baskerville", serif; }
 
 /* Layer Navigation */
 div#sidebar-layers {
@@ -305,6 +298,21 @@ div#route-details {
     color: #FFF;
     font-family: "Libre Baskerville", serif; }
 #lease_form > label {
+  font-size: 0.8em;
+  text-indent: 20px;
+  padding-bottom: 10px;
+  color: #FFF;
+  font-family: "Libre Baskerville", serif; }
+
+#tenant_form > .sidebar-brand {
+  height: 65px;
+  font-size: 18px;
+  line-height: 60px;
+  text-indent: 20px; }
+  #tenant_form > .sidebar-brand > h1 {
+    color: #FFF;
+    font-family: "Libre Baskerville", serif; }
+#tenant_form > label {
   font-size: 0.8em;
   text-indent: 20px;
   padding-bottom: 10px;

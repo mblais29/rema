@@ -44,7 +44,6 @@ if(!isset($_COOKIE[$cookie_name])) {
 	  	<div id="wrapper">
 		  	<!-- Navigation -->
 	        <div id="sidebar-wrapper" class="displayNone">
-	            <ul class="sidebar-nav">
                 	<form id="property_form" action="php/property.php" method="post">
                 		<li class="sidebar-brand">
 		                    <h1>Property Information</h1>
@@ -93,7 +92,6 @@ if(!isset($_COOKIE[$cookie_name])) {
 						  <button type="submit" name="submit" id="send" class="btn btn-secondary" value="one" >Submit</button>
 						  <button type="submit" name="submit" id="edit" class="btn btn-secondary" value="two" >Save</button>
 					</form>
-	            </ul>
 	            <form id="user_form" action="php/addEditUsers.php" method="post" autocomplete='off'>
                     <div class="sidebar-brand">
 	                    <h1>User Management</h1>
@@ -152,6 +150,25 @@ if(!isset($_COOKIE[$cookie_name])) {
 	        		<button type="submit" name="submit" id="leaseSend" class="btn btn-secondary" value="one" >Submit</button>
 					<button type="submit" name="submit" id="leaseEdit" class="btn btn-secondary" value="two" >Save</button>
 	        	</form>
+	        	<form id="tenant_form" action="php/addEditTenants.php" method="post" autocomplete='off'>
+                    <div class="sidebar-brand">
+	                    <h1>Tenant Management</h1>
+	                </div>
+	                <input type="hidden" class="form-control" id="tenantId" name="tenantId" >
+	            	<label for="firstname">First Name:</label>
+	            	<input type="text" class="form-control" id="firstname"  name="firstname">
+					<label for="lastname">Last Name:</label>
+					<input type="text" class="form-control" id="lastname" name="lastname">
+					<label for="phone">Phone:</label>
+					<input type="text" class="form-control" id="phone"  name="phone" placeholder="Enter Phone Number....">
+					<label for="email">Email:</label>
+					<input type="email" class="form-control" id="email"  name="email">
+					<label for="occup">Occupation:</label>
+					<input type="text" class="form-control" id="occup"  name="occup">
+	        		<button type="button" class="btn btn-secondary" id="close-button" onclick="hideForm()">Close</button>
+	        		<button type="submit" name="submit" id="tenantSend" class="btn btn-secondary" value="one" >Submit</button>
+					<button type="submit" name="submit" id="tenantEdit" class="btn btn-secondary" value="two" >Save</button>
+	        	</form>
 	        </div>
 	        <div id="settings-page" class="displayNone">
 	        	<div id="system-admin">
@@ -160,10 +177,12 @@ if(!isset($_COOKIE[$cookie_name])) {
 					  <li id="user" class="settings active"><a href="#">Users</a></li>
 					  <li id="property" class="settings"><a href="#">Property</a></li>
 					  <li id="lease" class="settings"><a href="#">Leases</a></li>
+					  <li id="tenant" class="settings"><a href="#">Tenants</a></li>
 					</ul>
 					<div id="settings-user" class="divSize"></div>
 					<div id="settings-property" class="hide"></div>
 					<div id="settings-lease" class="hide"></div>
+					<div id="settings-tenant" class="hide"></div>
 	        	</div>
 	        </div>
 	        <div id="sidebar-layers" class="displayNone">
@@ -216,6 +235,7 @@ if(!isset($_COOKIE[$cookie_name])) {
     <script src="js/functions/admin.js"></script>
     <script src="js/functions/property.js"></script>
     <script src="js/functions/leases.js"></script>
+    <script src="js/functions/tenant.js"></script>
     
 	<? @include data.php ?>
 
