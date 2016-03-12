@@ -1,7 +1,5 @@
 //Get Properties in Database
 function getProperty(){
-	//empty the user array before re-populating the array
-	propertyInfo = [];
 	$.ajax({
         url: "../rema/php/getProperty.php",
         dataType: 'json',
@@ -22,11 +20,7 @@ function getProperty(){
 		            //$('<td>').html('<button type="button" class="btn btn-info edit-button" onclick="deleteUser('+i+')">Delete</button>')
 		        ); 
 		        body.append(row);
-		        //push the id to help retrive marker lat, lon from propMarker Array
-		        propertyInfo.push({
-			  	  "id": data[i][0]
-			    });
-	
+
         	}
         	$('#settings-property').append(table);           	
         }

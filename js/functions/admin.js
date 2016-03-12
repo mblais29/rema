@@ -32,6 +32,7 @@ function AdminControl(adminControlDiv, map) {
   	}else{
   		getUsers();
   		getProperty();
+  		getLeases();
   	}
   	
   });
@@ -109,7 +110,8 @@ function AdminControl(adminControlDiv, map) {
     		$('#userEmail').addClass('form-control notValid');
     	}
 		addUserFormValid();
-	        
+	    
+	    $("#lease_form").hide();
 		$("#sidebar-wrapper").show("slow");
 		$("#user_form").show();
 		$("#userSend").show();
@@ -142,6 +144,7 @@ function AdminControl(adminControlDiv, map) {
 		$("#user_form").show();
 		$("#userEdit").show();
 		$(".sidebar-nav").hide();
+		$("#lease_form").hide();
 		$("#userSend").hide();
 		
 		

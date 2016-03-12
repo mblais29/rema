@@ -14,7 +14,8 @@ var midLevelCheckBox;
 var featureInfoWindow = new google.maps.InfoWindow();
 //Users Global Variables
 var userInfo = [];
-
+//Lease Global Variables
+var leaseInfo = [];
 // Routing Global Variables
 var originLatLng = "";
 var destinationLatLng = "";

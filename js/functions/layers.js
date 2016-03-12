@@ -286,7 +286,9 @@ function getMarkerData(i){
 	hideForm();
 	$("#send").hide();
 	$("#user_form").hide();
+	$("#lease_form").hide();
 	$(".sidebar-nav").show();
+	$("#property_form").show();
 	$("#sidebar-wrapper").show("slow");
 	//makes all markers draggable
 	setMarkerDraggable();
@@ -526,6 +528,7 @@ function hideForm(){
 	$("#sidebar-layers").hide("slow").addClass('displayNone');
 	$("#user_form").trigger('reset');
 	$("#property_form").trigger('reset');
+	$("#lease_form").trigger('reset');
 	
 	
 }
@@ -536,6 +539,7 @@ function getMarkerCoords(event){
 	document.getElementById("property_form").reset();
 	$('#edit').hide();
 	$('#user_form').hide();
+	$("#lease_form").hide();
 	$('#send').show();
 	console.log(event.overlay.position.lat());
 	console.log(event.overlay.position.lng());

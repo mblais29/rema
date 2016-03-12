@@ -45,10 +45,10 @@ if(!isset($_COOKIE[$cookie_name])) {
 		  	<!-- Navigation -->
 	        <div id="sidebar-wrapper" class="displayNone">
 	            <ul class="sidebar-nav">
-	                <li class="sidebar-brand">
-	                    <h1>Property Information</h1>
-	                </li>
                 	<form id="property_form" action="php/property.php" method="post">
+                		<li class="sidebar-brand">
+		                    <h1>Property Information</h1>
+		                </li>
 	                	  <input type="hidden" class="form-control" id="layerId" name="layerId" >
 	                	  <label for="address">Address:</label>
 						  <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address...">
@@ -120,6 +120,33 @@ if(!isset($_COOKIE[$cookie_name])) {
 	        		<button type="submit" name="submit" id="userSend" class="btn btn-secondary" value="one" >Submit</button>
 					<button type="submit" name="submit" id="userEdit" class="btn btn-secondary" value="two" >Save</button>
 	        	</form>
+	        	<form id="lease_form" action="" method="post" autocomplete='off'>
+                    <div class="sidebar-brand">
+	                    <h1>Lease Management</h1>
+	                </div>
+	                <input type="hidden" class="form-control" id="leaseId" name="leaseId" >
+	                <label for="tenant">Tenant:</label>
+	            	<select class="form-control" id="tenant" name="tenant">
+				    	
+				  	</select>
+	            	<label for="leaseStart">Lease Start Date:</label>
+	            	<input type="date" class="form-control" id="leaseStart"  name="leaseStart">
+					<label for="leaseEnd">Lease End Date:</label>
+					<input type="date" class="form-control" id="leaseEnd" name="leaseEnd">
+					<label for="leaseAmount">Income:</label>
+					<input type="text" class="form-control" id="leaseAmount"  name="leaseAmount" placeholder="Enter Amount Income....">
+					<label for="freq">Frequency:</label>
+					<input type="text" class="form-control" id="freq"  name="freq" placeholder="Enter Frequency...">
+					<label for="property">Property:</label>
+					<select class="form-control" id="property" name="property">
+				    	
+				  	</select>
+					<label for="deposit">Deposit:</label>
+					<input type="text" class="form-control" id="deposit"  name="deposit">
+	        		<button type="button" class="btn btn-secondary" id="close-button" onclick="hideForm()">Close</button>
+	        		<button type="submit" name="submit" id="leaseSend" class="btn btn-secondary" value="one" >Submit</button>
+					<button type="submit" name="submit" id="leaseEdit" class="btn btn-secondary" value="two" >Save</button>
+	        	</form>
 	        </div>
 	        <div id="settings-page" class="displayNone">
 	        	<div id="system-admin">
@@ -131,7 +158,7 @@ if(!isset($_COOKIE[$cookie_name])) {
 					</ul>
 					<div id="settings-user" class="divSize"></div>
 					<div id="settings-property" class="hide"></div>
-					<div id="settings-lease" class="hide">Lease Page </div>
+					<div id="settings-lease" class="hide"></div>
 	        	</div>
 	        </div>
 	        <div id="sidebar-layers" class="displayNone">
@@ -183,6 +210,7 @@ if(!isset($_COOKIE[$cookie_name])) {
     <script src="js/functions/signout.js"></script>
     <script src="js/functions/admin.js"></script>
     <script src="js/functions/property.js"></script>
+    <script src="js/functions/leases.js"></script>
     
 	<? @include data.php ?>
 

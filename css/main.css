@@ -97,6 +97,14 @@ div#sidebar-wrapper {
     margin: 0;
     padding: 0;
     list-style: none; }
+    div#sidebar-wrapper > .sidebar-nav #property_form > .sidebar-brand {
+      height: 65px;
+      font-size: 18px;
+      line-height: 60px;
+      text-indent: 20px; }
+      div#sidebar-wrapper > .sidebar-nav #property_form > .sidebar-brand > h1 {
+        color: #FFF;
+        font-family: "Libre Baskerville", serif; }
     div#sidebar-wrapper > .sidebar-nav #property_form > label {
       font-size: 0.8em;
       text-indent: 20px;
@@ -216,10 +224,11 @@ div#route-details {
 
 /* Settings */
 .heading {
-  border-bottom: none !important; }
+  border-bottom: none !important;
+  text-align: center; }
 
 #settings-page {
-  width: 50%;
+  width: 75%;
   height: 50vh;
   top: 25%;
   left: 0;
@@ -276,10 +285,31 @@ div#route-details {
   margin: 0 5px 0 20px; }
 
 #user-tab {
-  font-size: 12px; }
+  font-size: 12px;
+  text-align: center; }
 
 #prop-table {
-  font-size: 12px; }
+  font-size: 12px;
+  text-align: center; }
+
+#table-lease {
+  font-size: 12px;
+  text-align: center; }
+
+#lease_form > .sidebar-brand {
+  height: 65px;
+  font-size: 18px;
+  line-height: 60px;
+  text-indent: 20px; }
+  #lease_form > .sidebar-brand > h1 {
+    color: #FFF;
+    font-family: "Libre Baskerville", serif; }
+#lease_form > label {
+  font-size: 0.8em;
+  text-indent: 20px;
+  padding-bottom: 10px;
+  color: #FFF;
+  font-family: "Libre Baskerville", serif; }
 
 /* Page Content: Map */
 div#page-content-wrapper {

@@ -69,6 +69,16 @@ $theme_font_color: #31708f;
           padding: 0;
           list-style: none;
           #property_form{
+            > .sidebar-brand {
+                height: 65px;
+                font-size: 18px;
+                line-height: 60px;
+                text-indent: 20px;
+                > h1{
+                     color: #FFF;
+                     font-family: $header_font;
+                }
+            }
             > label{
               font-size: 0.8em;
               text-indent: 20px;
@@ -228,9 +238,10 @@ $theme_font_color: #31708f;
   /* Settings */
   .heading{
     border-bottom: none !important;
+    text-align: center;
   }
   #settings-page{
-    width: 50%;
+    width: 75%;
     height: 50vh;
     top: 25%;
     left: 0;
@@ -303,11 +314,39 @@ $theme_font_color: #31708f;
   
   #user-tab{
     font-size: 12px;
+    text-align: center;
   }
   
   //Property Form
   #prop-table{
     font-size: 12px;
+    text-align: center;
+  }
+  
+  //Lease Form
+  #table-lease{
+    font-size: 12px;
+    text-align: center;
+  }
+  
+  #lease_form{
+    > .sidebar-brand{
+      height: 65px;
+      font-size: 18px;
+      line-height: 60px;
+      text-indent: 20px;
+      > h1{
+         color: #FFF;
+         font-family: $header_font;
+      }
+    }
+    > label{
+        font-size: 0.8em;
+        text-indent: 20px;
+        padding-bottom: 10px;
+        color: #FFF;
+        font-family: $header_font;
+      }
   }
     
   
